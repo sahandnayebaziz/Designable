@@ -10,8 +10,6 @@ import UIKit
 
 class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     
-    var numberOfActiveGestures: Int = 0
-    
     var selection: [DesignableUIView]? = nil {
         didSet {
             if let selection = selection {
@@ -21,7 +19,9 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
+    
     var selectionPreGestureDescription: DesignablePreGestureDescription? = nil
+    var activeGestureRecognizers: Set<UIGestureRecognizer> = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +68,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
                 return
             }
             
-            gestureDidBegin(withIntersections: intersections)
+            gestureDidBegin(withIntersections: intersections, from: pan)
         case .changed:
             guard let selection = selection, let selectionPreGestureDescription = selectionPreGestureDescription else {
                 return
@@ -80,7 +80,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         case .cancelled,
              .ended,
              .failed:
-            gestureDidEnd()
+            gestureDidEnd(recognizer: pan)
         default:
             break
         }
@@ -112,7 +112,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
                 return
             }
             
-            gestureDidBegin(withIntersections: intersections)
+            gestureDidBegin(withIntersections: intersections, from: pinch)
         case .changed:
             guard let selection = selection, let selectionPreGestureDescription = selectionPreGestureDescription else {
                 return
@@ -135,26 +135,26 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         case .cancelled,
              .ended,
              .failed:
-            gestureDidEnd()
+            gestureDidEnd(recognizer: pinch)
         default:
             break
         }
     }
     
-    func gestureDidBegin(withIntersections intersections: [UIView]) {
-        if numberOfActiveGestures == 0 {
+    func gestureDidBegin(withIntersections intersections: [UIView], from recognizer: UIGestureRecognizer) {
+        if activeGestureRecognizers.isEmpty {
             selection = intersections as? [DesignableUIView]
             let firstElementInSelection = selection!.first!
             selectionPreGestureDescription = DesignablePreGestureDescription(center: firstElementInSelection.center, width: firstElementInSelection.frame.width, height: firstElementInSelection.frame.height)
         }
         
-        numberOfActiveGestures = numberOfActiveGestures + 1
+        activeGestureRecognizers.insert(recognizer)
     }
     
-    func gestureDidEnd() {
-        numberOfActiveGestures = numberOfActiveGestures - 1
+    func gestureDidEnd(recognizer: UIGestureRecognizer) {
+        activeGestureRecognizers.remove(recognizer)
         
-        if numberOfActiveGestures == 0 {
+        if activeGestureRecognizers.isEmpty {
             selection = nil
             selectionPreGestureDescription = nil
         }
