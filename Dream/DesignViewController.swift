@@ -8,7 +8,9 @@
 
 import UIKit
 
-class DesignViewController: UIViewController {
+class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
+    
+    var numberOfActiveGestures: Int = 0
     
     var selection: [DesignableUIView]? = nil {
         didSet {
@@ -19,7 +21,7 @@ class DesignViewController: UIViewController {
             }
         }
     }
-    var selectionCenterAtStartOfGesture: CGPoint? = nil
+    var selectionPreGestureDescription: DesignablePreGestureDescription? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +32,14 @@ class DesignViewController: UIViewController {
         view.addSubview(squareView)
         squareView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         squareView.center = view.center
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(did(pan:))))
+        
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(did(pan:)))
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(did(pinch:)))
+        
+        [panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
+            gestureRecognizer.delegate = self
+            view.addGestureRecognizer(gestureRecognizer)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,39 +48,135 @@ class DesignViewController: UIViewController {
     }
     
     @objc func did(pan: UIPanGestureRecognizer) {
-        guard pan.numberOfTouches < 2 else {
+        guard pan.numberOfTouches < 3 else {
             return
         }
 
         switch pan.state {
         case .began:
-            let point = pan.location(ofTouch: 0, in: view)
-            let intersections = view.subviews.filter { $0.layer.contains(view.convert(point, to: $0))}
+            var points: [CGPoint] = []
+            for i in 0..<pan.numberOfTouches {
+                points.append(pan.location(ofTouch: i, in: view))
+            }
+            
+            let intersections = view.subviews.filter { subview in
+                let pointsThatIntersectSubview = points.filter { subview.layer.contains(view.convert($0, to: subview)) }
+                return pointsThatIntersectSubview.count == pan.numberOfTouches
+            }
+            
             guard !intersections.isEmpty else {
                 return
             }
             
-            selection = intersections as? [DesignableUIView]
-            selectionCenterAtStartOfGesture = selection!.first!.center
+            gestureDidBegin(withIntersections: intersections)
         case .changed:
-            guard let selection = selection, let selectionCenterAtStartOfGesture = selectionCenterAtStartOfGesture else {
+            guard let selection = selection, let selectionPreGestureDescription = selectionPreGestureDescription else {
                 return
             }
             
             let translation = pan.translation(in: view)
-            selection.first!.center = selectionCenterAtStartOfGesture
+            selection.first!.center = selectionPreGestureDescription.center
             selection.first!.frame = selection.first!.frame.applying(CGAffineTransform(translationX: translation.x, y: translation.y))
         case .cancelled,
              .ended,
              .failed:
-            selection = nil
-            selectionCenterAtStartOfGesture = nil
+            gestureDidEnd()
         default:
             break
-        }   
+        }
+    }
+    
+    @objc func did(pinch: UIPinchGestureRecognizer) {
+        guard pinch.numberOfTouches == 2 || pinch.numberOfTouches == 0 else {
+            return
+        }
+        
+        switch pinch.state {
+        case .began:
+            guard pinch.numberOfTouches == 2 else {
+                fatalError("WTF?")
+            }
+            
+            
+            var points: [CGPoint] = []
+            for i in 0..<pinch.numberOfTouches {
+                points.append(pinch.location(ofTouch: i, in: view))
+            }
+            
+            let intersections = view.subviews.filter { subview in
+                let pointsThatIntersectSubview = points.filter { subview.layer.contains(view.convert($0, to: subview)) }
+                return pointsThatIntersectSubview.count == pinch.numberOfTouches
+            }
+            
+            guard !intersections.isEmpty else {
+                return
+            }
+            
+            gestureDidBegin(withIntersections: intersections)
+        case .changed:
+            guard let selection = selection, let selectionPreGestureDescription = selectionPreGestureDescription else {
+                return
+            }
+            
+            let selected = selection.first!
+            
+            let centerToMaintain: CGPoint
+            
+            let selectedHasChangedCenterDuringGesture = selected.center != selectionPreGestureDescription.center
+            if (selectedHasChangedCenterDuringGesture) {
+                centerToMaintain = selected.center
+            } else {
+                centerToMaintain = selectionPreGestureDescription.center
+            }
+            
+            selected.frame = CGRect(x: 0, y: 0, width: selectionPreGestureDescription.width, height: selectionPreGestureDescription.height)
+            selected.frame = selection.first!.frame.applying(CGAffineTransform(scaleX: pinch.scale, y: pinch.scale))
+            selected.center = centerToMaintain
+        case .cancelled,
+             .ended,
+             .failed:
+            gestureDidEnd()
+        default:
+            break
+        }
+    }
+    
+    func gestureDidBegin(withIntersections intersections: [UIView]) {
+        if numberOfActiveGestures == 0 {
+            selection = intersections as? [DesignableUIView]
+            let firstElementInSelection = selection!.first!
+            selectionPreGestureDescription = DesignablePreGestureDescription(center: firstElementInSelection.center, width: firstElementInSelection.frame.width, height: firstElementInSelection.frame.height)
+        }
+        
+        numberOfActiveGestures = numberOfActiveGestures + 1
+    }
+    
+    func gestureDidEnd() {
+        numberOfActiveGestures = numberOfActiveGestures - 1
+        
+        if numberOfActiveGestures == 0 {
+            selection = nil
+            selectionPreGestureDescription = nil
+        }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 
-class DesignableUIView: UIView {
-    var preGestureFrame: CGRect? = nil
+struct DesignablePreGestureDescription {
+    let center: CGPoint
+    let width: CGFloat
+    let height: CGFloat
 }
+
+class DesignableUIView: UIView {}
+
+extension CGPoint {
+
+    func centerBetweenSelf(andOtherPoint otherPoint: CGPoint) -> CGPoint {
+        return CGPoint(x: (self.x + otherPoint.x) / 2, y: (self.y + otherPoint.y) / 2)
+    }
+}
+
