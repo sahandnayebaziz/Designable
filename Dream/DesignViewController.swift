@@ -13,7 +13,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     var selection: [DesignableUIView]? = nil {
         didSet {
             if let selection = selection {
-                selection.forEach { $0.backgroundColor = .blue }
+                selection.forEach { $0.backgroundColor = view.tintColor }
             } else {
                 view.subviews.forEach { $0.backgroundColor = .lightGray }
             }
@@ -25,6 +25,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(did(doubleTap:)))
         doubleTapGestureRecognizer.numberOfTapsRequired = 2
@@ -41,6 +42,11 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
     }
     
     @objc func did(pan: UIPanGestureRecognizer) {
@@ -76,6 +82,12 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         case .cancelled,
              .ended,
              .failed:
+            
+            let velocity = pan.velocity(in: view)
+            if abs(velocity.x) > 2000 || abs(velocity.y) > 2000 {
+                removeSelection()
+            }
+            
             gestureDidEnd(recognizer: pan)
         default:
             break
@@ -83,10 +95,6 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func did(pinch: UIPinchGestureRecognizer) {
-        guard pinch.numberOfTouches == 2 || pinch.numberOfTouches == 0 else {
-            return
-        }
-        
         switch pinch.state {
         case .began:
             guard pinch.numberOfTouches == 2 else {
@@ -156,6 +164,14 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    func removeSelection() {
+        guard let selection = selection else {
+            return
+        }
+        
+        selection.forEach { $0.removeFromSuperview() }
+    }
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
@@ -166,7 +182,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         let newElement = DesignableUIView()
         newElement.backgroundColor = UIColor.lightGray
         view.addSubview(newElement)
-        newElement.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        newElement.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         newElement.center = point
     }
 }
