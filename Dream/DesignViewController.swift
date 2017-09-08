@@ -25,18 +25,14 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        let squareView = DesignableUIView()
-        squareView.backgroundColor = UIColor.lightGray
-        view.addSubview(squareView)
-        squareView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
-        squareView.center = view.center
+        
+        let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(did(doubleTap:)))
+        doubleTapGestureRecognizer.numberOfTapsRequired = 2
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(did(pan:)))
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(did(pinch:)))
         
-        [panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
+        [doubleTapGestureRecognizer, panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
             gestureRecognizer.delegate = self
             view.addGestureRecognizer(gestureRecognizer)
         }
@@ -163,6 +159,16 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+    
+    @objc func did(doubleTap: UITapGestureRecognizer) {
+        let point = doubleTap.location(in: view)
+        
+        let newElement = DesignableUIView()
+        newElement.backgroundColor = UIColor.lightGray
+        view.addSubview(newElement)
+        newElement.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        newElement.center = point
+    }
 }
 
 struct DesignablePreGestureDescription {
@@ -179,4 +185,6 @@ extension CGPoint {
         return CGPoint(x: (self.x + otherPoint.x) / 2, y: (self.y + otherPoint.y) / 2)
     }
 }
+
+// TODO: scale by Y, X, Both depending on slope of line? Angle of line?
 
