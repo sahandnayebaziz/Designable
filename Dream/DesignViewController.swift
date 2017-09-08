@@ -13,15 +13,21 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     var selection: [DesignableUIView]? = nil {
         didSet {
             if let selection = selection {
-                selection.forEach { $0.backgroundColor = view.tintColor }
+                selection.forEach { s in
+                    s.layer.borderWidth = 3
+                    s.layer.borderColor = view.tintColor.cgColor
+                }
             } else {
-                view.subviews.forEach { $0.backgroundColor = .lightGray }
+                view.subviews.forEach { s in
+                    s.layer.borderWidth = 0
+                }
             }
         }
     }
     
     var selectionPreGestureDescription: DesignablePreGestureDescription? = nil
     var activeGestureRecognizers: Set<UIGestureRecognizer> = []
+    let gestureUndoManager = UndoManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,10 +36,14 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(did(doubleTap:)))
         doubleTapGestureRecognizer.numberOfTapsRequired = 2
         
+        let twoFingerDoubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(did(twoFingerDoubleTap:)))
+        twoFingerDoubleTapRecognizer.numberOfTouchesRequired = 2
+        twoFingerDoubleTapRecognizer.numberOfTapsRequired = 2
+        
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(did(pan:)))
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(did(pinch:)))
         
-        [doubleTapGestureRecognizer, panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
+        [doubleTapGestureRecognizer, twoFingerDoubleTapRecognizer, panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
             gestureRecognizer.delegate = self
             view.addGestureRecognizer(gestureRecognizer)
         }
@@ -118,24 +128,45 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
             
             gestureDidBegin(withIntersections: intersections, from: pinch)
         case .changed:
-            guard let selection = selection, let selectionPreGestureDescription = selectionPreGestureDescription else {
+            guard pinch.numberOfTouches == 2, let selection = selection else {
                 return
+            }
+            
+            let touchOne = pinch.location(ofTouch: 0, in: view)
+            let touchTwo = pinch.location(ofTouch: 1, in: view)
+            
+            
+            let leftMostTouch = touchOne.x < touchTwo.x ? touchOne : touchTwo
+            let rightMostTouch = leftMostTouch == touchOne ? touchTwo : touchOne
+            
+            let directionHint: PinchDirectionHint
+            
+            let radians = Float(atan2((leftMostTouch.y - rightMostTouch.y), (leftMostTouch.x - rightMostTouch.x)))
+            let degrees = abs(radians * 57)
+            
+            let distanceFromHorizontal = abs(180 - degrees)
+            let distanceFromDiagonal = abs(135 - degrees)
+            let distanceFromVertical = abs(90 - degrees)
+            let closest = min(distanceFromHorizontal, distanceFromDiagonal, distanceFromVertical)
+            
+            switch closest {
+            case distanceFromHorizontal:
+                directionHint = .horizontal
+            case distanceFromDiagonal:
+                directionHint = .diagonal
+            case distanceFromVertical:
+                directionHint = .vertical
+            default:
+                fatalError()
             }
             
             let selected = selection.first!
             
-            let centerToMaintain: CGPoint
+            let centerToMaintain = selected.center
             
-            let selectedHasChangedCenterDuringGesture = selected.center != selectionPreGestureDescription.center
-            if (selectedHasChangedCenterDuringGesture) {
-                centerToMaintain = selected.center
-            } else {
-                centerToMaintain = selectionPreGestureDescription.center
-            }
-            
-            selected.frame = CGRect(x: 0, y: 0, width: selectionPreGestureDescription.width, height: selectionPreGestureDescription.height)
-            selected.frame = selection.first!.frame.applying(CGAffineTransform(scaleX: pinch.scale, y: pinch.scale))
+            selected.frame = selection.first!.frame.applying(CGAffineTransform(scaleX: directionHint == .diagonal || directionHint == .horizontal ? pinch.scale : 1, y: directionHint == .diagonal || directionHint == .vertical ? pinch.scale : 1))
             selected.center = centerToMaintain
+            pinch.scale = 1.0
         case .cancelled,
              .ended,
              .failed:
@@ -145,11 +176,23 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    @objc func did(twoFingerDoubleTap: UITapGestureRecognizer) {
+        gestureUndoManager.undo()
+    }
+    
     func gestureDidBegin(withIntersections intersections: [UIView], from recognizer: UIGestureRecognizer) {
         if activeGestureRecognizers.isEmpty {
             selection = intersections as? [DesignableUIView]
             let firstElementInSelection = selection!.first!
-            selectionPreGestureDescription = DesignablePreGestureDescription(center: firstElementInSelection.center, width: firstElementInSelection.frame.width, height: firstElementInSelection.frame.height)
+            let preGestureDescription = DesignablePreGestureDescription(center: firstElementInSelection.center, width: firstElementInSelection.frame.width, height: firstElementInSelection.frame.height)
+            selectionPreGestureDescription = preGestureDescription
+            
+            gestureUndoManager.registerUndo(withTarget: self) { designVC in
+                firstElementInSelection.frame = CGRect(x: 0, y: 0, width: preGestureDescription.width, height: preGestureDescription.height)
+                firstElementInSelection.center = preGestureDescription.center
+            }
+            
+            gestureUndoManager.setActionName("actions.reset-selection")
         }
         
         activeGestureRecognizers.insert(recognizer)
@@ -181,6 +224,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let newElement = DesignableUIView()
         newElement.backgroundColor = UIColor.lightGray
+        newElement.alpha = 0.75
         view.addSubview(newElement)
         newElement.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         newElement.center = point
@@ -202,5 +246,7 @@ extension CGPoint {
     }
 }
 
-// TODO: scale by Y, X, Both depending on slope of line? Angle of line?
+enum PinchDirectionHint {
+    case vertical, horizontal, diagonal
+}
 
