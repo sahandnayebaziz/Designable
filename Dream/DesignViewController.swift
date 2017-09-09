@@ -210,7 +210,6 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
             
-            designUndoManager.setActionName("actions.reset-selection")
         }
         
         activeGestureRecognizers.insert(recognizer)
@@ -294,8 +293,8 @@ class DesignableUIViewRectangle: UIView, UIViewDesignable {
         
         let fillColor = CIColor(color: backgroundColor!)
         
-        let fillColorAttribute = DesignableDescriptionStyleAttributes.FillColor(red: fillColor.red, green: fillColor.green, blue: fillColor.blue, alpha: fillColor.alpha)
-        let styleAttributes = DesignableDescriptionStyleAttributes(color: fillColorAttribute)
+        let fillColorAttribute = DesignableDescriptionAttributesStyle.FillColor(red: fillColor.red, green: fillColor.green, blue: fillColor.blue, alpha: fillColor.alpha)
+        let styleAttributes = DesignableDescriptionAttributesStyle(color: fillColorAttribute)
         
         if isInActiveGesture {
             let pre = preGesturePositionDescription!

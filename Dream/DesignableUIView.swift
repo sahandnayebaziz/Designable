@@ -18,7 +18,7 @@ struct DesignableDescription: Codable {
     var y: CGFloat
     var width: CGFloat
     var height: CGFloat
-    var style: DesignableDescriptionStyleAttributes
+    var style: DesignableDescriptionAttributesStyle
     
     func toUIViewDesignable() -> UIViewDesignable {
         switch type {
@@ -37,8 +37,8 @@ protocol UIViewDesignable: class {
     var preGesturePositionDescription: DesignablePreGestureDescription? { get set }
 }
 
-struct DesignableDescriptionStyleAttributes: Codable {
-    var color: DesignableDescriptionStyleAttributes.FillColor?
+struct DesignableDescriptionAttributesStyle: Codable {
+    var color: DesignableDescriptionAttributesStyle.FillColor?
     
     struct FillColor: Codable {
         var red: CGFloat
