@@ -226,6 +226,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func remove(elements: [UIViewDesignable]) {
         let descriptions: [DesignableDescription] = elements.map { $0.designableDescription }
+        print(descriptions)
         
         designUndoManager.registerUndo(withTarget: self) { _ in
             let restoredElements = self.restore(descriptions: descriptions)
@@ -291,12 +292,17 @@ class DesignableUIViewRectangle: UIView, UIViewDesignable {
     var designableDescription: DesignableDescription {
         let isInActiveGesture = preGesturePositionDescription != nil
         
+        let fillColor = CIColor(color: backgroundColor!)
+        
+        let fillColorAttribute = DesignableDescriptionStyleAttributes.FillColor(red: fillColor.red, green: fillColor.green, blue: fillColor.blue, alpha: fillColor.alpha)
+        let styleAttributes = DesignableDescriptionStyleAttributes(color: fillColorAttribute)
+        
         if isInActiveGesture {
             let pre = preGesturePositionDescription!
-            let desc =  DesignableDescription(type: .rectangle, x: pre.center.x - (pre.width / 2), y: pre.center.y - (pre.height / 2), width: pre.width, height: pre.height)
+            let desc =  DesignableDescription(type: .rectangle, x: pre.center.x - (pre.width / 2), y: pre.center.y - (pre.height / 2), width: pre.width, height: pre.height, style: styleAttributes)
             return desc
         } else {
-            return DesignableDescription(type: .rectangle, x: frame.minX, y: frame.minY, width: frame.width, height: frame.height)
+            return DesignableDescription(type: .rectangle, x: frame.minX, y: frame.minY, width: frame.width, height: frame.height, style: styleAttributes)
         }
     }
 }
