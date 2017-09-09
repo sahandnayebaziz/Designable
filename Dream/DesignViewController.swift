@@ -10,24 +10,23 @@ import UIKit
 
 class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     
-    var selection: [DesignableUIView]? = nil {
+    var selection: [UIView]? = nil {
         didSet {
             if let selection = selection {
-                selection.forEach { s in
-                    s.layer.borderWidth = 3
-                    s.layer.borderColor = view.tintColor.cgColor
+                selection.forEach { v in
+                    v.layer.borderWidth = 3
+                    v.layer.borderColor = view.tintColor.cgColor
                 }
             } else {
-                view.subviews.forEach { s in
-                    s.layer.borderWidth = 0
+                view.subviews.forEach { v in
+                    v.layer.borderWidth = 0
                 }
             }
         }
     }
     
-    var selectionPreGestureDescription: DesignablePreGestureDescription? = nil
     var activeGestureRecognizers: Set<UIGestureRecognizer> = []
-    let gestureUndoManager = UndoManager()
+    let designUndoManager = UndoManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,10 +39,14 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         twoFingerDoubleTapRecognizer.numberOfTouchesRequired = 2
         twoFingerDoubleTapRecognizer.numberOfTapsRequired = 2
         
+        let threeFingerDoubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(did(threeFingerDoubleTap:)))
+        threeFingerDoubleTapRecognizer.numberOfTouchesRequired = 3
+        threeFingerDoubleTapRecognizer.numberOfTapsRequired = 2
+        
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(did(pan:)))
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(did(pinch:)))
         
-        [doubleTapGestureRecognizer, twoFingerDoubleTapRecognizer, panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
+        [doubleTapGestureRecognizer, twoFingerDoubleTapRecognizer, threeFingerDoubleTapRecognizer, panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
             gestureRecognizer.delegate = self
             view.addGestureRecognizer(gestureRecognizer)
         }
@@ -80,22 +83,26 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
                 return
             }
             
-            gestureDidBegin(withIntersections: intersections, from: pan)
+            gestureDidBegin(withViews: intersections as! [UIViewDesignable], from: pan)
         case .changed:
-            guard let selection = selection, let selectionPreGestureDescription = selectionPreGestureDescription else {
+            guard let selection = selection as? [UIViewDesignable] else {
                 return
             }
             
             let translation = pan.translation(in: view)
-            selection.first!.center = selectionPreGestureDescription.center
-            selection.first!.frame = selection.first!.frame.applying(CGAffineTransform(translationX: translation.x, y: translation.y))
+            
+            let firstElement = selection.first as! UIView
+            firstElement.frame = firstElement.frame.applying(CGAffineTransform(translationX: translation.x, y: translation.y))
+            pan.setTranslation(.zero, in: view)
         case .cancelled,
              .ended,
              .failed:
             
-            let velocity = pan.velocity(in: view)
-            if abs(velocity.x) > 2000 || abs(velocity.y) > 2000 {
-                removeSelection()
+            if let selection = selection as? [UIViewDesignable] {
+                let velocity = pan.velocity(in: view)
+                if abs(velocity.x) > 2000 || abs(velocity.y) > 2000 {
+                    remove(elements: selection)
+                }
             }
             
             gestureDidEnd(recognizer: pan)
@@ -126,7 +133,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
                 return
             }
             
-            gestureDidBegin(withIntersections: intersections, from: pinch)
+            gestureDidBegin(withViews: intersections as! [UIViewDesignable], from: pinch)
         case .changed:
             guard pinch.numberOfTouches == 2, let selection = selection else {
                 return
@@ -177,22 +184,33 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func did(twoFingerDoubleTap: UITapGestureRecognizer) {
-        gestureUndoManager.undo()
+        designUndoManager.undo()
     }
     
-    func gestureDidBegin(withIntersections intersections: [UIView], from recognizer: UIGestureRecognizer) {
+    @objc func did(threeFingerDoubleTap: UITapGestureRecognizer) {
+        designUndoManager.redo()
+    }
+    
+    func gestureDidBegin(withViews views: [UIViewDesignable], from recognizer: UIGestureRecognizer) {
         if activeGestureRecognizers.isEmpty {
-            selection = intersections as? [DesignableUIView]
-            let firstElementInSelection = selection!.first!
-            let preGestureDescription = DesignablePreGestureDescription(center: firstElementInSelection.center, width: firstElementInSelection.frame.width, height: firstElementInSelection.frame.height)
-            selectionPreGestureDescription = preGestureDescription
+            selection = views as? [UIView]
             
-            gestureUndoManager.registerUndo(withTarget: self) { designVC in
-                firstElementInSelection.frame = CGRect(x: 0, y: 0, width: preGestureDescription.width, height: preGestureDescription.height)
-                firstElementInSelection.center = preGestureDescription.center
+            let firstElement = selection!.first!
+            let pre = DesignablePreGestureDescription(center: firstElement.center, width: firstElement.frame.width, height: firstElement.frame.height)
+            (firstElement as! UIViewDesignable).preGesturePositionDescription = pre
+            
+            designUndoManager.registerUndo(withTarget: self) { _ in
+                let currentFrame = firstElement.frame
+                
+                firstElement.frame = CGRect(x: 0, y: 0, width: pre.width, height: pre.height)
+                firstElement.center = pre.center
+                
+                self.designUndoManager.registerUndo(withTarget: self) { _ in
+                    firstElement.frame = currentFrame
+                }
             }
             
-            gestureUndoManager.setActionName("actions.reset-selection")
+            designUndoManager.setActionName("actions.reset-selection")
         }
         
         activeGestureRecognizers.insert(recognizer)
@@ -203,16 +221,33 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         
         if activeGestureRecognizers.isEmpty {
             selection = nil
-            selectionPreGestureDescription = nil
         }
     }
     
-    func removeSelection() {
-        guard let selection = selection else {
-            return
+    func remove(elements: [UIViewDesignable]) {
+        let descriptions: [DesignableDescription] = elements.map { $0.designableDescription }
+        
+        designUndoManager.registerUndo(withTarget: self) { _ in
+            let restoredElements = self.restore(descriptions: descriptions)
+            self.designUndoManager.registerUndo(withTarget: self) { _ in
+                self.remove(elements: restoredElements)
+            }
         }
         
-        selection.forEach { $0.removeFromSuperview() }
+        (elements as! [UIView]).forEach { $0.removeFromSuperview() }
+    }
+    
+    func restore(descriptions: [DesignableDescription]) -> [UIViewDesignable] {
+        let elements = descriptions.map { $0.toUIViewDesignable() }
+        for i in 0..<elements.count {
+            let element = elements[i] as! UIView
+            let description = descriptions[i]
+            
+            view.addSubview(element)
+            element.frame = CGRect(x: description.x, y: description.y, width: description.width, height: description.height)
+        }
+        
+        return elements
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -222,12 +257,14 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func did(doubleTap: UITapGestureRecognizer) {
         let point = doubleTap.location(in: view)
         
-        let newElement = DesignableUIView()
-        newElement.backgroundColor = UIColor.lightGray
-        newElement.alpha = 0.75
+        let newElement = DesignableUIViewRectangle()
         view.addSubview(newElement)
         newElement.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         newElement.center = point
+        
+        designUndoManager.registerUndo(withTarget: self) { vc in
+            vc.remove(elements: [newElement])
+        }
     }
 }
 
@@ -237,12 +274,30 @@ struct DesignablePreGestureDescription {
     let height: CGFloat
 }
 
-class DesignableUIView: UIView {}
-
-extension CGPoint {
-
-    func centerBetweenSelf(andOtherPoint otherPoint: CGPoint) -> CGPoint {
-        return CGPoint(x: (self.x + otherPoint.x) / 2, y: (self.y + otherPoint.y) / 2)
+class DesignableUIViewRectangle: UIView, UIViewDesignable {
+    
+    var preGesturePositionDescription: DesignablePreGestureDescription? = nil
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .lightGray
+        alpha = 0.75
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var designableDescription: DesignableDescription {
+        let isInActiveGesture = preGesturePositionDescription != nil
+        
+        if isInActiveGesture {
+            let pre = preGesturePositionDescription!
+            let desc =  DesignableDescription(type: .rectangle, x: pre.center.x - (pre.width / 2), y: pre.center.y - (pre.height / 2), width: pre.width, height: pre.height)
+            return desc
+        } else {
+            return DesignableDescription(type: .rectangle, x: frame.minX, y: frame.minY, width: frame.width, height: frame.height)
+        }
     }
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D897F7D01F637D9900A52CBD /* DesignableUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897F7CF1F637D9900A52CBD /* DesignableUIView.swift */; };
 		D8C6E2421F622F8F0044CADE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E2411F622F8F0044CADE /* AppDelegate.swift */; };
 		D8C6E2441F622F8F0044CADE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E2431F622F8F0044CADE /* ViewController.swift */; };
 		D8C6E2491F622F8F0044CADE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8C6E2481F622F8F0044CADE /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D897F7CF1F637D9900A52CBD /* DesignableUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableUIView.swift; sourceTree = "<group>"; };
 		D8C6E23E1F622F8F0044CADE /* Dream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dream.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C6E2411F622F8F0044CADE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8C6E2431F622F8F0044CADE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				D8C6E2411F622F8F0044CADE /* AppDelegate.swift */,
 				D8C6E2431F622F8F0044CADE /* ViewController.swift */,
 				D8C6E26F1F622FBC0044CADE /* DesignViewController.swift */,
+				D897F7CF1F637D9900A52CBD /* DesignableUIView.swift */,
 				D8C6E2481F622F8F0044CADE /* Assets.xcassets */,
 				D8C6E24A1F622F8F0044CADE /* LaunchScreen.storyboard */,
 				D8C6E24D1F622F8F0044CADE /* Info.plist */,
@@ -258,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D897F7D01F637D9900A52CBD /* DesignableUIView.swift in Sources */,
 				D8C6E2701F622FBC0044CADE /* DesignViewController.swift in Sources */,
 				D8C6E2441F622F8F0044CADE /* ViewController.swift in Sources */,
 				D8C6E2421F622F8F0044CADE /* AppDelegate.swift in Sources */,
