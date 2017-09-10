@@ -4,8 +4,8 @@ target 'Dream' do
   use_frameworks!
 
   pod 'Disk'
+  pod 'Eureka', :git => 'https://github.com/xmartlabs/Eureka.git', :branch => 'feature/Xcode9-Swift4'
 
-  # Pods for Dream
 
   target 'DreamTests' do
     inherit! :search_paths

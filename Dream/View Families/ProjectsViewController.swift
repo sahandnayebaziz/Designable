@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ProjectsViewController.swift
 //  Dream
 //
 //  Created by Sahand on 9/7/17.
@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ProjectsViewController: UIViewController {
+    
+    var projects: [Project] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +18,9 @@ class ViewController: UIViewController {
         
         title = "Projects"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let projects = Dream.loadProjects()
+        print(projects)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -27,10 +32,15 @@ class ViewController: UIViewController {
         navigationItem.setRightBarButton(addButton, animated: true)
     }
     
-    @objc func didTapAdd() {
-        navigationController?.pushViewController(DesignViewController(), animated: true)
+    @objc func didTapAdd() {        
+        let vc = UINavigationController(rootViewController: NewProjectFormViewController())
+        vc.modalPresentationStyle = .currentContext
+        vc.modalTransitionStyle = .coverVertical
+        present(vc, animated: true, completion: nil)
+        
     }
-
+    
+    
 
 }
 
