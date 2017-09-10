@@ -9,9 +9,9 @@
 import UIKit
 import SnapKit
 
-class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewDesignViewControllerDelegate {
     
-    let project: Project
+    var project: Project
     
     let tableView = UITableView()
     
@@ -42,13 +42,15 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = project.name
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = false
+        
+        title = project.name
+        tableView.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -74,8 +76,17 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func didTapNewFlow() {
-        navigationController?.pushViewController(DesignViewController(), animated: true)
+        let newDesignVC = NewDesignViewController()
+        newDesignVC.delegate = self
+        let vc = UINavigationController(rootViewController: newDesignVC)
+        vc.modalPresentationStyle = .currentContext
+        vc.modalTransitionStyle = .coverVertical
+        present(vc, animated: true, completion: nil)
     }
     
+    func didCreateNewFlow(flow: Flow) {
+        project.flows.append(flow)
+        Dream.save(project)
+    }
 
 }

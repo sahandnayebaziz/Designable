@@ -55,7 +55,7 @@ class NewProjectFormViewController: FormViewController {
     
     @objc func didTapCreate() {
         let project = Project(name: form.values()["name"] as! String, description: form.values()["description"] as! String, flows: [])
-        Dream.save(newProject: project)
+        Dream.save(project)
         dismiss(animated: true, completion: nil)
     }
     

@@ -9,12 +9,17 @@
 import UIKit
 import SnapKit
 
+protocol DesignViewDelegate: class {
+    func didTap(designView: DesignView)
+}
+
 class DesignView: UIView, UIGestureRecognizerDelegate {
     
     let elementsView = UIView()
+    weak var delegate: DesignViewDelegate?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         backgroundColor = .white
         
         elementsView.frame = bounds
@@ -47,7 +52,7 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     var selection: [UIView]? = nil {
@@ -69,7 +74,7 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     let designUndoManager = UndoManager()
     
     @objc func did(singleTap: UITapGestureRecognizer) {
-//        navigationController?.setNavigationBarHidden(!navigationController!.navigationBar.isHidden, animated: true)
+        delegate?.didTap(designView: self)
     }
     
     @objc func did(doubleTap: UITapGestureRecognizer) {
@@ -283,8 +288,10 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
         }
         return false
     }
-
-
+    
+    var layers: [DesignableDescription] {
+        return (elementsView.subviews as! [UIViewDesignable]).map { $0.designableDescription }
+    }
 }
 
 

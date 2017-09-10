@@ -31,15 +31,16 @@ extension Dream {
         }
     }
     
-    static func save(newProject project: Project) {
+    static func save(_ project: Project) {
         do {
             try Disk.save(project, to: .documents, as: "projects/\(project.name).json")
+            NSLog("Project saved.\n\(project)")
         } catch let error as NSError {
             print(error)
         }
     }
     
-    static func delete(project: Project) throws {
+    static func delete(_ project: Project) throws {
         let filename = "projects/\(project.name).json"
         
         do {

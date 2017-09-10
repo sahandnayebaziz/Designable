@@ -80,14 +80,19 @@ class EditProjectFormViewController: FormViewController {
     }
     
     func didTapDelete() {
-        do {
-            try Dream.delete(project: project)
-            
-            (presentingViewController as? UINavigationController)?.popViewController(animated: false)
-            dismiss(animated: true, completion: nil)
-        } catch {
-            print(error as NSError)
-        }
+        let alert = UIAlertController(title: "Delete \"\(project.name)\"?", message: "If you delete this project, you won't be able to see it again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+            do {
+                try Dream.delete(self.project)
+                
+                (self.presentingViewController as? UINavigationController)?.popViewController(animated: false)
+                self.dismiss(animated: true, completion: nil)
+            } catch {
+                print(error as NSError)
+            }
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     @objc func didTapCancel() {
@@ -96,9 +101,14 @@ class EditProjectFormViewController: FormViewController {
     
     @objc func didTapSave() {
         do {
-            let editedProject = Project(name: form.values()["name"] as! String, description: form.values()["description"] as! String, flows: [])
-            try Dream.delete(project: project)
-            try Dream.save(newProject: editedProject)
+            try Dream.delete(project)
+            
+            var editedProject = project
+            editedProject.name = form.values()["name"] as! String
+            editedProject.description = form.values()["description"] as! String
+            try Dream.save(editedProject)
+            
+            ((presentingViewController as? UINavigationController)?.topViewController as? ProjectViewController)?.project = editedProject
             dismiss(animated: true, completion: nil)
         } catch {
             print(error as NSError)
