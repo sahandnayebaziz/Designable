@@ -4,35 +4,35 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Disk.xcscheme</key>
+		<key>Eureka.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>Eureka.xcscheme</key>
+		<key>Pods-Dream.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>Pods-Dream.xcscheme</key>
+		<key>Pods-DreamTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
-		<key>Pods-DreamTests.xcscheme</key>
+		<key>Pods-DreamUITests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
-		<key>Pods-DreamUITests.xcscheme</key>
+		<key>SnapKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
