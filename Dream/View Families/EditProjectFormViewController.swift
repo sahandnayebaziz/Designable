@@ -83,7 +83,7 @@ class EditProjectFormViewController: FormViewController {
         do {
             try Dream.delete(project: project)
             
-            let navigationController = (presentingViewController as? UINavigationController)?.popViewController(animated: false)
+            (presentingViewController as? UINavigationController)?.popViewController(animated: false)
             dismiss(animated: true, completion: nil)
         } catch {
             print(error as NSError)
