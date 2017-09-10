@@ -20,7 +20,6 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         // Do any additional setup after loading the view, typically from a nib.
         
         title = "Projects"
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
@@ -36,6 +35,8 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         dispatch_to_background_queue {
             let projects = Dream.loadProjects()
@@ -79,11 +80,7 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let project = projects[indexPath.row]
-        let vc = UINavigationController(rootViewController: EditProjectFormViewController(project: project))
-        vc.modalPresentationStyle = .currentContext
-        vc.modalTransitionStyle = .coverVertical
-        present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(ProjectViewController(project: projects[indexPath.row]), animated: true)
     }
     
 

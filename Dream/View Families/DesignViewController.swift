@@ -31,6 +31,9 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        navigationItem.backBarButtonItem?.title = ""
+        
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(did(singleTap:)))
         
         let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(did(doubleTap:)))
         doubleTapGestureRecognizer.numberOfTapsRequired = 2
@@ -46,7 +49,7 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(did(pan:)))
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(did(pinch:)))
         
-        [doubleTapGestureRecognizer, twoFingerDoubleTapRecognizer, threeFingerDoubleTapRecognizer, panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
+        [singleTapGestureRecognizer, doubleTapGestureRecognizer, twoFingerDoubleTapRecognizer, threeFingerDoubleTapRecognizer, panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
             gestureRecognizer.delegate = self
             view.addGestureRecognizer(gestureRecognizer)
         }
@@ -54,12 +57,17 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = false
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let singleTapGestureRecognizer = gestureRecognizer as? UITapGestureRecognizer {
+            return singleTapGestureRecognizer.numberOfTapsRequired == 1 && singleTapGestureRecognizer.numberOfTouchesRequired == 1
+        }
+        return false
     }
     
     @objc func did(pan: UIPanGestureRecognizer) {
@@ -265,6 +273,10 @@ class DesignViewController: UIViewController, UIGestureRecognizerDelegate {
         designUndoManager.registerUndo(withTarget: self) { vc in
             vc.remove(elements: [newElement])
         }
+    }
+    
+    @objc func did(singleTap: UITapGestureRecognizer) {
+        navigationController?.setNavigationBarHidden(!navigationController!.navigationBar.isHidden, animated: true)
     }
 }
 

@@ -17,6 +17,7 @@
 		D897F7D01F637D9900A52CBD /* DesignableUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897F7CF1F637D9900A52CBD /* DesignableUIView.swift */; };
 		D8B55FB41F65A37300C25688 /* Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B55FB31F65A37300C25688 /* Saving.swift */; };
 		D8B55FB61F65A80400C25688 /* EditProjectFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B55FB51F65A80400C25688 /* EditProjectFormViewController.swift */; };
+		D8B55FB81F65AD4800C25688 /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */; };
 		D8C6E2421F622F8F0044CADE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E2411F622F8F0044CADE /* AppDelegate.swift */; };
 		D8C6E2441F622F8F0044CADE /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E2431F622F8F0044CADE /* ProjectsViewController.swift */; };
 		D8C6E2491F622F8F0044CADE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8C6E2481F622F8F0044CADE /* Assets.xcassets */; };
@@ -59,6 +60,7 @@
 		D897F7CF1F637D9900A52CBD /* DesignableUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableUIView.swift; sourceTree = "<group>"; };
 		D8B55FB31F65A37300C25688 /* Saving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saving.swift; sourceTree = "<group>"; };
 		D8B55FB51F65A80400C25688 /* EditProjectFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectFormViewController.swift; sourceTree = "<group>"; };
+		D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewController.swift; sourceTree = "<group>"; };
 		D8C6E23E1F622F8F0044CADE /* Dream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dream.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C6E2411F622F8F0044CADE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8C6E2431F622F8F0044CADE /* ProjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				D8C6E26F1F622FBC0044CADE /* DesignViewController.swift */,
 				D864651D1F6468F700BE6C03 /* NewProjectFormViewController.swift */,
 				D8B55FB51F65A80400C25688 /* EditProjectFormViewController.swift */,
+				D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */,
 			);
 			path = "View Families";
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				D86465161F64633800BE6C03 /* Projects.swift in Sources */,
 				D8B55FB41F65A37300C25688 /* Saving.swift in Sources */,
 				D8E4BA521F65074400D10B7A /* threading.swift in Sources */,
+				D8B55FB81F65AD4800C25688 /* ProjectViewController.swift in Sources */,
 				D864651E1F6468F700BE6C03 /* NewProjectFormViewController.swift in Sources */,
 				D8C6E2441F622F8F0044CADE /* ProjectsViewController.swift in Sources */,
 				D8C6E2421F622F8F0044CADE /* AppDelegate.swift in Sources */,

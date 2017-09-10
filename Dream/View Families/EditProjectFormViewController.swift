@@ -82,6 +82,8 @@ class EditProjectFormViewController: FormViewController {
     func didTapDelete() {
         do {
             try Dream.delete(project: project)
+            
+            let navigationController = (presentingViewController as? UINavigationController)?.popViewController(animated: false)
             dismiss(animated: true, completion: nil)
         } catch {
             print(error as NSError)
