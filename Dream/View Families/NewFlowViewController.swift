@@ -20,14 +20,23 @@ class NewFlowViewController: FlowViewController {
         navigationItem.setRightBarButtonItems([saveItem, editItem], animated: false)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {}
+    
+    override func didTapEdit() {
+        let vc = EditFlowFormViewController(flow: flow)
+        vc.flowViewController = self
+        vc.isNewUnsavedFlow = true
+        present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+    }
+    
     @objc func didTapCancel() {
         dismiss(animated: true, completion: nil)
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {}
     
     @objc func didTapSave() {
         saveToProjectViewController()
         dismiss(animated: true, completion: nil)
     }
+    
+
 }

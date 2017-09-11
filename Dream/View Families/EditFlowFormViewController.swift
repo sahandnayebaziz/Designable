@@ -14,6 +14,8 @@ class EditFlowFormViewController: FormViewController {
     let flow: Flow
     weak var flowViewController: FlowViewController? = nil
     
+    var isNewUnsavedFlow = false
+    
     init(flow: Flow) {
         self.flow = flow
         super.init(nibName: nil, bundle: nil)
@@ -43,6 +45,18 @@ class EditFlowFormViewController: FormViewController {
                 }.cellUpdate { [ weak self ] _, _ in
                     self?.cellWasUpdated()
         }
+        
+        
+        if !isNewUnsavedFlow {
+            form +++ Section()
+                <<< ButtonRow() {
+                    $0.tag = "delete"
+                    $0.title = "Delete"
+                    $0.cell.tintColor = .red
+                    }.onCellSelection { [weak self] _, _ in
+                        self?.didTapDelete()
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -60,14 +74,24 @@ class EditFlowFormViewController: FormViewController {
     }
     
     @objc func didTapCancel() {
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func didTapSave() {
         var editedFlow = flow
         editedFlow.name = form.values()["name"] as! String
         flowViewController?.flow = editedFlow
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func didTapDelete() {
+        let alert = UIAlertController(title: "Delete \"\(flow.name)\"?", message: "If you delete this flow, you won't be able to see it again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.flowViewController?.deleteFromProjectViewController()
+            self.dismiss(animated: true, completion: nil)
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 
 }

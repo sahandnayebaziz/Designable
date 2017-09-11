@@ -73,10 +73,15 @@ class FlowViewController: UIViewController, DesignViewControllerDataSource, Desi
         projectViewController?.saveProjectWithUpdated(flow)
     }
     
+    func deleteFromProjectViewController() {
+        projectViewController?.saveProjectAfterDeleting(flow)
+        navigationController?.popViewController(animated: true)
+    }
+    
     @objc func didTapEdit() {
         let vc = EditFlowFormViewController(flow: flow)
         vc.flowViewController = self
-        navigationController?.pushViewController(vc, animated: true)
+        present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
     
     func didTap(designViewController: DesignViewController) {

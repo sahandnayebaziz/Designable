@@ -103,5 +103,14 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         
         Dream.save(project)
     }
+    
+    func saveProjectAfterDeleting(_ flow: Flow) {
+        let existingFlowIndex = project.flows.index(where: { $0.id == flow.id })
+        if let existingFlowIndex = existingFlowIndex {
+            project.flows.remove(at: existingFlowIndex)
+        }
+        
+        Dream.save(project)
+    }
 
 }
