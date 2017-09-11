@@ -17,8 +17,6 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
         title = "Projects"
         
         view.addSubview(tableView)
@@ -38,6 +36,9 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
+        navigationItem.setRightBarButton(addButton, animated: true)
+        
         dispatch_to_background_queue {
             let projects = Dream.loadProjects()
             dispatch_to_main_queue {
@@ -47,21 +48,11 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
-        
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
-        navigationItem.setRightBarButton(addButton, animated: true)
-    }
-    
     @objc func didTapAdd() {
         let vc = UINavigationController(rootViewController: NewProjectFormViewController())
         vc.modalPresentationStyle = .currentContext
         vc.modalTransitionStyle = .coverVertical
-        present(vc, animated: true, completion: nil)
-        
+        present(vc, animated: true, completion: nil)        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

@@ -69,6 +69,10 @@ class EditProjectFormViewController: FormViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        form.rowBy(tag: "name")?.baseCell.cellBecomeFirstResponder()
+    }
     
     func cellWasUpdated() {
         updateCreateButtonStatus()
@@ -114,7 +118,4 @@ class EditProjectFormViewController: FormViewController {
             print(error as NSError)
         }
     }
-    
-    
-
 }
