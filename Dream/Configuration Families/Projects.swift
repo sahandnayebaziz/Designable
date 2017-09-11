@@ -10,6 +10,7 @@ import Foundation
 
 struct Page: Codable {
     var id: String
+    var name: String
     var layers: [DesignableDescription]
 }
 

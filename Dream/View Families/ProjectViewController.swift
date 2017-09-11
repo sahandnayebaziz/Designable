@@ -70,13 +70,10 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let flow = project.flows[indexPath.row]
-        
-        let designVC = DesignViewController(flow: flow)
+
+        let designVC = DesignViewController(project: project, flow: flow)
         designVC.delegate = self
-        let vc = UINavigationController(rootViewController: designVC)
-        vc.modalPresentationStyle = .currentContext
-        vc.modalTransitionStyle = .coverVertical
-        present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(designVC, animated: true)
     }
     
     @objc func didTapEdit() {
@@ -87,8 +84,10 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func didTapNewFlow() {
-        let newDesignVC = DesignViewController(flow: nil)
+        let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, name: "Untitled", layers: [])])
+        let newDesignVC = NewDesignViewController(project: project, flow: newFlow)
         newDesignVC.delegate = self
+        
         let vc = UINavigationController(rootViewController: newDesignVC)
         vc.modalPresentationStyle = .currentContext
         vc.modalTransitionStyle = .coverVertical

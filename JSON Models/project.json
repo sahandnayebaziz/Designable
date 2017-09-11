@@ -3,10 +3,12 @@
     "name": "ShopClothes",
     "flows": [
       {
+        "id": "294E7BB5-40AA-4AFB-94B9-BC0195B6FC3F",
         "name": "Purchase Flow",
         "pages": [
           {
             "id": "294E7BB5-40AA-4AFB-94B9-BC0195B6FC3F",
+            "name": "Buy page",
             "layers": [
               {
                 "type": "rectangle",

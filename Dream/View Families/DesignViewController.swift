@@ -12,17 +12,14 @@ protocol DesignViewControllerDelegate: class {
     func didSave(flow: Flow)
 }
 
-class DesignViewController: UIViewController, DesignViewDelegate {
+class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormViewControllerDelegate {
     
+    var project: Project
     var flow: Flow
     
-    init(flow: Flow?) {
-        if let flow = flow {
-            self.flow = flow
-        } else {
-            self.flow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, layers: [])])
-        }
-        
+    init(project: Project, flow: Flow) {
+        self.project = project
+        self.flow = flow
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -37,10 +34,8 @@ class DesignViewController: UIViewController, DesignViewDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        navigationItem.setLeftBarButton(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel)), animated: false)
         let saveItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didTapSave))
         let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(didTapEdit))
-        
         navigationItem.setRightBarButtonItems([saveItem, editItem], animated: false)
         
         designView.delegate = self
@@ -73,20 +68,20 @@ class DesignViewController: UIViewController, DesignViewDelegate {
         present(vc, animated: true, completion: nil)
     }
     
-    @objc func didTapCancel() {
-        dismiss(animated: true, completion: nil)
+    @objc func didTapEdit() {
+        let vc = EditFlowFormViewController(flow: flow)
+        vc.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc func didTapEdit() {
-        let vc = UINavigationController(rootViewController: EditFlowFormViewController(flow: flow))
-        vc.modalPresentationStyle = .currentContext
-        vc.modalTransitionStyle = .coverVertical
-        present(vc, animated: true, completion: nil)
+    func didEditFlow(flow: Flow) {
+        self.flow = flow
+        save()
     }
     
     @objc func didTapSave() {
         save()
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     func save() {

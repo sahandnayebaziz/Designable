@@ -9,9 +9,14 @@
 import UIKit
 import Eureka
 
+protocol EditFlowFormViewControllerDelegate: class {
+    func didEditFlow(flow: Flow)
+}
+
 class EditFlowFormViewController: FormViewController {
     
     let flow: Flow
+    weak var delegate: EditFlowFormViewControllerDelegate? = nil
     
     init(flow: Flow) {
         self.flow = flow
@@ -54,17 +59,14 @@ class EditFlowFormViewController: FormViewController {
     }
     
     @objc func didTapCancel() {
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func didTapSave() {
         var editedFlow = flow
         editedFlow.name = form.values()["name"] as! String
-        
-        let designVC = ((presentingViewController as? UINavigationController)?.topViewController as? DesignViewController)
-        designVC?.flow = editedFlow
-        designVC?.save()
-        dismiss(animated: true, completion: nil)
+        delegate?.didEditFlow(flow: editedFlow)
+        navigationController?.popViewController(animated: true)
     }
 
 }
