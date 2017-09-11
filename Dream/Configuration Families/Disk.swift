@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Dream {
 
@@ -179,6 +180,16 @@ extension Dream {
                 let folderUrl = try createURL(for: path, in: directory)
                 try createSubfoldersBeforeCreatingFile(at: folderUrl)
                 try FileManager.default.createDirectory(at: folderUrl, withIntermediateDirectories: false, attributes: nil)
+            } catch {
+                throw error
+            }
+        }
+        
+        static func save(_ value: Data, to directory: Directory, as path: String) throws {
+            do {
+                let url = try createURL(for: path, in: directory)
+                try createSubfoldersBeforeCreatingFile(at: url)
+                try value.write(to: url, options: .atomic)
             } catch {
                 throw error
             }

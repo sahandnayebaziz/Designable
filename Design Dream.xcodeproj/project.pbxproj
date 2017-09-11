@@ -10,6 +10,7 @@
 		1F17EF16A9C8676447CAE249 /* Pods_DreamTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA82011E279668AEFCD0214F /* Pods_DreamTests.framework */; };
 		6022853D7EF4E58BC3FFAD7A /* Pods_Dream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F633E9660237D7E603D950CB /* Pods_Dream.framework */; };
 		9D86B752CCCA45DF38DC397B /* Pods_DreamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0971F799D6123D1EE609A9EA /* Pods_DreamUITests.framework */; };
+		D809CE1F1F673123001CDE21 /* Thumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = D809CE1E1F673123001CDE21 /* Thumbnails.swift */; };
 		D854BC301F6643780099E9AB /* NewLinkTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D854BC2F1F6643780099E9AB /* NewLinkTableViewController.swift */; };
 		D86465161F64633800BE6C03 /* Projects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465151F64633800BE6C03 /* Projects.swift */; };
 		D86465181F6463BD00BE6C03 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465171F6463BD00BE6C03 /* Disk.swift */; };
@@ -59,6 +60,7 @@
 		A39F9FF279040C9EBF1E1E47 /* Pods-DreamUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DreamUITests/Pods-DreamUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CA82011E279668AEFCD0214F /* Pods_DreamTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DreamTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE3BD80EF67E4B7ABA84986 /* Pods-DreamUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DreamUITests/Pods-DreamUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D809CE1E1F673123001CDE21 /* Thumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thumbnails.swift; sourceTree = "<group>"; };
 		D854BC2F1F6643780099E9AB /* NewLinkTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLinkTableViewController.swift; sourceTree = "<group>"; };
 		D86465151F64633800BE6C03 /* Projects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projects.swift; sourceTree = "<group>"; };
 		D86465171F6463BD00BE6C03 /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				D86465191F6463D100BE6C03 /* Dream.swift */,
 				D86465151F64633800BE6C03 /* Projects.swift */,
 				D8E4BA511F65074400D10B7A /* threading.swift */,
+				D809CE1E1F673123001CDE21 /* Thumbnails.swift */,
 			);
 			path = "Configuration Families";
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				D8AC602E1F663A6F00FF54C8 /* NewFlowViewController.swift in Sources */,
 				D897F7D01F637D9900A52CBD /* DesignableUIView.swift in Sources */,
 				D8AC60221F65BE3400FF54C8 /* DesignView.swift in Sources */,
+				D809CE1F1F673123001CDE21 /* Thumbnails.swift in Sources */,
 				D86465161F64633800BE6C03 /* Projects.swift in Sources */,
 				D8AC60241F65C70100FF54C8 /* DesignViewController.swift in Sources */,
 				D8B55FB41F65A37300C25688 /* Saving.swift in Sources */,
