@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DesignViewControllerDelegate {
+class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var project: Project
     
@@ -70,10 +70,14 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let flow = project.flows[indexPath.row]
-
-        let designVC = DesignViewController(project: project, flow: flow, pageIndex: 0)
-        designVC.delegate = self
-        navigationController?.pushViewController(designVC, animated: true)
+        
+        let flowVC = FlowViewController(project: project, flow: flow)
+        flowVC.projectViewController = self
+        navigationController?.pushViewController(flowVC, animated: true)
+//
+//        let designVC = DesignViewController(project: project, flow: flow, pageIndex: 0)
+//        designVC.delegate = self
+//        navigationController?.pushViewController(designVC, animated: true)
     }
     
     @objc func didTapEdit() {
@@ -84,17 +88,17 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func didTapNewFlow() {
-        let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, name: "Page 1", layers: [])])
-        let newDesignVC = NewDesignViewController(project: project, flow: newFlow, pageIndex: 0)
-        newDesignVC.delegate = self
-        
-        let vc = UINavigationController(rootViewController: newDesignVC)
-        vc.modalPresentationStyle = .currentContext
-        vc.modalTransitionStyle = .coverVertical
-        present(vc, animated: true, completion: nil)
+//        let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, name: "Page 1", layers: [])])
+//        let newDesignVC = NewDesignViewController(project: project, flow: newFlow, pageIndex: 0)
+//        newDesignVC.delegate = self
+//
+//        let vc = UINavigationController(rootViewController: newDesignVC)
+//        vc.modalPresentationStyle = .currentContext
+//        vc.modalTransitionStyle = .coverVertical
+//        present(vc, animated: true, completion: nil)
     }
     
-    func didSave(flow: Flow) {
+    func saveProjectWithUpdated(_ flow: Flow) {
         let existingFlowIndex = project.flows.index(where: { $0.id == flow.id })
         if let existingFlowIndex = existingFlowIndex {
             project.flows[existingFlowIndex] = flow

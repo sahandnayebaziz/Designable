@@ -12,11 +12,23 @@ protocol DesignViewControllerDelegate: class {
     func didSave(flow: Flow)
 }
 
-class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormViewControllerDelegate, NewLinkViewControllerDelegate {
+protocol DesignViewControllerDataSource: class {
+    var project: Project { get set }
+    var flow: Flow { get set }
+}
+
+protocol DesignViewControllerInteractionDelegate: class {
+    func didTap(designViewController: DesignViewController)
+}
+
+class DesignViewController: UIViewController, DesignViewDelegate, NewLinkViewControllerDelegate, UIGestureRecognizerDelegate {
     
     var project: Project
     var flow: Flow
     let pageIndex: Int
+    
+    weak var dataSource: DesignViewControllerDataSource? = nil
+    weak var interactionDelegate: DesignViewControllerInteractionDelegate? = nil
     
     init(project: Project, flow: Flow, pageIndex: Int) {
         self.project = project
@@ -35,10 +47,6 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-        let saveItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didTapSave))
-        let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(didTapEdit))
-        navigationItem.setRightBarButtonItems([saveItem, editItem], animated: false)
         
         designView.delegate = self
         view.addSubview(designView)
@@ -59,8 +67,13 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
         title = "\(flow.pages[pageIndex].name) — \(flow.name)"
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
     func didTap(designView: DesignView) {
-        navigationController?.setNavigationBarHidden(!navigationController!.isNavigationBarHidden, animated: true)
+        interactionDelegate?.didTap(designViewController: self)
     }
     
     func didLongPress(designView: DesignView) {
@@ -71,34 +84,6 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
         present(vc, animated: true, completion: nil)
     }
     
-    @objc func didTapEdit() {
-        let vc = EditFlowFormViewController(flow: flow)
-        vc.delegate = self
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func didEditFlow(flow: Flow) {
-        self.flow = flow
-        save()
-    }
-    
-    @objc func didTapSave() {
-        let nav = navigationController!
-        
-        save()
-        if nav.viewControllers.count > 2 {
-            if let prevDesignVC = nav.viewControllers[nav.viewControllers.count - 2] as? DesignViewController {
-                prevDesignVC.project = project
-                prevDesignVC.flow = flow
-            }
-        }
-        nav.popViewController(animated: true)
-    }
-    
-    func save() {
-        flow.pages[pageIndex].layers = designView.layers
-        delegate?.didSave(flow: flow)
-    }
     
     func didSelectCreateNewPage() {
         let nav = navigationController!
@@ -106,6 +91,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
         flow.pages.append(Page(id: UUID().uuidString, name: "Page \(flow.pages.count + 1)", layers: []))
         let designVC = DesignViewController(project: project, flow: flow, pageIndex: flow.pages.count - 1)
         designVC.delegate = delegate
+        designVC.interactionDelegate = interactionDelegate
         nav.pushViewController(designVC, animated: true)
     }
     
@@ -119,11 +105,21 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
         }
         
         (designView.selection?.first as! UIViewDesignable).link = DesignableDescriptionLink(type: .push, toPageId: page.id, toFlowId: flow.id)
-        save()
+//        save()
         
         let designVC = DesignViewController(project: project, flow: flow, pageIndex: pageIndex)
         designVC.delegate = delegate
+        designVC.interactionDelegate = interactionDelegate
         navigationController?.pushViewController(designVC, animated: true)
+    }
+    
+    func saveCurrentPageDesign() {
+        guard let flowVC = dataSource else {
+            fatalError("Can't save without a data source.")
+        }
+        
+        let newLayers = designView.layers
+        flowVC.flow.pages[pageIndex].layers = newLayers
     }
     
 }

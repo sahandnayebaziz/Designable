@@ -19,13 +19,13 @@ class NewDesignViewController: DesignViewController {
     @objc func didTapCancel() {
         dismiss(animated: true, completion: nil)
     }
-    
-    override func didTapSave() {
-        save()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    override func didEditFlow(flow: Flow) {
-        self.flow = flow
-    }
+//    
+//    override func didTapSave() {
+//        save()
+//        dismiss(animated: true, completion: nil)
+//    }
+//    
+//    override func didEditFlow(flow: Flow) {
+//        self.flow = flow
+//    }
 }

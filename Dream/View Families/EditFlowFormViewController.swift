@@ -9,14 +9,10 @@
 import UIKit
 import Eureka
 
-protocol EditFlowFormViewControllerDelegate: class {
-    func didEditFlow(flow: Flow)
-}
-
 class EditFlowFormViewController: FormViewController {
     
     let flow: Flow
-    weak var delegate: EditFlowFormViewControllerDelegate? = nil
+    weak var flowViewController: FlowViewController? = nil
     
     init(flow: Flow) {
         self.flow = flow
@@ -65,7 +61,7 @@ class EditFlowFormViewController: FormViewController {
     @objc func didTapSave() {
         var editedFlow = flow
         editedFlow.name = form.values()["name"] as! String
-        delegate?.didEditFlow(flow: editedFlow)
+        flowViewController?.flow = editedFlow
         navigationController?.popViewController(animated: true)
     }
 
