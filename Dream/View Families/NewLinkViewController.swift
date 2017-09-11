@@ -9,7 +9,24 @@
 import UIKit
 import SnapKit
 
+enum NewLinkViewControllerActionType {
+    case newPage
+}
+
 class NewLinkViewController: UIViewController {
+    
+    var project: Project
+    var flow: Flow
+    
+    init(project: Project, flow: Flow) {
+        self.project = project
+        self.flow = flow
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,9 +34,7 @@ class NewLinkViewController: UIViewController {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.44)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapView)))
         
-        let vc = UIViewController()
-        vc.view.backgroundColor = .white
-        vc.title = "New Link to Page"
+        let vc = NewLinkTableViewController(project: project, flow: flow)
         let nav = UINavigationController(rootViewController: vc)
         addChildViewController(nav)
         view.addSubview(nav.view)
@@ -30,6 +45,7 @@ class NewLinkViewController: UIViewController {
             make.height.equalTo(250)
         }
         nav.didMove(toParentViewController: self)
+        
     }
     
     @objc func didTapView() {

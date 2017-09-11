@@ -62,7 +62,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
     }
     
     func didLongPress(designView: DesignView) {
-        let vc = NewLinkViewController()
+        let vc = NewLinkViewController(project: project, flow: flow)
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true, completion: nil)
