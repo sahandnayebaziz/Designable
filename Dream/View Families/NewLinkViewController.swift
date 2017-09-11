@@ -13,17 +13,12 @@ enum NewLinkViewControllerActionType {
     case newPage
 }
 
-protocol NewLinkViewControllerDelegate: class {
-    func didSelectCreateNewPage()
-    func didSelectLink(_ page: Page, _ flow: Flow)
-}
-
 class NewLinkViewController: UIViewController, NewLinkTableViewControllerDelegate {
     
     var project: Project
     var flow: Flow
     
-    weak var delegate: NewLinkViewControllerDelegate? = nil
+    weak var designViewController: DesignViewController? = nil
     
     init(project: Project, flow: Flow) {
         self.project = project
@@ -39,7 +34,7 @@ class NewLinkViewController: UIViewController, NewLinkTableViewControllerDelegat
         super.viewDidLoad()
         
         let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.44)
+//        backgroundView.backgroundColor = UIColor.white.withAlphaComponent(0.44)
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.size.equalTo(view)
@@ -68,13 +63,13 @@ class NewLinkViewController: UIViewController, NewLinkTableViewControllerDelegat
     
     func didSelectCreateNewPage() {
         dismiss(animated: true) { [ weak self ] in
-            self?.delegate?.didSelectCreateNewPage()
+            self?.designViewController?.didSelectCreateNewPage()
         }
     }
     
     func didSelectLink(_ page: Page) {
         dismiss(animated: true) { [ weak self ] in
-            self?.delegate?.didSelectLink(page, self!.flow)
+            self?.designViewController?.didSelectLink(page, self!.flow)
         }
     }
 

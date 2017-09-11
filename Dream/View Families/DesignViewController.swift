@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol DesignViewControllerDelegate: class {
-    func didSave(flow: Flow)
-}
-
 protocol DesignViewControllerDataSource: class {
     var project: Project { get set }
     var flow: Flow { get set }
@@ -21,7 +17,7 @@ protocol DesignViewControllerInteractionDelegate: class {
     func didTap(designViewController: DesignViewController)
 }
 
-class DesignViewController: UIViewController, DesignViewDelegate, NewLinkViewControllerDelegate, UIGestureRecognizerDelegate {
+class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecognizerDelegate {
     
     var project: Project
     var flow: Flow
@@ -29,6 +25,8 @@ class DesignViewController: UIViewController, DesignViewDelegate, NewLinkViewCon
     
     weak var dataSource: DesignViewControllerDataSource? = nil
     weak var interactionDelegate: DesignViewControllerInteractionDelegate? = nil
+    
+    var designView = DesignView()
     
     init(project: Project, flow: Flow, pageIndex: Int) {
         self.project = project
@@ -40,9 +38,6 @@ class DesignViewController: UIViewController, DesignViewDelegate, NewLinkViewCon
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    var designView = DesignView()
-    weak var delegate: DesignViewControllerDelegate? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +59,6 @@ class DesignViewController: UIViewController, DesignViewDelegate, NewLinkViewCon
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        title = "\(flow.pages[pageIndex].name) — \(flow.name)"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,44 +72,82 @@ class DesignViewController: UIViewController, DesignViewDelegate, NewLinkViewCon
     
     func didLongPress(designView: DesignView) {
         let vc = NewLinkViewController(project: project, flow: flow)
-        vc.delegate = self
-        vc.modalTransitionStyle = .crossDissolve
+        vc.designViewController = self
+        vc.modalTransitionStyle = .coverVertical
         vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true, completion: nil)
     }
     
-    
     func didSelectCreateNewPage() {
-        let nav = navigationController!
+        guard let flowVC = dataSource else {
+            fatalError("Can't work without a data source.")
+        }
         
-        flow.pages.append(Page(id: UUID().uuidString, name: "Page \(flow.pages.count + 1)", layers: []))
-        let designVC = DesignViewController(project: project, flow: flow, pageIndex: flow.pages.count - 1)
-        designVC.delegate = delegate
-        designVC.interactionDelegate = interactionDelegate
-        nav.pushViewController(designVC, animated: true)
-    }
-    
-    func didSelectLink(_ page: Page, _ flow: Flow) {
-        guard let _ = designView.selection?.first as? UIViewDesignable else {
+        guard let selected = designView.selection?.first as? UIViewDesignable else {
             fatalError("Trying to link a page without a selection.")
         }
         
-        guard let pageIndex = flow.pages.index(where: { $0.id == page.id }) else {
+        // prepare new flow version
+        var newFlow = flow
+        
+        // add new page
+        let newPage = Page(id: UUID().uuidString, name: "Page \(newFlow.pages.count + 1)", layers: [])
+        newFlow.pages.append(newPage)
+        
+        // link selection to new page
+        selected.link = DesignableDescriptionLink(type: .push, toPageId: newPage.id, toFlowId: flow.id)
+        
+        // save current layers to new flow version
+        newFlow.pages[pageIndex].layers = designView.layers
+        
+        // send new flow version to parent view controller and self
+        flowVC.flow = newFlow
+        self.flow = newFlow
+        
+        // push to new view controller
+        pushNewDesignViewController(atPageIndex: flow.pages.count - 1)
+    }
+    
+    func didSelectLink(_ page: Page, _ flow: Flow) {
+        guard let flowVC = dataSource else {
+            fatalError("Can't work without a data source.")
+        }
+        
+        guard let selected = designView.selection?.first as? UIViewDesignable else {
+            fatalError("Trying to link a page without a selection.")
+        }
+        
+        guard let linkingToPageIndex = flow.pages.index(where: { $0.id == page.id }) else {
             fatalError("Trying to link to a page that is not in the flow.")
         }
         
-        (designView.selection?.first as! UIViewDesignable).link = DesignableDescriptionLink(type: .push, toPageId: page.id, toFlowId: flow.id)
-//        save()
+        // prepare new flow version
+        var newFlow = flow
         
-        let designVC = DesignViewController(project: project, flow: flow, pageIndex: pageIndex)
-        designVC.delegate = delegate
+        // link selection to page
+        selected.link = DesignableDescriptionLink(type: .push, toPageId: page.id, toFlowId: flow.id)
+        
+        // save current layers to new flow version
+        newFlow.pages[pageIndex].layers = designView.layers
+        
+        // send new flow version to parent view controller and self
+        flowVC.flow = newFlow
+        self.flow = newFlow
+        
+        // push to new view controller
+        pushNewDesignViewController(atPageIndex: linkingToPageIndex)
+    }
+    
+    func pushNewDesignViewController(atPageIndex index: Int) {
+        let designVC = DesignViewController(project: project, flow: flow, pageIndex: index)
         designVC.interactionDelegate = interactionDelegate
+        designVC.dataSource = dataSource
         navigationController?.pushViewController(designVC, animated: true)
     }
     
     func saveCurrentPageDesign() {
         guard let flowVC = dataSource else {
-            fatalError("Can't save without a data source.")
+            fatalError("Can't work without a data source.")
         }
         
         let newLayers = designView.layers

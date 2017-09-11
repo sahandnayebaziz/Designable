@@ -35,6 +35,7 @@ class FlowViewController: UIViewController, DesignViewControllerDataSource, Desi
         
         let vc = DesignViewController(project: project, flow: flow, pageIndex: 0)
         vc.interactionDelegate = self
+        vc.dataSource = self
         
         navContainingDesignVCs = UINavigationController(rootViewController: vc)
         addChildViewController(navContainingDesignVCs)

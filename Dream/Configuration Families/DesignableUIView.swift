@@ -20,6 +20,7 @@ extension DesignableDescription {
             if let fillColor = style.color {
                 view.backgroundColor = UIColor(red: fillColor.red, green: fillColor.green, blue: fillColor.blue, alpha: fillColor.alpha)
             }
+            view.link = link
             return view
         }
     }
