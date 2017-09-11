@@ -14,6 +14,7 @@ struct Page: Codable {
 }
 
 struct Flow: Codable {
+    var id: String
     var name: String
     var pages: [Page]
 }

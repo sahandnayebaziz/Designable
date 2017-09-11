@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewDesignViewControllerDelegate {
+class ProjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DesignViewControllerDelegate {
     
     var project: Project
     
@@ -68,6 +68,17 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let flow = project.flows[indexPath.row]
+        
+        let designVC = DesignViewController(flow: flow)
+        designVC.delegate = self
+        let vc = UINavigationController(rootViewController: designVC)
+        vc.modalPresentationStyle = .currentContext
+        vc.modalTransitionStyle = .coverVertical
+        present(vc, animated: true, completion: nil)
+    }
+    
     @objc func didTapEdit() {
         let vc = UINavigationController(rootViewController: EditProjectFormViewController(project: project))
         vc.modalPresentationStyle = .currentContext
@@ -76,7 +87,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func didTapNewFlow() {
-        let newDesignVC = NewDesignViewController()
+        let newDesignVC = DesignViewController(flow: nil)
         newDesignVC.delegate = self
         let vc = UINavigationController(rootViewController: newDesignVC)
         vc.modalPresentationStyle = .currentContext
@@ -84,8 +95,14 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         present(vc, animated: true, completion: nil)
     }
     
-    func didCreateNewFlow(flow: Flow) {
-        project.flows.append(flow)
+    func didSave(flow: Flow) {
+        let existingFlowIndex = project.flows.index(where: { $0.id == flow.id })
+        if let existingFlowIndex = existingFlowIndex {
+            project.flows[existingFlowIndex] = flow
+        } else {
+            project.flows.insert(flow, at: 0)
+        }
+        
         Dream.save(project)
     }
 

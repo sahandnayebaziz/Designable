@@ -11,6 +11,7 @@ import SnapKit
 
 protocol DesignViewDelegate: class {
     func didTap(designView: DesignView)
+    func didLongPress(designView: DesignView)
 }
 
 class DesignView: UIView, UIGestureRecognizerDelegate {
@@ -45,7 +46,9 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(did(pan:)))
         let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(did(pinch:)))
         
-        [singleTapGestureRecognizer, doubleTapGestureRecognizer, twoFingerDoubleTapRecognizer, threeFingerDoubleTapRecognizer, panGestureRecognizer, pinchGestureRecognizer].forEach { gestureRecognizer in
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(did(longPress:)))
+        
+        [singleTapGestureRecognizer, doubleTapGestureRecognizer, twoFingerDoubleTapRecognizer, threeFingerDoubleTapRecognizer, panGestureRecognizer, pinchGestureRecognizer, longPressGestureRecognizer].forEach { gestureRecognizer in
             gestureRecognizer.delegate = self
             addGestureRecognizer(gestureRecognizer)
         }
@@ -219,6 +222,10 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
+    @objc func did(longPress: UILongPressGestureRecognizer) {
+        delegate?.didLongPress(designView: self)
+    }
+    
     func gestureDidBegin(withViews views: [UIViewDesignable], from recognizer: UIGestureRecognizer) {
         if activeGestureRecognizers.isEmpty {
             selection = views as? [UIView]
@@ -246,9 +253,12 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     func gestureDidEnd(recognizer: UIGestureRecognizer) {
         activeGestureRecognizers.remove(recognizer)
         
-        if activeGestureRecognizers.isEmpty {
-            selection = nil
+        guard activeGestureRecognizers.isEmpty, let selection = selection else {
+            return
         }
+        
+        (selection as! [UIViewDesignable]).forEach { $0.preGesturePositionDescription = nil }
+        self.selection = nil
     }
     
     func remove(elements: [UIViewDesignable]) {
