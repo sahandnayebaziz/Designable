@@ -74,10 +74,6 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         let flowVC = FlowViewController(project: project, flow: flow)
         flowVC.projectViewController = self
         navigationController?.pushViewController(flowVC, animated: true)
-//
-//        let designVC = DesignViewController(project: project, flow: flow, pageIndex: 0)
-//        designVC.delegate = self
-//        navigationController?.pushViewController(designVC, animated: true)
     }
     
     @objc func didTapEdit() {
@@ -88,14 +84,13 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func didTapNewFlow() {
-//        let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, name: "Page 1", layers: [])])
-//        let newDesignVC = NewDesignViewController(project: project, flow: newFlow, pageIndex: 0)
-//        newDesignVC.delegate = self
-//
-//        let vc = UINavigationController(rootViewController: newDesignVC)
-//        vc.modalPresentationStyle = .currentContext
-//        vc.modalTransitionStyle = .coverVertical
-//        present(vc, animated: true, completion: nil)
+        let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, name: "Page 1", layers: [])])
+        
+        let flowVC = NewFlowViewController(project: project, flow: newFlow)
+        flowVC.projectViewController = self
+        
+        let nav = UINavigationController(rootViewController: flowVC)
+        present(nav, animated: true, completion: nil)
     }
     
     func saveProjectWithUpdated(_ flow: Flow) {

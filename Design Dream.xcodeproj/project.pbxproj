@@ -21,7 +21,7 @@
 		D8AC60261F6628C500FF54C8 /* EditFlowFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC60251F6628C500FF54C8 /* EditFlowFormViewController.swift */; };
 		D8AC60281F66330B00FF54C8 /* NewLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC60271F66330B00FF54C8 /* NewLinkViewController.swift */; };
 		D8AC602A1F66377700FF54C8 /* FlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC60291F66377700FF54C8 /* FlowViewController.swift */; };
-		D8AC602E1F663A6F00FF54C8 /* NewDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC602D1F663A6F00FF54C8 /* NewDesignViewController.swift */; };
+		D8AC602E1F663A6F00FF54C8 /* NewFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC602D1F663A6F00FF54C8 /* NewFlowViewController.swift */; };
 		D8B55FB41F65A37300C25688 /* Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B55FB31F65A37300C25688 /* Saving.swift */; };
 		D8B55FB61F65A80400C25688 /* EditProjectFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B55FB51F65A80400C25688 /* EditProjectFormViewController.swift */; };
 		D8B55FB81F65AD4800C25688 /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */; };
@@ -70,7 +70,7 @@
 		D8AC60251F6628C500FF54C8 /* EditFlowFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFlowFormViewController.swift; sourceTree = "<group>"; };
 		D8AC60271F66330B00FF54C8 /* NewLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLinkViewController.swift; sourceTree = "<group>"; };
 		D8AC60291F66377700FF54C8 /* FlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowViewController.swift; sourceTree = "<group>"; };
-		D8AC602D1F663A6F00FF54C8 /* NewDesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDesignViewController.swift; sourceTree = "<group>"; };
+		D8AC602D1F663A6F00FF54C8 /* NewFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFlowViewController.swift; sourceTree = "<group>"; };
 		D8B55FB31F65A37300C25688 /* Saving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saving.swift; sourceTree = "<group>"; };
 		D8B55FB51F65A80400C25688 /* EditProjectFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectFormViewController.swift; sourceTree = "<group>"; };
 		D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewController.swift; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 				D864651D1F6468F700BE6C03 /* NewProjectFormViewController.swift */,
 				D8C6E2431F622F8F0044CADE /* ProjectsViewController.swift */,
 				D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */,
-				D8AC602D1F663A6F00FF54C8 /* NewDesignViewController.swift */,
+				D8AC602D1F663A6F00FF54C8 /* NewFlowViewController.swift */,
 			);
 			path = "View Families";
 			sourceTree = "<group>";
@@ -525,7 +525,7 @@
 				D8B55FB61F65A80400C25688 /* EditProjectFormViewController.swift in Sources */,
 				D86465181F6463BD00BE6C03 /* Disk.swift in Sources */,
 				D8AC60281F66330B00FF54C8 /* NewLinkViewController.swift in Sources */,
-				D8AC602E1F663A6F00FF54C8 /* NewDesignViewController.swift in Sources */,
+				D8AC602E1F663A6F00FF54C8 /* NewFlowViewController.swift in Sources */,
 				D897F7D01F637D9900A52CBD /* DesignableUIView.swift in Sources */,
 				D8AC60221F65BE3400FF54C8 /* DesignView.swift in Sources */,
 				D86465161F64633800BE6C03 /* Projects.swift in Sources */,

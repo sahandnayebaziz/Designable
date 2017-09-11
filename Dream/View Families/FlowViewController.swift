@@ -46,9 +46,9 @@ class FlowViewController: UIViewController, DesignViewControllerDataSource, Desi
         navContainingDesignVCs.didMove(toParentViewController: self)
         navContainingDesignVCs.setNavigationBarHidden(true, animated: false)
         
-        DispatchQueue.main.asyncAfter(deadline:  DispatchTime.now() + 1) { [ weak self ] in
-            self?.navigationController?.setNavigationBarHidden(!self!.navigationController!.isNavigationBarHidden, animated: true)
-        }
+//        DispatchQueue.main.asyncAfter(deadline:  DispatchTime.now() + 1) { [ weak self ] in
+//            self?.navigationController?.setNavigationBarHidden(!self!.navigationController!.isNavigationBarHidden, animated: true)
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,7 +58,10 @@ class FlowViewController: UIViewController, DesignViewControllerDataSource, Desi
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        saveToProjectViewController()
+    }
+    
+    func saveToProjectViewController() {
         guard let allDesignVCs = navContainingDesignVCs.viewControllers as? [DesignViewController] else {
             fatalError("Unexpected VC type in container navigation stack.")
         }

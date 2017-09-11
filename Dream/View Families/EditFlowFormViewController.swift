@@ -45,6 +45,11 @@ class EditFlowFormViewController: FormViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        form.rowBy(tag: "name")?.baseCell.cellBecomeFirstResponder()
+    }
+    
     func cellWasUpdated() {
         updateSaveButtonStatus()
     }
