@@ -13,10 +13,17 @@ enum NewLinkViewControllerActionType {
     case newPage
 }
 
-class NewLinkViewController: UIViewController {
+protocol NewLinkViewControllerDelegate: class {
+    func didSelectCreateNewPage()
+    func didSelectLink(_ page: Page, _ flow: Flow)
+}
+
+class NewLinkViewController: UIViewController, NewLinkTableViewControllerDelegate {
     
     var project: Project
     var flow: Flow
+    
+    weak var delegate: NewLinkViewControllerDelegate? = nil
     
     init(project: Project, flow: Flow) {
         self.project = project
@@ -31,10 +38,17 @@ class NewLinkViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.44)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapView)))
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.44)
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
+            make.size.equalTo(view)
+            make.center.equalTo(view)
+        }
+        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapView)))
         
         let vc = NewLinkTableViewController(project: project, flow: flow)
+        vc.delegate = self
         let nav = UINavigationController(rootViewController: vc)
         addChildViewController(nav)
         view.addSubview(nav.view)
@@ -50,6 +64,18 @@ class NewLinkViewController: UIViewController {
     
     @objc func didTapView() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func didSelectCreateNewPage() {
+        dismiss(animated: true) { [ weak self ] in
+            self?.delegate?.didSelectCreateNewPage()
+        }
+    }
+    
+    func didSelectLink(_ page: Page) {
+        dismiss(animated: true) { [ weak self ] in
+            self?.delegate?.didSelectLink(page, self!.flow)
+        }
     }
 
 }

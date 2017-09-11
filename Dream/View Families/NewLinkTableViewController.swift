@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol NewLinkTableViewControllerDelegate: class {
+    func didSelectCreateNewPage()
+    func didSelectLink(_ page: Page)
+}
+
 class NewLinkTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var project: Project
@@ -16,6 +21,8 @@ class NewLinkTableViewController: UIViewController, UITableViewDataSource, UITab
     let actions: [NewLinkViewControllerActionType] = [.newPage]
     
     let tableView = UITableView()
+    
+    weak var delegate: NewLinkTableViewControllerDelegate? = nil
     
     init(project: Project, flow: Flow) {
         self.project = project
@@ -66,5 +73,18 @@ class NewLinkTableViewController: UIViewController, UITableViewDataSource, UITab
             cell.textLabel?.text = flowForRow.name
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            let action = actions[indexPath.row]
+            switch action {
+            case .newPage:
+                delegate?.didSelectCreateNewPage()
+            }
+        } else if indexPath.section == 1 {
+            let page = flow.pages[indexPath.row]
+            delegate?.didSelectLink(page)
+        }
     }
 }

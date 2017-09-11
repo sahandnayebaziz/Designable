@@ -12,14 +12,7 @@ enum DesignableUIViewType: String, Codable {
     case rectangle
 }
 
-struct DesignableDescription: Codable {
-    var type: DesignableUIViewType
-    var x: CGFloat
-    var y: CGFloat
-    var width: CGFloat
-    var height: CGFloat
-    var style: DesignableDescriptionAttributesStyle
-    
+extension DesignableDescription {
     func toUIViewDesignable() -> UIViewDesignable {
         switch type {
         case .rectangle:
@@ -35,6 +28,7 @@ struct DesignableDescription: Codable {
 protocol UIViewDesignable: class {
     var designableDescription: DesignableDescription { get }
     var preGesturePositionDescription: DesignablePreGestureDescription? { get set }
+    var link: DesignableDescriptionLink? { get set }
 }
 
 struct DesignableDescriptionAttributesStyle: Codable {
@@ -46,4 +40,14 @@ struct DesignableDescriptionAttributesStyle: Codable {
         var blue: CGFloat
         var alpha: CGFloat
     }
+}
+
+enum LinkType: String, Codable {
+    case push
+}
+
+struct DesignableDescriptionLink: Codable {
+    var type: LinkType
+    var toPageId: String?
+    var toFlowId: String?
 }

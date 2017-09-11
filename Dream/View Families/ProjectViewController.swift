@@ -71,7 +71,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let flow = project.flows[indexPath.row]
 
-        let designVC = DesignViewController(project: project, flow: flow)
+        let designVC = DesignViewController(project: project, flow: flow, pageIndex: 0)
         designVC.delegate = self
         navigationController?.pushViewController(designVC, animated: true)
     }
@@ -84,8 +84,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func didTapNewFlow() {
-        let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, name: "Untitled", layers: [])])
-        let newDesignVC = NewDesignViewController(project: project, flow: newFlow)
+        let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, name: "Page 1", layers: [])])
+        let newDesignVC = NewDesignViewController(project: project, flow: newFlow, pageIndex: 0)
         newDesignVC.delegate = self
         
         let vc = UINavigationController(rootViewController: newDesignVC)

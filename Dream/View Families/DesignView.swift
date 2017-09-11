@@ -61,6 +61,9 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     var selection: [UIView]? = nil {
         didSet {
             if let selection = selection {
+                elementsView.subviews.forEach { v in
+                    v.layer.borderWidth = 0
+                }
                 selection.forEach { v in
                     v.layer.borderWidth = 3
                     v.layer.borderColor = tintColor.cgColor
@@ -223,7 +226,27 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     }
     
     @objc func did(longPress: UILongPressGestureRecognizer) {
-        delegate?.didLongPress(designView: self)
+        switch longPress.state {
+        case .began:
+            let point = longPress.location(in: elementsView)
+            
+            let intersections = elementsView.subviews.filter { subview in
+                return subview.layer.contains(elementsView.convert(point, to: subview))
+            }
+            
+            guard !intersections.isEmpty else {
+                return
+            }
+            
+            longPress.isEnabled = false
+            
+            selection = intersections
+            delegate?.didLongPress(designView: self)
+            
+            longPress.isEnabled = true
+        default:
+            break
+        }
     }
     
     func gestureDidBegin(withViews views: [UIViewDesignable], from recognizer: UIGestureRecognizer) {
@@ -314,6 +337,7 @@ struct DesignablePreGestureDescription {
 class DesignableUIViewRectangle: UIView, UIViewDesignable {
     
     var preGesturePositionDescription: DesignablePreGestureDescription? = nil
+    var link: DesignableDescriptionLink? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -335,10 +359,10 @@ class DesignableUIViewRectangle: UIView, UIViewDesignable {
         
         if isInActiveGesture {
             let pre = preGesturePositionDescription!
-            let desc =  DesignableDescription(type: .rectangle, x: pre.center.x - (pre.width / 2), y: pre.center.y - (pre.height / 2), width: pre.width, height: pre.height, style: styleAttributes)
+            let desc =  DesignableDescription(type: .rectangle, x: pre.center.x - (pre.width / 2), y: pre.center.y - (pre.height / 2), width: pre.width, height: pre.height, style: styleAttributes, link: link)
             return desc
         } else {
-            return DesignableDescription(type: .rectangle, x: frame.minX, y: frame.minY, width: frame.width, height: frame.height, style: styleAttributes)
+            return DesignableDescription(type: .rectangle, x: frame.minX, y: frame.minY, width: frame.width, height: frame.height, style: styleAttributes, link: link)
         }
     }
 }

@@ -12,14 +12,16 @@ protocol DesignViewControllerDelegate: class {
     func didSave(flow: Flow)
 }
 
-class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormViewControllerDelegate {
+class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormViewControllerDelegate, NewLinkViewControllerDelegate {
     
     var project: Project
     var flow: Flow
+    let pageIndex: Int
     
-    init(project: Project, flow: Flow) {
+    init(project: Project, flow: Flow, pageIndex: Int) {
         self.project = project
         self.flow = flow
+        self.pageIndex = pageIndex
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,7 +47,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
             make.center.equalTo(view)
         }
         
-        flow.pages[0].layers.forEach { l in
+        flow.pages[pageIndex].layers.forEach { l in
             let view = l.toUIViewDesignable() as! UIView
             designView.elementsView.addSubview(view)
             view.frame = CGRect(x: l.x, y: l.y, width: l.width, height: l.height)            
@@ -54,7 +56,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        title = flow.name
+        title = "\(flow.pages[pageIndex].name) — \(flow.name)"
     }
     
     func didTap(designView: DesignView) {
@@ -63,6 +65,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
     
     func didLongPress(designView: DesignView) {
         let vc = NewLinkViewController(project: project, flow: flow)
+        vc.delegate = self
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true, completion: nil)
@@ -80,13 +83,47 @@ class DesignViewController: UIViewController, DesignViewDelegate, EditFlowFormVi
     }
     
     @objc func didTapSave() {
+        let nav = navigationController!
+        
         save()
-        navigationController?.popViewController(animated: true)
+        if nav.viewControllers.count > 2 {
+            if let prevDesignVC = nav.viewControllers[nav.viewControllers.count - 2] as? DesignViewController {
+                prevDesignVC.project = project
+                prevDesignVC.flow = flow
+            }
+        }
+        nav.popViewController(animated: true)
     }
     
     func save() {
-        flow.pages[0].layers = designView.layers
+        flow.pages[pageIndex].layers = designView.layers
         delegate?.didSave(flow: flow)
+    }
+    
+    func didSelectCreateNewPage() {
+        let nav = navigationController!
+        
+        flow.pages.append(Page(id: UUID().uuidString, name: "Page \(flow.pages.count + 1)", layers: []))
+        let designVC = DesignViewController(project: project, flow: flow, pageIndex: flow.pages.count - 1)
+        designVC.delegate = delegate
+        nav.pushViewController(designVC, animated: true)
+    }
+    
+    func didSelectLink(_ page: Page, _ flow: Flow) {
+        guard let _ = designView.selection?.first as? UIViewDesignable else {
+            fatalError("Trying to link a page without a selection.")
+        }
+        
+        guard let pageIndex = flow.pages.index(where: { $0.id == page.id }) else {
+            fatalError("Trying to link to a page that is not in the flow.")
+        }
+        
+        (designView.selection?.first as! UIViewDesignable).link = DesignableDescriptionLink(type: .push, toPageId: page.id, toFlowId: flow.id)
+        save()
+        
+        let designVC = DesignViewController(project: project, flow: flow, pageIndex: pageIndex)
+        designVC.delegate = delegate
+        navigationController?.pushViewController(designVC, animated: true)
     }
     
 }

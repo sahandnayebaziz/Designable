@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import UIKit
 
-struct Page: Codable {
-    var id: String
+struct Project: Codable {
     var name: String
-    var layers: [DesignableDescription]
+    var description: String
+    var flows: [Flow]
 }
 
 struct Flow: Codable {
@@ -20,8 +21,21 @@ struct Flow: Codable {
     var pages: [Page]
 }
 
-struct Project: Codable {
+struct Page: Codable {
+    var id: String
     var name: String
-    var description: String
-    var flows: [Flow]
+    var layers: [DesignableDescription]
 }
+
+struct DesignableDescription: Codable {
+    var type: DesignableUIViewType
+    var x: CGFloat
+    var y: CGFloat
+    var width: CGFloat
+    var height: CGFloat
+    var style: DesignableDescriptionAttributesStyle
+    var link: DesignableDescriptionLink?
+}
+
+
+

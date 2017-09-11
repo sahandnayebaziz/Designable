@@ -21,6 +21,7 @@
                 },
                 "link": {
                   "type": "push",
+                  "toFlowId": "294E7BB5-40AA-4AFB-94B9-BC0195B6FC3F",
                   "toPageId": "294E7BB5-40AA-4AFB-94B9-BC0195B6FC3F"
                 }
               }
