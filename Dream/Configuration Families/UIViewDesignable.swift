@@ -24,6 +24,7 @@ extension DesignableDescription {
         switch type {
         case .rectangle:
             let view = UIViewDesignableRectangleUIView()
+            view.frame = CGRect(x: x, y: y, width: width, height: height)
             if let fillColor = style.color {
                 view.backgroundColor = UIColor(red: fillColor.red, green: fillColor.green, blue: fillColor.blue, alpha: fillColor.alpha)
             }
@@ -44,5 +45,16 @@ extension UIViewDesignable {
         }
         
         (self as! UIView).backgroundColor = toColor
+    }
+    
+    func inspectableDuplicate(inView designView: DesignView, recordedIn undoManager: UndoManager) {
+        let description = designableDescription
+        
+        guard let newView = description.toUIViewDesignable() as? UIView else {
+            fatalError("Couldn't convert description to UIView base")
+        }
+        
+        designView.elementsView.addSubview(newView)
+        newView.center = designView.elementsView.center
     }
 }

@@ -39,5 +39,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To allow you to add images to your designs.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To allow you to add images to your designs.</string>
 </dict>
 </plist>

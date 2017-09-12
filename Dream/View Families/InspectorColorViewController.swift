@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InspectorColorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class InspectorColorViewController: InspectorViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     private static func getColorFrom(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
         return UIColor(displayP3Red: red/255, green: green/255, blue: blue/255, alpha: 1)
@@ -29,13 +29,11 @@ class InspectorColorViewController: UIViewController, UICollectionViewDataSource
     ]
     var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    weak var inspectorMenuController: InspectorMenuController? = nil
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Color"
         
-        view.backgroundColor = UIColor(displayP3Red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        view.backgroundColor = Dream.Colors.inspectorLightGray
         
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 80, height: 110)

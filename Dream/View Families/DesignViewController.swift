@@ -54,8 +54,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         
         flow.pages[pageIndex].layers.forEach { l in
             let view = l.toUIViewDesignable() as! UIView
-            designView.elementsView.addSubview(view)
-            view.frame = CGRect(x: l.x, y: l.y, width: l.width, height: l.height)            
+            designView.elementsView.addSubview(view)      
         }
         
         let vc = inspectorMenuVC

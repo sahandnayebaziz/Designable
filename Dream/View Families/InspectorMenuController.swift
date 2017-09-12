@@ -19,7 +19,7 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(displayP3Red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        view.backgroundColor = Dream.Colors.inspectorLightGray
         
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 80, height: 110)
@@ -39,7 +39,7 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(InspectorMenuAttributeCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.backgroundColor = UIColor(displayP3Red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        collectionView.backgroundColor = Dream.Colors.inspectorLightGray
         
         navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDone)), animated: false)
     }
@@ -77,6 +77,17 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
             navigationController?.pushViewController(vc, animated: true)
         case .link:
             break
+        case .image:
+            let vc = InspectorImageViewController()
+            vc.inspectorMenuController = self
+            navigationController?.pushViewController(vc, animated: true)
+        case .duplicate:
+            guard let selected = designViewController?.designView.selection?.first as? UIViewDesignable else {
+                fatalError("No selection")
+                return
+            }
+            
+            selected.inspectableDuplicate(inView: designViewController!.designView, recordedIn: designViewController!.designView.designUndoManager)
         }
     }
 }
@@ -106,6 +117,21 @@ class InspectorMenuAttributeCell: UICollectionViewCell {
         label!.text = attribute.menuOptionTitle
         iconView!.subviews.forEach { $0.removeFromSuperview() }
         attribute.setIconIn(view: iconView!, selection: inspectorMenuController!.selection!)
+    }
+    
+}
+
+class InspectorViewController: UIViewController {
+    
+    weak var inspectorMenuController: InspectorMenuController? = nil
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDone)), animated: false)
+    }
+    
+    @objc func didTapDone() {
+        inspectorMenuController?.didTapDone()
     }
     
 }

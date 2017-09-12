@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 enum UIViewDesignableInspectableAttributeType: String {
-    case fillColor, link
+    case fillColor, link, image, duplicate
     
     var menuOptionTitle: String {
         switch self {
@@ -18,6 +18,10 @@ enum UIViewDesignableInspectableAttributeType: String {
             return "Color"
         case .link:
             return "Link to Page"
+        case .image:
+            return "Add Image"
+        case .duplicate:
+            return "Duplicate"
         }
     }
     
@@ -40,8 +44,11 @@ enum UIViewDesignableInspectableAttributeType: String {
             circleView.layer.borderColor = UIColor.lightGray.cgColor
             circleView.layer.borderWidth = 1
             circleView.clipsToBounds = true
-
         case .link:
+            break
+        case .image:
+            break
+        case .duplicate:
             break
         }
     }
@@ -52,7 +59,7 @@ extension UIViewDesignable {
     var inspectableAttributeTypes: [UIViewDesignableInspectableAttributeType] {
         switch type {
         case .rectangle:
-            return [.fillColor, .link]
+            return [.fillColor, .link, .image, .duplicate]
         }
     }
     

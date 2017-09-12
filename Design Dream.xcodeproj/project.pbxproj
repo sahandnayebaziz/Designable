@@ -21,6 +21,8 @@
 		D86E1ACF1F6765840066F3E3 /* UIViewDesignableInspectables.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86E1ACE1F6765840066F3E3 /* UIViewDesignableInspectables.swift */; };
 		D86E1AD11F6767A30066F3E3 /* InspectorMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86E1AD01F6767A30066F3E3 /* InspectorMenuController.swift */; };
 		D86E1AD31F679C1B0066F3E3 /* InspectorColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86E1AD21F679C1B0066F3E3 /* InspectorColorViewController.swift */; };
+		D86E1AD51F67C7620066F3E3 /* InspectorImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86E1AD41F67C7620066F3E3 /* InspectorImageViewController.swift */; };
+		D86E1AD71F67CA880066F3E3 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86E1AD61F67CA880066F3E3 /* Colors.swift */; };
 		D897F7D01F637D9900A52CBD /* UIViewDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897F7CF1F637D9900A52CBD /* UIViewDesignable.swift */; };
 		D8AC60221F65BE3400FF54C8 /* DesignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC60211F65BE3400FF54C8 /* DesignView.swift */; };
 		D8AC60241F65C70100FF54C8 /* DesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC60231F65C70100FF54C8 /* DesignViewController.swift */; };
@@ -76,6 +78,8 @@
 		D86E1ACE1F6765840066F3E3 /* UIViewDesignableInspectables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewDesignableInspectables.swift; sourceTree = "<group>"; };
 		D86E1AD01F6767A30066F3E3 /* InspectorMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorMenuController.swift; sourceTree = "<group>"; };
 		D86E1AD21F679C1B0066F3E3 /* InspectorColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorColorViewController.swift; sourceTree = "<group>"; };
+		D86E1AD41F67C7620066F3E3 /* InspectorImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorImageViewController.swift; sourceTree = "<group>"; };
+		D86E1AD61F67CA880066F3E3 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D897F7CF1F637D9900A52CBD /* UIViewDesignable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewDesignable.swift; sourceTree = "<group>"; };
 		D8AC60211F65BE3400FF54C8 /* DesignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignView.swift; sourceTree = "<group>"; };
 		D8AC60231F65C70100FF54C8 /* DesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 		D86465141F64631700BE6C03 /* Configuration Families */ = {
 			isa = PBXGroup;
 			children = (
+				D86E1AD61F67CA880066F3E3 /* Colors.swift */,
 				D86E1ACC1F67654D0066F3E3 /* DesignableDescriptionAttributes.swift */,
 				D86465171F6463BD00BE6C03 /* Disk.swift */,
 				D86465191F6463D100BE6C03 /* Dream.swift */,
@@ -178,11 +183,12 @@
 				D8AC60251F6628C500FF54C8 /* EditFlowFormViewController.swift */,
 				D8B55FB51F65A80400C25688 /* EditProjectFormViewController.swift */,
 				D8AC60291F66377700FF54C8 /* FlowViewController.swift */,
+				D86E1AD21F679C1B0066F3E3 /* InspectorColorViewController.swift */,
+				D86E1AD41F67C7620066F3E3 /* InspectorImageViewController.swift */,
+				D86E1AD01F6767A30066F3E3 /* InspectorMenuController.swift */,
 				D8AC602D1F663A6F00FF54C8 /* NewFlowViewController.swift */,
 				D854BC2F1F6643780099E9AB /* NewLinkTableViewController.swift */,
 				D8AC60271F66330B00FF54C8 /* NewLinkViewController.swift */,
-				D86E1AD01F6767A30066F3E3 /* InspectorMenuController.swift */,
-				D86E1AD21F679C1B0066F3E3 /* InspectorColorViewController.swift */,
 				D864651D1F6468F700BE6C03 /* NewProjectFormViewController.swift */,
 				D8C6E2431F622F8F0044CADE /* ProjectsViewController.swift */,
 				D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */,
@@ -559,6 +565,8 @@
 				D8B55FB81F65AD4800C25688 /* ProjectViewController.swift in Sources */,
 				D864651E1F6468F700BE6C03 /* NewProjectFormViewController.swift in Sources */,
 				D8C6E2441F622F8F0044CADE /* ProjectsViewController.swift in Sources */,
+				D86E1AD71F67CA880066F3E3 /* Colors.swift in Sources */,
+				D86E1AD51F67C7620066F3E3 /* InspectorImageViewController.swift in Sources */,
 				D8AC60261F6628C500FF54C8 /* EditFlowFormViewController.swift in Sources */,
 				D8C6E2421F622F8F0044CADE /* AppDelegate.swift in Sources */,
 				D86E1ACF1F6765840066F3E3 /* UIViewDesignableInspectables.swift in Sources */,
