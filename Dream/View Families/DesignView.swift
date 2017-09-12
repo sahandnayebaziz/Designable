@@ -14,6 +14,16 @@ protocol DesignViewDelegate: class {
     func didLongPress(designView: DesignView)
 }
 
+struct DesignablePreGestureDescription {
+    let center: CGPoint
+    let width: CGFloat
+    let height: CGFloat
+}
+
+enum PinchDirectionHint {
+    case vertical, horizontal, diagonal
+}
+
 class DesignView: UIView, UIGestureRecognizerDelegate {
     
     let elementsView = UIView()
@@ -325,48 +335,4 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     var layers: [DesignableDescription] {
         return (elementsView.subviews as! [UIViewDesignable]).map { $0.designableDescription }
     }
-}
-
-
-struct DesignablePreGestureDescription {
-    let center: CGPoint
-    let width: CGFloat
-    let height: CGFloat
-}
-
-class DesignableUIViewRectangle: UIView, UIViewDesignable {
-    
-    var preGesturePositionDescription: DesignablePreGestureDescription? = nil
-    var link: DesignableDescriptionLink? = nil
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .lightGray
-        alpha = 0.75
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    var designableDescription: DesignableDescription {
-        let isInActiveGesture = preGesturePositionDescription != nil
-        
-        let fillColor = CIColor(color: backgroundColor!)
-        
-        let fillColorAttribute = DesignableDescriptionAttributesStyle.FillColor(red: fillColor.red, green: fillColor.green, blue: fillColor.blue, alpha: fillColor.alpha)
-        let styleAttributes = DesignableDescriptionAttributesStyle(color: fillColorAttribute)
-        
-        if isInActiveGesture {
-            let pre = preGesturePositionDescription!
-            let desc =  DesignableDescription(type: .rectangle, x: pre.center.x - (pre.width / 2), y: pre.center.y - (pre.height / 2), width: pre.width, height: pre.height, style: styleAttributes, link: link)
-            return desc
-        } else {
-            return DesignableDescription(type: .rectangle, x: frame.minX, y: frame.minY, width: frame.width, height: frame.height, style: styleAttributes, link: link)
-        }
-    }
-}
-
-enum PinchDirectionHint {
-    case vertical, horizontal, diagonal
 }
