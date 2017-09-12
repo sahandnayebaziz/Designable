@@ -83,7 +83,15 @@ class InspectorColorViewController: UIViewController, UICollectionViewDataSource
             fatalError("no selected")
         }
         
-        selected.inspectableChangeFillColor(from: (selected as! UIView).backgroundColor!, toColor: colors[indexPath.row], recordedIn: inspectorMenuController!.designViewController!.designView.designUndoManager)
+        guard let selectedAsUIView = selected as? UIView else {
+            fatalError("Selected is not a UIView")
+        }
+        
+        guard let undoManager = inspectorMenuController?.designViewController?.designView.designUndoManager else {
+            fatalError("no undo manager")
+        }
+        
+        selected.inspectableChangeFillColor(from: selectedAsUIView.backgroundColor!, toColor: colors[indexPath.row], recordedIn: undoManager)
     }
 
 }
