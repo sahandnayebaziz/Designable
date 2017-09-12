@@ -1,5 +1,5 @@
 //
-//  DesignableUIViewRectangle.swift
+//  UIViewDesignableRectangleUIView.swift
 //  Dream
 //
 //  Created by Sahand on 9/11/17.
@@ -9,15 +9,15 @@
 import Foundation
 import UIKit
 
-class DesignableUIViewRectangle: UIView, UIViewDesignable {
+class UIViewDesignableRectangleUIView: UIView, UIViewDesignable {
     
+    var type: UIViewDesignableType = .rectangle
     var preGesturePositionDescription: DesignablePreGestureDescription? = nil
     var link: DesignableDescriptionLink? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .lightGray
-        alpha = 0.75
     }
     
     required init?(coder aDecoder: NSCoder) {

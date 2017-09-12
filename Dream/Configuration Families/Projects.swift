@@ -28,7 +28,7 @@ struct Page: Codable {
 }
 
 struct DesignableDescription: Codable {
-    var type: DesignableUIViewType
+    var type: UIViewDesignableType
     var x: CGFloat
     var y: CGFloat
     var width: CGFloat

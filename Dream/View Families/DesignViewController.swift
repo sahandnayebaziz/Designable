@@ -27,6 +27,8 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
     weak var interactionDelegate: DesignViewControllerInteractionDelegate? = nil
     
     var designView = DesignView()
+    var inspectorMenuVC = InspectorMenuController()
+    var inspectorNavView = UIView()
     
     init(project: Project, flow: Flow, pageIndex: Int) {
         self.project = project
@@ -55,6 +57,20 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
             designView.elementsView.addSubview(view)
             view.frame = CGRect(x: l.x, y: l.y, width: l.width, height: l.height)            
         }
+        
+        let vc = inspectorMenuVC
+        vc.designViewController = self
+        let nav = UINavigationController(rootViewController: vc)
+        inspectorNavView = nav.view
+        addChildViewController(nav)
+        view.addSubview(inspectorNavView)
+        inspectorNavView.snp.makeConstraints { make in
+            make.width.equalTo(view)
+            make.centerX.equalTo(view)
+            make.bottom.equalTo(view)
+            make.height.equalTo(0)
+        }
+        nav.didMove(toParentViewController: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,16 +82,24 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
+    func didClearSelection() {
+        setInspectorHidden(true, animated: true)
+    }
+    
     func didTap(designView: DesignView) {
         interactionDelegate?.didTap(designViewController: self)
     }
     
-    func didLongPress(designView: DesignView) {
-        let vc = NewLinkViewController(project: project, flow: flow)
-        vc.designViewController = self
-        vc.modalTransitionStyle = .coverVertical
-        vc.modalPresentationStyle = .overCurrentContext
-        present(vc, animated: true, completion: nil)
+    func didLongPress(designView: DesignView, selection: [UIViewDesignable]?) {
+        if let selected = selection?.first {
+            
+            inspectorMenuVC.selection = selection
+            inspectorMenuVC.attributes = selected.inspectableAttributeTypes
+            
+            inspectorMenuVC.collectionView.reloadData()
+            
+            self.setInspectorHidden(false, animated: true)
+        }
     }
     
     func didSelectCreateNewPage() {
@@ -152,6 +176,19 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         
         let newLayers = designView.layers
         flowVC.flow.pages[pageIndex].layers = newLayers
+    }
+    
+    func setInspectorHidden(_ hidden: Bool, animated: Bool) {
+        let animationTime = animated ? 0.25 : 0
+        let height = hidden ? 0 : 180
+        UIView.animate(withDuration: animationTime, animations: {
+            self.inspectorNavView.snp.updateConstraints { make in
+                make.height.equalTo(height)
+            }
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            self.inspectorMenuVC.navigationController?.popToRootViewController(animated: false)
+        })
     }
     
 }

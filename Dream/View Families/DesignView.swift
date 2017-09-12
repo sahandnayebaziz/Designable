@@ -11,7 +11,8 @@ import SnapKit
 
 protocol DesignViewDelegate: class {
     func didTap(designView: DesignView)
-    func didLongPress(designView: DesignView)
+    func didLongPress(designView: DesignView, selection: [UIViewDesignable]?)
+    func didClearSelection()
 }
 
 struct DesignablePreGestureDescription {
@@ -82,6 +83,7 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
                 elementsView.subviews.forEach { v in
                     v.layer.borderWidth = 0
                 }
+                delegate?.didClearSelection()
             }
         }
     }
@@ -96,7 +98,7 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     @objc func did(doubleTap: UITapGestureRecognizer) {
         let point = doubleTap.location(in: elementsView)
         
-        let newElement = DesignableUIViewRectangle()
+        let newElement = UIViewDesignableRectangleUIView()
         elementsView.addSubview(newElement)
         newElement.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         newElement.center = point
@@ -251,7 +253,7 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
             longPress.isEnabled = false
             
             selection = intersections
-            delegate?.didLongPress(designView: self)
+            delegate?.didLongPress(designView: self, selection: selection as? [UIViewDesignable])
             
             longPress.isEnabled = true
         default:
