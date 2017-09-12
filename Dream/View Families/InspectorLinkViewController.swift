@@ -8,12 +8,11 @@
 
 import UIKit
 
-protocol NewLinkTableViewControllerDelegate: class {
-    func didSelectCreateNewPage()
-    func didSelectLink(_ page: Page)
+enum NewLinkViewControllerActionType {
+    case newPage
 }
 
-class NewLinkTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class InspectorLinkViewController: InspectorViewController, UITableViewDataSource, UITableViewDelegate {
     
     var project: Project
     var flow: Flow
@@ -21,8 +20,6 @@ class NewLinkTableViewController: UIViewController, UITableViewDataSource, UITab
     let actions: [NewLinkViewControllerActionType] = [.newPage]
     
     let tableView = UITableView()
-    
-    weak var delegate: NewLinkTableViewControllerDelegate? = nil
     
     init(project: Project, flow: Flow) {
         self.project = project
@@ -80,11 +77,11 @@ class NewLinkTableViewController: UIViewController, UITableViewDataSource, UITab
             let action = actions[indexPath.row]
             switch action {
             case .newPage:
-                delegate?.didSelectCreateNewPage()
+                inspectorMenuController?.designViewController?.didSelectCreateNewPage()
             }
         } else if indexPath.section == 1 {
             let page = flow.pages[indexPath.row]
-            delegate?.didSelectLink(page)
+            inspectorMenuController?.designViewController?.didSelectLink(page, inspectorMenuController!.designViewController!.flow)
         }
     }
 }

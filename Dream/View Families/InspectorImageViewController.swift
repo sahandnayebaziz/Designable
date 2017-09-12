@@ -14,9 +14,10 @@ class InspectorImageViewController: InspectorViewController, UIImagePickerContro
         super.viewDidLoad()
         title = "Add Image"
         view.backgroundColor = Dream.Colors.inspectorLightGray
+        setForNoImage()
     }
     
-    func setForHasImage() {
+    func setForNoImage() {
         let stackView = UIStackView()
         view.addSubview(stackView)
         stackView.snp.makeConstraints { make in
@@ -40,10 +41,6 @@ class InspectorImageViewController: InspectorViewController, UIImagePickerContro
         cameraButton.setTitle("Camera", for: .normal)
         stackView.addArrangedSubview(cameraButton)
         cameraButton.addTarget(self, action: #selector(didTapCamera), for: .touchUpInside)
-    }
-    
-    func setForImage() {
-        
     }
     
     @objc func didTapPhotos() {

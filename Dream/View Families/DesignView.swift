@@ -137,7 +137,9 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
                 return
             }
             
-            gestureDidBegin(withViews: intersections as! [UIViewDesignable], from: pan)
+            let topMostViewOnly = [intersections.last!]
+            
+            gestureDidBegin(withViews: topMostViewOnly as! [UIViewDesignable], from: pan)
         case .changed:
             guard let selection = selection as? [UIViewDesignable] else {
                 return
@@ -187,7 +189,9 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
                 return
             }
             
-            gestureDidBegin(withViews: intersections as! [UIViewDesignable], from: pinch)
+            let topMostViewOnly = [intersections.last!]
+            
+            gestureDidBegin(withViews: topMostViewOnly as! [UIViewDesignable], from: pinch)
         case .changed:
             guard pinch.numberOfTouches == 2, let selection = selection else {
                 return
@@ -250,11 +254,12 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
                 return
             }
             
-            longPress.isEnabled = false
-            
-            selection = intersections
+            let topMostViewOnly = [intersections.last!]
+
+            selection = topMostViewOnly
             delegate?.didLongPress(designView: self, selection: selection as? [UIViewDesignable])
             
+            longPress.isEnabled = false
             longPress.isEnabled = true
         default:
             break

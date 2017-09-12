@@ -76,7 +76,13 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
             vc.inspectorMenuController = self
             navigationController?.pushViewController(vc, animated: true)
         case .link:
-            break
+            guard let project = designViewController?.project, let flow = designViewController?.flow else {
+                fatalError("No access to project/flow")
+            }
+            
+            let vc = InspectorLinkViewController(project: project, flow: flow)
+            vc.inspectorMenuController = self
+            navigationController?.pushViewController(vc, animated: true)
         case .image:
             let vc = InspectorImageViewController()
             vc.inspectorMenuController = self
