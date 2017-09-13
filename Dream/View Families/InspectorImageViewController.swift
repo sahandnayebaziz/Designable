@@ -77,9 +77,9 @@ class InspectorImageViewController: InspectorViewController, UIImagePickerContro
         
         let newImageView = UIViewDesignableImageUIView(frame: selectedAsUIView.frame, filename: nil)
         
-        selected.inspectableReplace(from: selected.designableDescription, to: newImageView.designableDescription, recordedIn: undoManager)
-        
         Dream.save(image, with: newImageView.filename)
+        
+        selected.inspectableReplace(from: selected.designableDescription, to: newImageView.designableDescription, recordedIn: undoManager)
         dismiss(animated: true, completion: nil)
     }
     

@@ -54,7 +54,11 @@ extension Dream {
         }
     }
     
+    static var imageCache: [String: UIImage] = [:]
+    
     static func save(_ image: UIImage, with filename: String) {
+        imageCache[filename] = image
+        
         let path = "images/\(filename)"
         
         guard let jpegData = UIImageJPEGRepresentation(image, 0.5) else {
@@ -65,6 +69,10 @@ extension Dream {
             do {
                 try Disk.save(jpegData, to: .documents, as: path)
                 NSLog("*** Image saved. ***")
+                dispatch_to_main_queue {
+                    imageCache[filename] = nil
+                    NSLog("*** Image removed from cache. ***")
+                }
             } catch {
                 print("received error saving: \(path)")
                 print(error as NSError)
@@ -73,6 +81,12 @@ extension Dream {
     }
     
     static func loadImage(named filename: String, completion: @escaping ((UIImage?) -> Void)) {
+        if let image = imageCache[filename] {
+            NSLog("*** Image retrieved from cache ***")
+            completion(image)
+            return
+        }
+        
         dispatch_to_background_queue {
             do {
                 let data = try Dream.Disk.retrieve("images/\(filename)", from: .documents)
