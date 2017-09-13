@@ -34,7 +34,6 @@ extension Dream {
     static func save(_ project: Project) {
         do {
             try Disk.save(project, to: .documents, as: "projects/\(project.name).json")
-            NSLog("Project saved.\n\(project)")
         } catch let error as NSError {
             print(error)
         }
@@ -68,10 +67,8 @@ extension Dream {
         dispatch_to_background_queue {
             do {
                 try Disk.save(jpegData, to: .documents, as: path)
-                NSLog("*** Image saved. ***")
                 dispatch_to_main_queue {
                     imageCache[filename] = nil
-                    NSLog("*** Image removed from cache. ***")
                 }
             } catch {
                 print("received error saving: \(path)")
@@ -82,7 +79,6 @@ extension Dream {
     
     static func loadImage(named filename: String, completion: @escaping ((UIImage?) -> Void)) {
         if let image = imageCache[filename] {
-            NSLog("*** Image retrieved from cache ***")
             completion(image)
             return
         }

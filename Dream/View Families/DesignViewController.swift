@@ -85,8 +85,16 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         setInspectorHidden(true, animated: true)
     }
     
-    func didTap(designView: DesignView) {
+    func didTapEmptyOrUnlinkedSpace(designView: DesignView) {
         interactionDelegate?.didTap(designViewController: self)
+    }
+    
+    func didTapLink(designView: DesignView, link: DesignableDescriptionLink) {
+        guard let linkingToPageIndex = flow.pages.index(where: { $0.id == link.toPageId }) else {
+            fatalError("Can't find page in flow for link.")
+        }
+        
+        pushNewDesignViewController(atPageIndex: linkingToPageIndex)
     }
     
     func didLongPress(designView: DesignView, selection: [UIViewDesignable]?) {
@@ -190,5 +198,4 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
             self.inspectorMenuVC.navigationController?.popToRootViewController(animated: false)
         })
     }
-    
 }

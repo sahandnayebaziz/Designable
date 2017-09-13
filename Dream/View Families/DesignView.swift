@@ -10,9 +10,10 @@ import UIKit
 import SnapKit
 
 protocol DesignViewDelegate: class {
-    func didTap(designView: DesignView)
+    func didTapEmptyOrUnlinkedSpace(designView: DesignView)
     func didLongPress(designView: DesignView, selection: [UIViewDesignable]?)
     func didClearSelection()
+    func didTapLink(designView: DesignView, link: DesignableDescriptionLink)
 }
 
 struct DesignablePreGestureDescription {
@@ -33,6 +34,7 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     init() {
         super.init(frame: .zero)
         backgroundColor = .white
+        clipsToBounds = true
         
         elementsView.frame = bounds
         addSubview(elementsView)
@@ -63,6 +65,9 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
             gestureRecognizer.delegate = self
             addGestureRecognizer(gestureRecognizer)
         }
+        
+        singleTapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
+        singleTapGestureRecognizer.require(toFail: longPressGestureRecognizer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -92,7 +97,29 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     let designUndoManager = UndoManager()
     
     @objc func did(singleTap: UITapGestureRecognizer) {
-        delegate?.didTap(designView: self)
+        switch singleTap.state {
+        case .ended:
+            let point = singleTap.location(in: elementsView)
+            
+            let intersections = elementsView.subviews.filter { subview in
+                return subview.layer.contains(elementsView.convert(point, to: subview))
+            }
+            
+            if intersections.isEmpty {
+                delegate?.didTapEmptyOrUnlinkedSpace(designView: self)
+                selection = nil
+            } else {
+                let topMostViewOnly = intersections.last! as! UIViewDesignable
+                if let link = topMostViewOnly.link {
+                    delegate?.didTapLink(designView: self, link: link)
+                } else {
+                    delegate?.didTapEmptyOrUnlinkedSpace(designView: self)
+                }
+            }
+        default:
+            break
+        }
+        
     }
     
     @objc func did(doubleTap: UITapGestureRecognizer) {
@@ -258,9 +285,6 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
 
             selection = topMostViewOnly
             delegate?.didLongPress(designView: self, selection: selection as? [UIViewDesignable])
-            
-            longPress.isEnabled = false
-            longPress.isEnabled = true
         default:
             break
         }
@@ -303,7 +327,6 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     
     func remove(elements: [UIViewDesignable]) {
         let descriptions: [DesignableDescription] = elements.map { $0.designableDescription }
-        print(descriptions)
         
         designUndoManager.registerUndo(withTarget: self) { _ in
             let restoredElements = self.restore(descriptions: descriptions)
@@ -333,9 +356,15 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let singleTapGestureRecognizer = gestureRecognizer as? UITapGestureRecognizer {
-            return singleTapGestureRecognizer.numberOfTapsRequired == 1 && singleTapGestureRecognizer.numberOfTouchesRequired == 1
+        guard let interactiveSwipeBack = (delegate as? DesignViewController)?.navigationController?.interactivePopGestureRecognizer else {
+            return false
         }
+        
+        // block a gesture from happening in this view if gesture happening already is the screen edge pan in the parent
+        if otherGestureRecognizer == interactiveSwipeBack {
+            return true
+        }
+        
         return false
     }
     

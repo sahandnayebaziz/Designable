@@ -46,7 +46,7 @@ class UIViewDesignableImageUIView: UIImageView, UIViewDesignable {
         
         let imageAttribute = DesignableDescriptionAttributesImage(filename: filename)
         
-        return DesignableDescription(type: .image, x: frameToSave.minX, y: frameToSave.minY, width: frameToSave.width, height: frameToSave.height, style: DesignableDescriptionAttributesStyle(color: nil), image: imageAttribute, link: nil)
+        return DesignableDescription(type: .image, x: frameToSave.minX, y: frameToSave.minY, width: frameToSave.width, height: frameToSave.height, style: DesignableDescriptionAttributesStyle(color: nil), image: imageAttribute, link: link)
     }
     
     
