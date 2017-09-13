@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 
 protocol DesignViewDelegate: class {
+    func didChange(_ designView: DesignView)
     func didTapEmptyOrUnlinkedSpace(designView: DesignView)
     func didLongPress(designView: DesignView, selection: [UIViewDesignable]?)
     func didClearSelection()
@@ -20,6 +21,10 @@ struct DesignablePreGestureDescription {
     let center: CGPoint
     let width: CGFloat
     let height: CGFloat
+    
+    var frame: CGRect {
+        return CGRect(x: center.x - (width / 2), y: center.y - (height / 2), width: width, height: height)
+    }
 }
 
 enum PinchDirectionHint {
@@ -292,23 +297,18 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     
     func gestureDidBegin(withViews views: [UIViewDesignable], from recognizer: UIGestureRecognizer) {
         if activeGestureRecognizers.isEmpty {
-            selection = views as? [UIView]
+            guard let selectionAsViews = views as? [UIView] else {
+                print(views)
+                fatalError("Couldn't get views from bad selection.")
+            }
+            selection = selectionAsViews
             
-            let firstElement = selection!.first!
-            let pre = DesignablePreGestureDescription(center: firstElement.center, width: firstElement.frame.width, height: firstElement.frame.height)
-            (firstElement as! UIViewDesignable).preGesturePositionDescription = pre
-            
-            designUndoManager.registerUndo(withTarget: self) { _ in
-                let currentFrame = firstElement.frame
-                
-                firstElement.frame = CGRect(x: 0, y: 0, width: pre.width, height: pre.height)
-                firstElement.center = pre.center
-                
-                self.designUndoManager.registerUndo(withTarget: self) { _ in
-                    firstElement.frame = currentFrame
-                }
+            guard let firstElementAsUIView = views.first as? UIView, let firstElementAsDesignable = views.first else {
+                print(views)
+                fatalError("Made selection without a first element, or without a first element that is a designable.")
             }
             
+            firstElementAsDesignable.preGesturePositionDescription = DesignablePreGestureDescription(center: firstElementAsUIView.center, width: firstElementAsUIView.frame.width, height: firstElementAsUIView.frame.height)
         }
         
         activeGestureRecognizers.insert(recognizer)
@@ -317,12 +317,36 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     func gestureDidEnd(recognizer: UIGestureRecognizer) {
         activeGestureRecognizers.remove(recognizer)
         
-        guard activeGestureRecognizers.isEmpty, let selection = selection else {
-            return
+        if activeGestureRecognizers.isEmpty {
+            
+            guard let firstElementAsUIView = selection?.first, let firstElementAsDesignable = selection?.first as? UIViewDesignable else {
+                print(selection as Any)
+                fatalError("Made selection without a first element, or without a first element that is a designable.")
+            }
+            
+            guard let firstElementAsDesignablePreGesture = firstElementAsDesignable.preGesturePositionDescription else {
+                print(selection as Any)
+                fatalError("Gesture ended on an element that wasn't given a pre gesture position.")
+            }
+            
+            undoableSetFrameOf(view: firstElementAsUIView, fromFrame: firstElementAsDesignablePreGesture.frame, toFrame: firstElementAsUIView.frame)
+            
+            firstElementAsDesignable.preGesturePositionDescription = nil
+            
+            self.selection = nil
+            delegate?.didChange(self)
+        }
+    }
+    
+    func undoableSetFrameOf(view: UIView, fromFrame: CGRect, toFrame: CGRect) {
+        designUndoManager.registerUndo(withTarget: self) { [ weak view ] designView in
+            if let v = view {
+                designView.undoableSetFrameOf(view: v, fromFrame: toFrame, toFrame: fromFrame)
+            }
         }
         
-        (selection as! [UIViewDesignable]).forEach { $0.preGesturePositionDescription = nil }
-        self.selection = nil
+        view.frame = toFrame
+        delegate?.didChange(self)
     }
     
     func remove(elements: [UIViewDesignable]) {

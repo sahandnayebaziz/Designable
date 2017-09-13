@@ -28,7 +28,7 @@ class UIViewDesignableRectangleUIView: UIView, UIViewDesignable {
         let frameToSave: CGRect
         
         if let pre = preGesturePositionDescription {
-            frameToSave = CGRect(x: pre.center.x - (pre.width / 2), y: pre.center.y - (pre.height / 2), width: pre.width, height: pre.height)
+            frameToSave = pre.frame
         } else {
             frameToSave = frame
         }

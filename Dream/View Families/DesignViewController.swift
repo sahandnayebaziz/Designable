@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol DesignViewControllerDataSource: class {
-    var project: Project { get set }
-    var flow: Flow { get set }
-}
-
 protocol DesignViewControllerInteractionDelegate: class {
     func didTap(designViewController: DesignViewController)
 }
@@ -23,7 +18,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
     var flow: Flow
     let pageIndex: Int
     
-    weak var dataSource: DesignViewControllerDataSource? = nil
+    weak var flowViewController: FlowViewController? = nil
     weak var interactionDelegate: DesignViewControllerInteractionDelegate? = nil
     
     var designView = DesignView()
@@ -83,6 +78,37 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
+    func setInspectorHidden(_ hidden: Bool, animated: Bool) {
+        let animationTime = animated ? 0.25 : 0
+        let bottomOffset = hidden ? 180 : 0
+        let alpha: CGFloat = hidden ? 0 : 1
+        UIView.animate(withDuration: animationTime, animations: {
+            self.inspectorNavView.snp.updateConstraints { make in
+                make.height.equalTo(180)
+                make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(bottomOffset)
+            }
+            self.inspectorNavView.alpha = alpha
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            self.inspectorMenuVC.navigationController?.popToRootViewController(animated: false)
+        })
+    }
+    
+    func saveCurrentPageDesign() {
+        guard let flowVC = flowViewController else {
+            fatalError("Can't work without a data source.")
+        }
+        
+        let newLayers = designView.layers
+        flowVC.flow.pages[pageIndex].layers = newLayers
+        
+        flowVC.checkHasUnsavedChanges()
+    }
+    
+    func didChange(_ designView: DesignView) {
+        saveCurrentPageDesign()
+    }
+    
     func didClearSelection() {
         setInspectorHidden(true, animated: true)
     }
@@ -112,7 +138,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
     }
     
     func didSelectCreateNewPage() {
-        guard let flowVC = dataSource else {
+        guard let flowVC = flowViewController else {
             fatalError("Can't work without a data source.")
         }
         
@@ -142,7 +168,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
     }
     
     func didSelectLink(_ page: Page, _ flow: Flow) {
-        guard let flowVC = dataSource else {
+        guard let flowVC = flowViewController else {
             fatalError("Can't work without a data source.")
         }
         
@@ -173,33 +199,8 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
     
     func pushNewDesignViewController(atPageIndex index: Int) {
         let designVC = DesignViewController(project: project, flow: flow, pageIndex: index)
+        designVC.flowViewController = flowViewController
         designVC.interactionDelegate = interactionDelegate
-        designVC.dataSource = dataSource
         navigationController?.pushViewController(designVC, animated: true)
-    }
-    
-    func saveCurrentPageDesign() {
-        guard let flowVC = dataSource else {
-            fatalError("Can't work without a data source.")
-        }
-        
-        let newLayers = designView.layers
-        flowVC.flow.pages[pageIndex].layers = newLayers
-    }
-    
-    func setInspectorHidden(_ hidden: Bool, animated: Bool) {
-        let animationTime = animated ? 0.25 : 0
-        let bottomOffset = hidden ? 180 : 0
-        let alpha: CGFloat = hidden ? 0 : 1
-        UIView.animate(withDuration: animationTime, animations: {
-            self.inspectorNavView.snp.updateConstraints { make in
-                make.height.equalTo(180)
-                make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(bottomOffset)
-            }
-            self.inspectorNavView.alpha = alpha
-            self.view.layoutIfNeeded()
-        }, completion: { _ in
-            self.inspectorMenuVC.navigationController?.popToRootViewController(animated: false)
-        })
     }
 }

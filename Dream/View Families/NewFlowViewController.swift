@@ -33,7 +33,7 @@ class NewFlowViewController: FlowViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func didTapSave() {
+    @objc override func didTapSave() {
         saveToProjectViewController()
         dismiss(animated: true, completion: nil)
     }
