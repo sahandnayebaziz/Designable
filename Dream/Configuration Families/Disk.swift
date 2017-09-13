@@ -195,6 +195,16 @@ extension Dream {
             }
         }
         
+        static func retrieve(_ path: String, from directory: Directory) throws -> Data {
+            do {
+                let url = try getExistingFileURL(for: path, in: directory)
+                let data = try Data(contentsOf: url)
+                return data
+            } catch {
+                throw error
+            }
+        }
+        
         static func save<T: Encodable>(_ value: T, to directory: Directory, as path: String) throws {
             do {
                 let url = try createURL(for: path, in: directory)

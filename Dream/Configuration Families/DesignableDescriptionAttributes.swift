@@ -20,6 +20,10 @@ struct DesignableDescriptionAttributesStyle: Codable {
     }
 }
 
+struct DesignableDescriptionAttributesImage: Codable {
+    var filename: String
+}
+
 enum LinkType: String, Codable {
     case push
 }

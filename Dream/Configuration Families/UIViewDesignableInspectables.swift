@@ -60,6 +60,8 @@ extension UIViewDesignable {
         switch type {
         case .rectangle:
             return [.fillColor, .link, .image, .duplicate]
+        case .image:
+            return [.link, .image, .duplicate]
         }
     }
     

@@ -39,6 +39,7 @@
 		D8C6E2571F622F8F0044CADE /* DreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E2561F622F8F0044CADE /* DreamTests.swift */; };
 		D8C6E2621F622F8F0044CADE /* DreamUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E2611F622F8F0044CADE /* DreamUITests.swift */; };
 		D8E4BA521F65074400D10B7A /* threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E4BA511F65074400D10B7A /* threading.swift */; };
+		D8FB532E1F689B85002B201F /* UIViewDesignableImageUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FB532D1F689B85002B201F /* UIViewDesignableImageUIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		D8C6E2611F622F8F0044CADE /* DreamUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamUITests.swift; sourceTree = "<group>"; };
 		D8C6E2631F622F8F0044CADE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8E4BA511F65074400D10B7A /* threading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = threading.swift; sourceTree = "<group>"; };
+		D8FB532D1F689B85002B201F /* UIViewDesignableImageUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewDesignableImageUIView.swift; sourceTree = "<group>"; };
 		F32AE382AEEE18212EBC23F7 /* Pods-DreamTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DreamTests/Pods-DreamTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F633E9660237D7E603D950CB /* Pods_Dream.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -190,6 +192,7 @@
 				D8C6E2431F622F8F0044CADE /* ProjectsViewController.swift */,
 				D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */,
 				D86E1ACA1F67619E0066F3E3 /* UIViewDesignableRectangleUIView.swift */,
+				D8FB532D1F689B85002B201F /* UIViewDesignableImageUIView.swift */,
 			);
 			path = "View Families";
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				D864651E1F6468F700BE6C03 /* NewProjectFormViewController.swift in Sources */,
 				D8C6E2441F622F8F0044CADE /* ProjectsViewController.swift in Sources */,
 				D86E1AD71F67CA880066F3E3 /* Colors.swift in Sources */,
+				D8FB532E1F689B85002B201F /* UIViewDesignableImageUIView.swift in Sources */,
 				D86E1AD51F67C7620066F3E3 /* InspectorImageViewController.swift in Sources */,
 				D8AC60261F6628C500FF54C8 /* EditFlowFormViewController.swift in Sources */,
 				D8C6E2421F622F8F0044CADE /* AppDelegate.swift in Sources */,

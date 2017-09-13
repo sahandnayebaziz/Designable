@@ -71,15 +71,15 @@ class InspectorImageViewController: InspectorViewController, UIImagePickerContro
             fatalError("Selected is not a UIView")
         }
         
-        let imageView = UIImageView(image: image)
-        selectedAsUIView.addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.size.equalTo(selectedAsUIView)
-            make.center.equalTo(selectedAsUIView)
+        guard let undoManager = inspectorMenuController?.designViewController?.designView.designUndoManager else {
+            fatalError("no undo manager")
         }
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         
+        let newImageView = UIViewDesignableImageUIView(frame: selectedAsUIView.frame, filename: nil)
+        
+        selected.inspectableReplace(from: selected.designableDescription, to: newImageView.designableDescription, recordedIn: undoManager)
+        
+        Dream.save(image, with: newImageView.filename)
         dismiss(animated: true, completion: nil)
     }
     

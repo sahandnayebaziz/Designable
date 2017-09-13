@@ -34,6 +34,7 @@ struct DesignableDescription: Codable {
     var width: CGFloat
     var height: CGFloat
     var style: DesignableDescriptionAttributesStyle
+    var image: DesignableDescriptionAttributesImage?
     var link: DesignableDescriptionLink?
 }
 

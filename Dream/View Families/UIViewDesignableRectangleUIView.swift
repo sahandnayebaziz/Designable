@@ -11,7 +11,7 @@ import UIKit
 
 class UIViewDesignableRectangleUIView: UIView, UIViewDesignable {
     
-    var type: UIViewDesignableType = .rectangle
+    let type: UIViewDesignableType = .rectangle
     var preGesturePositionDescription: DesignablePreGestureDescription? = nil
     var link: DesignableDescriptionLink? = nil
     
@@ -37,6 +37,6 @@ class UIViewDesignableRectangleUIView: UIView, UIViewDesignable {
         let fillColorAttribute = DesignableDescriptionAttributesStyle.FillColor(red: fillColor.red, green: fillColor.green, blue: fillColor.blue, alpha: fillColor.alpha)
         let style = DesignableDescriptionAttributesStyle(color: fillColorAttribute)
         
-        return DesignableDescription(type: .rectangle, x: frameToSave.minX, y: frameToSave.minY, width: frameToSave.width, height: frameToSave.height, style: style, link: link)
+        return DesignableDescription(type: .rectangle, x: frameToSave.minX, y: frameToSave.minY, width: frameToSave.width, height: frameToSave.height, style: style, image: nil, link: link)
     }
 }
