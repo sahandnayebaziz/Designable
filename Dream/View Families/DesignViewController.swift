@@ -66,8 +66,8 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         inspectorNavView.snp.makeConstraints { make in
             make.width.equalTo(view)
             make.centerX.equalTo(view)
-            make.bottom.equalTo(view)
-            make.height.equalTo(0)
+            make.bottom.equalTo(view).offset(180)
+            make.height.equalTo(180)
         }
         nav.didMove(toParentViewController: self)
     }
@@ -179,10 +179,11 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
     
     func setInspectorHidden(_ hidden: Bool, animated: Bool) {
         let animationTime = animated ? 0.25 : 0
-        let height = hidden ? 0 : 180
+        let bottomOffset = hidden ? 180 : 0
         UIView.animate(withDuration: animationTime, animations: {
             self.inspectorNavView.snp.updateConstraints { make in
-                make.height.equalTo(height)
+                make.height.equalTo(180)
+                make.bottom.equalTo(bottomOffset)
             }
             self.view.layoutIfNeeded()
         }, completion: { _ in
