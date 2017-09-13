@@ -43,5 +43,7 @@
 	<string>To allow you to add images to your designs.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To allow you to add images to your designs.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To allow you to save images of your designs.</string>
 </dict>
 </plist>

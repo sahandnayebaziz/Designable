@@ -90,7 +90,6 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
         case .duplicate:
             guard let selected = designViewController?.designView.selection?.first as? UIViewDesignable else {
                 fatalError("No selection")
-                return
             }
             
             selected.inspectableDuplicate(inView: designViewController!.designView, recordedIn: designViewController!.designView.designUndoManager)
