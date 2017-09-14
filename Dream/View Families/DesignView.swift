@@ -131,13 +131,10 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
         let point = doubleTap.location(in: elementsView)
         
         let newElement = UIViewDesignableRectangleUIView()
-        elementsView.addSubview(newElement)
         newElement.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         newElement.center = point
         
-        designUndoManager.registerUndo(withTarget: self) { vc in
-            vc.remove(elements: [newElement])
-        }
+        undoableAdd(description: newElement.designableDescription)
     }
     
     @objc func did(twoFingerDoubleTap: UITapGestureRecognizer) {
@@ -186,14 +183,14 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
              .ended,
              .failed:
             
-            if let selection = selection as? [UIViewDesignable] {
+            if let firstElementAsUIView = selection?.first {
                 let velocity = pan.velocity(in: elementsView)
                 if abs(velocity.x) > 2000 || abs(velocity.y) > 2000 {
-                    remove(elements: selection)
+                    undoableRemove(view: firstElementAsUIView)
                 }
+                
+                gestureDidEnd(recognizer: pan)
             }
-            
-            gestureDidEnd(recognizer: pan)
         default:
             break
         }
@@ -254,7 +251,7 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
             case distanceFromVertical:
                 directionHint = .vertical
             default:
-                fatalError()
+                fatalError("Couldn't figure out direction hint for pinch")
             }
             
             let selected = selection.first!
@@ -267,6 +264,10 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
         case .cancelled,
              .ended,
              .failed:
+            guard let _ = selection else {
+                return
+            }
+            
             gestureDidEnd(recognizer: pinch)
         default:
             break
@@ -329,12 +330,10 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
                 fatalError("Gesture ended on an element that wasn't given a pre gesture position.")
             }
             
-            undoableSetFrameOf(view: firstElementAsUIView, fromFrame: firstElementAsDesignablePreGesture.frame, toFrame: firstElementAsUIView.frame)
-            
             firstElementAsDesignable.preGesturePositionDescription = nil
-            
             self.selection = nil
-            delegate?.didChange(self)
+            
+            undoableSetFrameOf(view: firstElementAsUIView, fromFrame: firstElementAsDesignablePreGesture.frame, toFrame: firstElementAsUIView.frame)
         }
     }
     
@@ -349,30 +348,31 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
         delegate?.didChange(self)
     }
     
-    func remove(elements: [UIViewDesignable]) {
-        let descriptions: [DesignableDescription] = elements.map { $0.designableDescription }
-        
-        designUndoManager.registerUndo(withTarget: self) { _ in
-            let restoredElements = self.restore(descriptions: descriptions)
-            self.designUndoManager.registerUndo(withTarget: self) { _ in
-                self.remove(elements: restoredElements)
-            }
+    func undoableRemove(view: UIView) {
+        guard let viewAsUIViewDesignable = view as? UIViewDesignable else {
+            fatalError("Can't remove view that isn't designable")
         }
         
-        (elements as! [UIView]).forEach { $0.removeFromSuperview() }
+        let descriptionOfRemoved = viewAsUIViewDesignable.designableDescription
+        designUndoManager.registerUndo(withTarget: self) { designView in
+            designView.undoableAdd(description: descriptionOfRemoved)
+        }
+        
+        view.removeFromSuperview()
+        delegate?.didChange(self)
     }
     
-    func restore(descriptions: [DesignableDescription]) -> [UIViewDesignable] {
-        let elements = descriptions.map { $0.toUIViewDesignable() }
-        for i in 0..<elements.count {
-            let element = elements[i] as! UIView
-            let description = descriptions[i]
-            
-            elementsView.addSubview(element)
-            element.frame = CGRect(x: description.x, y: description.y, width: description.width, height: description.height)
+    func undoableAdd(description: DesignableDescription) {
+        guard let restoredView = description.toUIViewDesignable() as? UIView else {
+            fatalError("Couldn't restore description to UIView")
         }
         
-        return elements
+        designUndoManager.registerUndo(withTarget: self) { designView in
+            designView.undoableRemove(view: restoredView)
+        }
+        
+        elementsView.addSubview(restoredView)
+        delegate?.didChange(self)
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {

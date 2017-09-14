@@ -34,6 +34,7 @@ extension Dream {
     static func save(_ project: Project) {
         do {
             try Disk.save(project, to: .documents, as: "projects/\(project.name).json")
+            NSLog("Project saved to disk.")
         } catch let error as NSError {
             print(error)
         }

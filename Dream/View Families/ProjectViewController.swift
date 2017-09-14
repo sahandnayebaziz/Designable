@@ -101,7 +101,9 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             project.flows.insert(flow, at: 0)
         }
         
-        Dream.save(project)
+        dispatch_to_background_queue {
+            Dream.save(self.project)
+        }
     }
     
     func saveProjectAfterDeleting(_ flow: Flow) {

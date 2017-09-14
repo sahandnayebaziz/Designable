@@ -102,7 +102,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         let newLayers = designView.layers
         flowVC.flow.pages[pageIndex].layers = newLayers
         
-        flowVC.checkHasUnsavedChanges()
+        flowVC.saveToProjectViewController()
     }
     
     func didChange(_ designView: DesignView) {

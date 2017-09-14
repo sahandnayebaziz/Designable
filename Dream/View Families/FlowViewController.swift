@@ -10,6 +10,8 @@ import UIKit
 
 class FlowViewController: UIViewController, DesignViewControllerInteractionDelegate {
     
+    let flowInCaseOfRevert: Flow
+    
     var project: Project
     var flow: Flow
     
@@ -20,6 +22,7 @@ class FlowViewController: UIViewController, DesignViewControllerInteractionDeleg
     init(project: Project, flow: Flow) {
         self.project = project
         self.flow = flow
+        self.flowInCaseOfRevert = flow
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,7 +33,9 @@ class FlowViewController: UIViewController, DesignViewControllerInteractionDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationHasUnsavedChanges(false, animated: false)
+        let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(didTapEdit))
+        let moreItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapActions))
+        navigationItem.setRightBarButtonItems([moreItem, editItem], animated: false)
         
         let vc = DesignViewController(project: project, flow: flow, pageIndex: 0)
         vc.flowViewController = self
@@ -64,28 +69,20 @@ class FlowViewController: UIViewController, DesignViewControllerInteractionDeleg
         allDesignVCs.forEach {
             flow.pages[$0.pageIndex].layers = $0.designView.layers
         }
-        
         projectViewController.saveProjectWithUpdated(flow)
-        project = projectViewController.project
+        
+        NSLog("Saved flow to project.")
+    }
+    
+    func revertAndPopToProjectViewController() {
+        projectViewController?.saveProjectWithUpdated(flowInCaseOfRevert)
+        navigationController?.popViewController(animated: true)
+        // todo: pop to start design view controller and re-lay things out.
     }
     
     func deleteFromProjectViewController() {
         projectViewController?.saveProjectAfterDeleting(flow)
         navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func didTapDiscard() {
-        let alert = UIAlertController(title: "Discard changes made to \"\(flow.name)\"?", message: "If you discard the changes, this flow will go back to how it was when it was last saved.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Discard", style: .destructive) { _ in
-            self.navigationController?.popViewController(animated: true)
-        })
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    @objc func didTapSave() {
-        saveToProjectViewController()
-        checkHasUnsavedChanges()
     }
     
     @objc func didTapEdit() {
@@ -94,30 +91,38 @@ class FlowViewController: UIViewController, DesignViewControllerInteractionDeleg
         present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
     
+    @objc func didTapActions() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let hasUnsavedChanges = flow.toJSON() != flowInCaseOfRevert.toJSON()
+        if hasUnsavedChanges {
+            let revertAction = UIAlertAction(title: "Revert To Last Saved", style: .destructive, handler: { _ in
+                self.revertAndPopToProjectViewController()
+            })
+            alert.addAction(revertAction)
+        } else {
+            let noRevertAction = UIAlertAction(title: "No Changes to Revert", style: .default, handler: nil)
+            noRevertAction.isEnabled = false
+            alert.addAction(noRevertAction)
+        }
+        
+        alert.addAction(UIAlertAction(title: "Share Current Page", style: .default, handler: { _ in
+            guard let designVC = self.navContainingDesignVCs.topViewController as? DesignViewController else {
+                fatalError("Can't get designVC to get image.")
+            }
+            
+            let image = designVC.designView.renderToImage()
+            let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            self.present(activityController, animated: true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
     func didTap(designViewController: DesignViewController) {
         navigationController?.setNavigationBarHidden(!navigationController!.isNavigationBarHidden, animated: true)
-        checkHasUnsavedChanges()
     }
     
-    func checkHasUnsavedChanges() {
-        guard let flowInProject = project.flows.first(where: { $0.id == flow.id }) else {
-            fatalError("Checking for unsaved changes when this flow doesn't exist in the project yet.")
-        }
-        setNavigationHasUnsavedChanges(flowInProject.toJSON() != flow.toJSON(), animated: true)
-    }
     
-    func setNavigationHasUnsavedChanges(_ hasUnsavedChanges: Bool, animated: Bool) {
-        if hasUnsavedChanges {
-            let saveItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didTapSave))
-            let discardItem = UIBarButtonItem(title: "Discard", style: .plain, target: self, action: #selector(didTapDiscard))
-            discardItem.tintColor = .red
-            
-            navigationItem.setLeftBarButtonItems([discardItem, saveItem], animated: animated)
-        } else {
-            navigationItem.setLeftBarButtonItems(nil, animated: animated)
-            
-            let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(didTapEdit))
-            navigationItem.setRightBarButton(editItem, animated: animated)
-        }
-    }
 }
