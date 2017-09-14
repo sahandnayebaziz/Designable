@@ -185,14 +185,14 @@
 				D8AC60291F66377700FF54C8 /* FlowViewController.swift */,
 				D86E1AD21F679C1B0066F3E3 /* InspectorColorViewController.swift */,
 				D86E1AD41F67C7620066F3E3 /* InspectorImageViewController.swift */,
+				D854BC2F1F6643780099E9AB /* InspectorLinkViewController.swift */,
 				D86E1AD01F6767A30066F3E3 /* InspectorMenuController.swift */,
 				D8AC602D1F663A6F00FF54C8 /* NewFlowViewController.swift */,
-				D854BC2F1F6643780099E9AB /* InspectorLinkViewController.swift */,
 				D864651D1F6468F700BE6C03 /* NewProjectFormViewController.swift */,
 				D8C6E2431F622F8F0044CADE /* ProjectsViewController.swift */,
 				D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */,
-				D86E1ACA1F67619E0066F3E3 /* UIViewDesignableRectangleUIView.swift */,
 				D8FB532D1F689B85002B201F /* UIViewDesignableImageUIView.swift */,
+				D86E1ACA1F67619E0066F3E3 /* UIViewDesignableRectangleUIView.swift */,
 			);
 			path = "View Families";
 			sourceTree = "<group>";

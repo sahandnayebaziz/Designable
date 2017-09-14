@@ -63,23 +63,27 @@ class InspectorImageViewController: InspectorViewController, UIImagePickerContro
             return
         }
         
-        guard let selected = self.inspectorMenuController?.selection?.first else {
-            fatalError("no selected")
+        guard let inspectorMenu = inspectorMenuController else {
+            fatalError("Could not access Inspector Menu")
+        }
+        
+        guard let designVC = inspectorMenu.designViewController else {
+            fatalError("Could not access designVC")
+        }
+        
+        guard let selected = inspectorMenu.selection?.first else {
+            fatalError("Could not access first selected item")
         }
         
         guard let selectedAsUIView = selected as? UIView else {
             fatalError("Selected is not a UIView")
         }
         
-        guard let undoManager = inspectorMenuController?.designViewController?.designView.designUndoManager else {
-            fatalError("no undo manager")
-        }
-        
         let newImageView = UIViewDesignableImageUIView(frame: selectedAsUIView.frame, filename: nil)
         
         Dream.save(image, with: newImageView.filename)
         
-        selected.inspectableReplace(from: selected.designableDescription, to: newImageView.designableDescription, recordedIn: undoManager)
+        designVC.designView.undoableReplace(designable: selected, with: newImageView.designableDescription)
         dismiss(animated: true, completion: nil)
     }
     

@@ -88,11 +88,15 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
             vc.inspectorMenuController = self
             navigationController?.pushViewController(vc, animated: true)
         case .duplicate:
-            guard let selected = designViewController?.designView.selection?.first as? UIViewDesignable else {
-                fatalError("No selection")
+            guard let designVC = designViewController else {
+                fatalError("Could not access designVC")
             }
             
-            selected.inspectableDuplicate(inView: designViewController!.designView, recordedIn: designViewController!.designView.designUndoManager)
+            guard let selected = selection?.first else {
+                fatalError("Could not access first selected item")
+            }
+            
+            designVC.designView.undoableDuplicate(of: selected)
         }
     }
 }

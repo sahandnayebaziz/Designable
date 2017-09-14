@@ -66,3 +66,47 @@ extension UIViewDesignable {
     }
     
 }
+
+extension DesignView {
+    
+    func undoableInspectableChangeFillColor(of designable: UIViewDesignable, from fromColor: UIColor, to toColor: UIColor) {
+        guard designable.inspectableAttributeTypes.contains(.fillColor) else {
+            fatalError("Can't change color in this element.")
+        }
+        
+        guard let designableAsUIView = designable as? UIView else {
+            fatalError("Can't set fill color on one that doesn't turn into a UIView")
+        }
+        
+        designUndoManager.registerUndo(withTarget: self) { designView in
+            designView.undoableInspectableChangeFillColor(of: designable, from: toColor, to: fromColor)
+        }
+        
+        designableAsUIView.backgroundColor = toColor
+        delegate?.didChange(self)
+    }
+    
+    func undoableDuplicate(of designable: UIViewDesignable) {
+        guard let newView = designable.designableDescription.toUIViewDesignable() as? UIView else {
+            fatalError("Couldn't convert description to UIView base")
+        }
+        
+        guard let newViewAsDesignable = newView as? UIViewDesignable else {
+            fatalError("Couldn't turn new view back to designable")
+        }
+        
+        newView.center = elementsView.center
+        undoableAdd(description: newViewAsDesignable.designableDescription)
+    }
+    
+    func undoableReplace(designable: UIViewDesignable, with replacementDesignableDescription: DesignableDescription) {
+        guard let designableAsUIView = designable as? UIView else {
+            fatalError("Can't set fill color on one that doesn't turn into a UIView")
+        }
+        
+        designUndoManager.beginUndoGrouping()
+        undoableRemove(view: designableAsUIView)
+        undoableAdd(description: replacementDesignableDescription)
+        designUndoManager.endUndoGrouping()
+    }
+}
