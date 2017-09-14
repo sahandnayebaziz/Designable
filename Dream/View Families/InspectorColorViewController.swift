@@ -77,19 +77,27 @@ class InspectorColorViewController: InspectorViewController, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let selected = self.inspectorMenuController?.selection?.first else {
-            fatalError("no selected")
+        guard let inspectorMenu = inspectorMenuController else {
+            fatalError("Could not access Inspector Menu")
+        }
+        
+        guard let designVC = inspectorMenu.designViewController else {
+            fatalError("Could not access designVC")
+        }
+        
+        guard let selected = inspectorMenu.selection?.first else {
+            fatalError("Could not access first selected item")
         }
         
         guard let selectedAsUIView = selected as? UIView else {
             fatalError("Selected is not a UIView")
         }
         
-        guard let undoManager = inspectorMenuController?.designViewController?.designView.designUndoManager else {
-            fatalError("no undo manager")
+        guard let fromColor = selectedAsUIView.backgroundColor else {
+            fatalError("Selected has no background color yet")
         }
         
-        selected.inspectableChangeFillColor(from: selectedAsUIView.backgroundColor!, toColor: colors[indexPath.row], recordedIn: undoManager)
+        designVC.designView.undoableInspectableChangeFillColor(of: selected, from: fromColor, to: colors[indexPath.row])
     }
 
 }

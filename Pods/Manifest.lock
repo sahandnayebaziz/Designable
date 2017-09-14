@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Eureka:
-    :commit: 3bd78630d1df00d2acd995bbd69395e72960f257
+    :commit: 142d80535b27b3634ac5a38514bde948b8ed42de
     :git: https://github.com/xmartlabs/Eureka.git
   SnapKit:
     :commit: d31148f449abe819fd1a58d5e07e94874c7e6003

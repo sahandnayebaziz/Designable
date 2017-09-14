@@ -52,18 +52,6 @@ extension DesignableDescription {
 }
 
 extension UIViewDesignable {
-    func inspectableChangeFillColor(from fromColor: UIColor, toColor: UIColor, recordedIn undoManager: UndoManager) {
-        guard inspectableAttributeTypes.contains(.fillColor) else {
-            fatalError("Can't change color in this element.")
-        }
-        
-        undoManager.registerUndo(withTarget: self) { view in
-            view.inspectableChangeFillColor(from: toColor, toColor: fromColor, recordedIn: undoManager)
-        }
-        
-        (self as! UIView).backgroundColor = toColor
-    }
-    
     func inspectableDuplicate(inView designView: DesignView, recordedIn undoManager: UndoManager) {
         let description = designableDescription
         
@@ -88,5 +76,25 @@ extension UIViewDesignable {
         
         (self as! UIView).removeFromSuperview()
         containingView.addSubview(newView as! UIView)
+    }
+}
+
+extension DesignView {
+    
+    func undoableInspectableChangeFillColor(of designable: UIViewDesignable, from fromColor: UIColor, to toColor: UIColor) {
+        guard designable.inspectableAttributeTypes.contains(.fillColor) else {
+            fatalError("Can't change color in this element.")
+        }
+        
+        guard let designableAsUIView = designable as? UIView else {
+            fatalError("Can't set fill color on one that doesn't turn into a UIView")
+        }
+        
+        designUndoManager.registerUndo(withTarget: self) { designView in
+            designView.undoableInspectableChangeFillColor(of: designable, from: toColor, to: fromColor)
+        }
+        
+        designableAsUIView.backgroundColor = toColor
+        delegate?.didChange(self)
     }
 }
