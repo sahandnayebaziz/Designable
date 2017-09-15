@@ -85,19 +85,15 @@ class InspectorColorViewController: InspectorViewController, UICollectionViewDat
             fatalError("Could not access designVC")
         }
         
-        guard let selectedAsUIView = designVC.designView.selection?.first else {
+        guard let selected = designVC.designView.selection?.first else {
             fatalError("Could not access first selected item")
         }
         
-        guard let selectedAsDesignable = selectedAsUIView as? UIViewDesignable else {
-            fatalError("Selected is not a UIViewDesignalbe")
-        }
-        
-        guard let fromColor = selectedAsUIView.backgroundColor else {
+        guard let fromColor = selected.backgroundColor else {
             fatalError("Selected has no background color yet")
         }
         
-        designVC.designView.undoableInspectableChangeFillColor(of: selectedAsDesignable, from: fromColor, to: colors[indexPath.row])
+        designVC.designView.undoableInspectableChangeFillColor(of: selected, from: fromColor, to: colors[indexPath.row])
     }
 
 }

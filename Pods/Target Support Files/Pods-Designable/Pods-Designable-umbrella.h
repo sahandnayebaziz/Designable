@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_DreamVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_DreamVersionString[];
+FOUNDATION_EXPORT double Pods_DesignableVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_DesignableVersionString[];
 

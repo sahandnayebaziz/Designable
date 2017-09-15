@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F17EF16A9C8676447CAE249 /* Pods_DreamTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA82011E279668AEFCD0214F /* Pods_DreamTests.framework */; };
-		6022853D7EF4E58BC3FFAD7A /* Pods_Dream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F633E9660237D7E603D950CB /* Pods_Dream.framework */; };
-		9D86B752CCCA45DF38DC397B /* Pods_DreamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0971F799D6123D1EE609A9EA /* Pods_DreamUITests.framework */; };
+		06B510F2D6BB7B540A6EB821 /* Pods_Designable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB9F5D9C31E728A97234B6AA /* Pods_Designable.framework */; };
 		D809CE1F1F673123001CDE21 /* Thumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = D809CE1E1F673123001CDE21 /* Thumbnails.swift */; };
+		D821F6031F6C74B2003CD82D /* Dream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465191F6463D100BE6C03 /* Dream.swift */; };
 		D854BC301F6643780099E9AB /* InspectorLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D854BC2F1F6643780099E9AB /* InspectorLinkViewController.swift */; };
 		D86465161F64633800BE6C03 /* Projects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465151F64633800BE6C03 /* Projects.swift */; };
 		D86465181F6463BD00BE6C03 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465171F6463BD00BE6C03 /* Disk.swift */; };
-		D864651A1F6463D100BE6C03 /* Dream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465191F6463D100BE6C03 /* Dream.swift */; };
 		D864651E1F6468F700BE6C03 /* NewProjectFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D864651D1F6468F700BE6C03 /* NewProjectFormViewController.swift */; };
 		D86E1ACB1F67619E0066F3E3 /* UIViewDesignableRectangleUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86E1ACA1F67619E0066F3E3 /* UIViewDesignableRectangleUIView.swift */; };
 		D86E1ACD1F67654D0066F3E3 /* DesignableDescriptionAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86E1ACC1F67654D0066F3E3 /* DesignableDescriptionAttributes.swift */; };
@@ -36,34 +34,17 @@
 		D8C6E2441F622F8F0044CADE /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E2431F622F8F0044CADE /* ProjectsViewController.swift */; };
 		D8C6E2491F622F8F0044CADE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8C6E2481F622F8F0044CADE /* Assets.xcassets */; };
 		D8C6E24C1F622F8F0044CADE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8C6E24A1F622F8F0044CADE /* LaunchScreen.storyboard */; };
-		D8C6E2571F622F8F0044CADE /* DreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E2561F622F8F0044CADE /* DreamTests.swift */; };
-		D8C6E2621F622F8F0044CADE /* DreamUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E2611F622F8F0044CADE /* DreamUITests.swift */; };
 		D8E4BA521F65074400D10B7A /* threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E4BA511F65074400D10B7A /* threading.swift */; };
 		D8FB532E1F689B85002B201F /* UIViewDesignableImageUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FB532D1F689B85002B201F /* UIViewDesignableImageUIView.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		D8C6E2531F622F8F0044CADE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D8C6E2361F622F8F0044CADE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D8C6E23D1F622F8F0044CADE;
-			remoteInfo = Dream;
-		};
-		D8C6E25E1F622F8F0044CADE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D8C6E2361F622F8F0044CADE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D8C6E23D1F622F8F0044CADE;
-			remoteInfo = Dream;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0971F799D6123D1EE609A9EA /* Pods_DreamUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DreamUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36D1945078B8749F943D4A2F /* Pods-Dream.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dream.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dream/Pods-Dream.release.xcconfig"; sourceTree = "<group>"; };
 		47F3E5F8A0374645B30A89A5 /* Pods-Dream.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dream.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dream/Pods-Dream.debug.xcconfig"; sourceTree = "<group>"; };
+		57058242C6D3FCAFDE8079E6 /* Pods-Designable.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Designable.release.xcconfig"; path = "Pods/Target Support Files/Pods-Designable/Pods-Designable.release.xcconfig"; sourceTree = "<group>"; };
 		7232FF53143CAE1A68612F9A /* Pods-DreamTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DreamTests/Pods-DreamTests.release.xcconfig"; sourceTree = "<group>"; };
+		953BF21E999DF4FF1A4B1677 /* Pods-Designable.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Designable.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Designable/Pods-Designable.debug.xcconfig"; sourceTree = "<group>"; };
 		A39F9FF279040C9EBF1E1E47 /* Pods-DreamUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DreamUITests/Pods-DreamUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CA82011E279668AEFCD0214F /* Pods_DreamTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DreamTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE3BD80EF67E4B7ABA84986 /* Pods-DreamUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DreamUITests/Pods-DreamUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -89,22 +70,17 @@
 		D8B55FB31F65A37300C25688 /* Saving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saving.swift; sourceTree = "<group>"; };
 		D8B55FB51F65A80400C25688 /* EditProjectFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectFormViewController.swift; sourceTree = "<group>"; };
 		D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewController.swift; sourceTree = "<group>"; };
-		D8C6E23E1F622F8F0044CADE /* Dream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dream.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8C6E23E1F622F8F0044CADE /* Designable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Designable.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C6E2411F622F8F0044CADE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8C6E2431F622F8F0044CADE /* ProjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
 		D8C6E2481F622F8F0044CADE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8C6E24B1F622F8F0044CADE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D8C6E24D1F622F8F0044CADE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D8C6E2521F622F8F0044CADE /* DreamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DreamTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D8C6E2561F622F8F0044CADE /* DreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamTests.swift; sourceTree = "<group>"; };
-		D8C6E2581F622F8F0044CADE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D8C6E25D1F622F8F0044CADE /* DreamUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DreamUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D8C6E2611F622F8F0044CADE /* DreamUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamUITests.swift; sourceTree = "<group>"; };
-		D8C6E2631F622F8F0044CADE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8E4BA511F65074400D10B7A /* threading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = threading.swift; sourceTree = "<group>"; };
 		D8FB532D1F689B85002B201F /* UIViewDesignableImageUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewDesignableImageUIView.swift; sourceTree = "<group>"; };
 		F32AE382AEEE18212EBC23F7 /* Pods-DreamTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DreamTests/Pods-DreamTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F633E9660237D7E603D950CB /* Pods_Dream.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB9F5D9C31E728A97234B6AA /* Pods_Designable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Designable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,23 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6022853D7EF4E58BC3FFAD7A /* Pods_Dream.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D8C6E24F1F622F8F0044CADE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1F17EF16A9C8676447CAE249 /* Pods_DreamTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D8C6E25A1F622F8F0044CADE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9D86B752CCCA45DF38DC397B /* Pods_DreamUITests.framework in Frameworks */,
+				06B510F2D6BB7B540A6EB821 /* Pods_Designable.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +104,8 @@
 				7232FF53143CAE1A68612F9A /* Pods-DreamTests.release.xcconfig */,
 				A39F9FF279040C9EBF1E1E47 /* Pods-DreamUITests.debug.xcconfig */,
 				CBE3BD80EF67E4B7ABA84986 /* Pods-DreamUITests.release.xcconfig */,
+				953BF21E999DF4FF1A4B1677 /* Pods-Designable.debug.xcconfig */,
+				57058242C6D3FCAFDE8079E6 /* Pods-Designable.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -154,6 +116,7 @@
 				F633E9660237D7E603D950CB /* Pods_Dream.framework */,
 				CA82011E279668AEFCD0214F /* Pods_DreamTests.framework */,
 				0971F799D6123D1EE609A9EA /* Pods_DreamUITests.framework */,
+				FB9F5D9C31E728A97234B6AA /* Pods_Designable.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -200,9 +163,7 @@
 		D8C6E2351F622F8F0044CADE = {
 			isa = PBXGroup;
 			children = (
-				D8C6E2401F622F8F0044CADE /* Dream */,
-				D8C6E2551F622F8F0044CADE /* DreamTests */,
-				D8C6E2601F622F8F0044CADE /* DreamUITests */,
+				D8C6E2401F622F8F0044CADE /* Designable */,
 				D8C6E23F1F622F8F0044CADE /* Products */,
 				28F006CF42550BDC5C1B2D52 /* Pods */,
 				4D1DCF27A015EE6E768CB1AB /* Frameworks */,
@@ -212,14 +173,12 @@
 		D8C6E23F1F622F8F0044CADE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D8C6E23E1F622F8F0044CADE /* Dream.app */,
-				D8C6E2521F622F8F0044CADE /* DreamTests.xctest */,
-				D8C6E25D1F622F8F0044CADE /* DreamUITests.xctest */,
+				D8C6E23E1F622F8F0044CADE /* Designable.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D8C6E2401F622F8F0044CADE /* Dream */ = {
+		D8C6E2401F622F8F0044CADE /* Designable */ = {
 			isa = PBXGroup;
 			children = (
 				D8C6E2411F622F8F0044CADE /* AppDelegate.swift */,
@@ -229,33 +188,15 @@
 				D8C6E24A1F622F8F0044CADE /* LaunchScreen.storyboard */,
 				D8C6E24D1F622F8F0044CADE /* Info.plist */,
 			);
-			path = Dream;
-			sourceTree = "<group>";
-		};
-		D8C6E2551F622F8F0044CADE /* DreamTests */ = {
-			isa = PBXGroup;
-			children = (
-				D8C6E2561F622F8F0044CADE /* DreamTests.swift */,
-				D8C6E2581F622F8F0044CADE /* Info.plist */,
-			);
-			path = DreamTests;
-			sourceTree = "<group>";
-		};
-		D8C6E2601F622F8F0044CADE /* DreamUITests */ = {
-			isa = PBXGroup;
-			children = (
-				D8C6E2611F622F8F0044CADE /* DreamUITests.swift */,
-				D8C6E2631F622F8F0044CADE /* Info.plist */,
-			);
-			path = DreamUITests;
+			path = Designable;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D8C6E23D1F622F8F0044CADE /* Dream */ = {
+		D8C6E23D1F622F8F0044CADE /* Designable */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D8C6E2661F622F8F0044CADE /* Build configuration list for PBXNativeTarget "Dream" */;
+			buildConfigurationList = D8C6E2661F622F8F0044CADE /* Build configuration list for PBXNativeTarget "Designable" */;
 			buildPhases = (
 				522E76B468F6236F060D54AE /* [CP] Check Pods Manifest.lock */,
 				D8C6E23A1F622F8F0044CADE /* Sources */,
@@ -268,52 +209,10 @@
 			);
 			dependencies = (
 			);
-			name = Dream;
+			name = Designable;
 			productName = Dream;
-			productReference = D8C6E23E1F622F8F0044CADE /* Dream.app */;
+			productReference = D8C6E23E1F622F8F0044CADE /* Designable.app */;
 			productType = "com.apple.product-type.application";
-		};
-		D8C6E2511F622F8F0044CADE /* DreamTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D8C6E2691F622F8F0044CADE /* Build configuration list for PBXNativeTarget "DreamTests" */;
-			buildPhases = (
-				F736FE44AB8F113541290AF8 /* [CP] Check Pods Manifest.lock */,
-				D8C6E24E1F622F8F0044CADE /* Sources */,
-				D8C6E24F1F622F8F0044CADE /* Frameworks */,
-				D8C6E2501F622F8F0044CADE /* Resources */,
-				B9EF2E612CDF608AD788CDE8 /* [CP] Embed Pods Frameworks */,
-				9464328A8424F33A259505B4 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D8C6E2541F622F8F0044CADE /* PBXTargetDependency */,
-			);
-			name = DreamTests;
-			productName = DreamTests;
-			productReference = D8C6E2521F622F8F0044CADE /* DreamTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		D8C6E25C1F622F8F0044CADE /* DreamUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D8C6E26C1F622F8F0044CADE /* Build configuration list for PBXNativeTarget "DreamUITests" */;
-			buildPhases = (
-				2C4EC662320706C92C2CA6AB /* [CP] Check Pods Manifest.lock */,
-				D8C6E2591F622F8F0044CADE /* Sources */,
-				D8C6E25A1F622F8F0044CADE /* Frameworks */,
-				D8C6E25B1F622F8F0044CADE /* Resources */,
-				6496B73B6690869E77779753 /* [CP] Embed Pods Frameworks */,
-				40FA0459E74455B94AED1AFB /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D8C6E25F1F622F8F0044CADE /* PBXTargetDependency */,
-			);
-			name = DreamUITests;
-			productName = DreamUITests;
-			productReference = D8C6E25D1F622F8F0044CADE /* DreamUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -329,19 +228,9 @@
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
 					};
-					D8C6E2511F622F8F0044CADE = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = D8C6E23D1F622F8F0044CADE;
-					};
-					D8C6E25C1F622F8F0044CADE = {
-						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
-						TestTargetID = D8C6E23D1F622F8F0044CADE;
-					};
 				};
 			};
-			buildConfigurationList = D8C6E2391F622F8F0044CADE /* Build configuration list for PBXProject "Design Dream" */;
+			buildConfigurationList = D8C6E2391F622F8F0044CADE /* Build configuration list for PBXProject "Designable" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -354,9 +243,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D8C6E23D1F622F8F0044CADE /* Dream */,
-				D8C6E2511F622F8F0044CADE /* DreamTests */,
-				D8C6E25C1F622F8F0044CADE /* DreamUITests */,
+				D8C6E23D1F622F8F0044CADE /* Designable */,
 			);
 		};
 /* End PBXProject section */
@@ -368,20 +255,6 @@
 			files = (
 				D8C6E24C1F622F8F0044CADE /* LaunchScreen.storyboard in Resources */,
 				D8C6E2491F622F8F0044CADE /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D8C6E2501F622F8F0044CADE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D8C6E25B1F622F8F0044CADE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,40 +273,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dream/Pods-Dream-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2C4EC662320706C92C2CA6AB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DreamUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		40FA0459E74455B94AED1AFB /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DreamUITests/Pods-DreamUITests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Designable/Pods-Designable-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		522E76B468F6236F060D54AE /* [CP] Check Pods Manifest.lock */ = {
@@ -447,26 +287,11 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Dream-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Designable-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6496B73B6690869E77779753 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DreamUITests/Pods-DreamUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8B5FD6E1B5DAAF9041AB22C5 /* [CP] Embed Pods Frameworks */ = {
@@ -475,7 +300,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Dream/Pods-Dream-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Designable/Pods-Designable-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
@@ -486,55 +311,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dream/Pods-Dream-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9464328A8424F33A259505B4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DreamTests/Pods-DreamTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B9EF2E612CDF608AD788CDE8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DreamTests/Pods-DreamTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F736FE44AB8F113541290AF8 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DreamTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Designable/Pods-Designable-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -544,8 +321,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D821F6031F6C74B2003CD82D /* Dream.swift in Sources */,
 				D854BC301F6643780099E9AB /* InspectorLinkViewController.swift in Sources */,
-				D864651A1F6463D100BE6C03 /* Dream.swift in Sources */,
 				D86E1AD31F679C1B0066F3E3 /* InspectorColorViewController.swift in Sources */,
 				D86E1AD11F6767A30066F3E3 /* InspectorMenuController.swift in Sources */,
 				D8B55FB61F65A80400C25688 /* EditProjectFormViewController.swift in Sources */,
@@ -573,36 +350,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D8C6E24E1F622F8F0044CADE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D8C6E2571F622F8F0044CADE /* DreamTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D8C6E2591F622F8F0044CADE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D8C6E2621F622F8F0044CADE /* DreamUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D8C6E2541F622F8F0044CADE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D8C6E23D1F622F8F0044CADE /* Dream */;
-			targetProxy = D8C6E2531F622F8F0044CADE /* PBXContainerItemProxy */;
-		};
-		D8C6E25F1F622F8F0044CADE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D8C6E23D1F622F8F0044CADE /* Dream */;
-			targetProxy = D8C6E25E1F622F8F0044CADE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D8C6E24A1F622F8F0044CADE /* LaunchScreen.storyboard */ = {
@@ -725,15 +473,15 @@
 		};
 		D8C6E2671F622F8F0044CADE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 47F3E5F8A0374645B30A89A5 /* Pods-Dream.debug.xcconfig */;
+			baseConfigurationReference = 953BF21E999DF4FF1A4B1677 /* Pods-Designable.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3WQTW95Z2J;
-				INFOPLIST_FILE = Dream/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Designable/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.sahand.Dream;
+				PRODUCT_BUNDLE_IDENTIFIER = me.sahand.designable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -742,95 +490,25 @@
 		};
 		D8C6E2681F622F8F0044CADE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36D1945078B8749F943D4A2F /* Pods-Dream.release.xcconfig */;
+			baseConfigurationReference = 57058242C6D3FCAFDE8079E6 /* Pods-Designable.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3WQTW95Z2J;
-				INFOPLIST_FILE = Dream/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Designable/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.sahand.Dream;
+				PRODUCT_BUNDLE_IDENTIFIER = me.sahand.designable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		D8C6E26A1F622F8F0044CADE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F32AE382AEEE18212EBC23F7 /* Pods-DreamTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WQTW95Z2J;
-				INFOPLIST_FILE = DreamTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.sahand.DreamTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dream.app/Dream";
-			};
-			name = Debug;
-		};
-		D8C6E26B1F622F8F0044CADE /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7232FF53143CAE1A68612F9A /* Pods-DreamTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WQTW95Z2J;
-				INFOPLIST_FILE = DreamTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.sahand.DreamTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dream.app/Dream";
-			};
-			name = Release;
-		};
-		D8C6E26D1F622F8F0044CADE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A39F9FF279040C9EBF1E1E47 /* Pods-DreamUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WQTW95Z2J;
-				INFOPLIST_FILE = DreamUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.sahand.DreamUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Dream;
-			};
-			name = Debug;
-		};
-		D8C6E26E1F622F8F0044CADE /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBE3BD80EF67E4B7ABA84986 /* Pods-DreamUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3WQTW95Z2J;
-				INFOPLIST_FILE = DreamUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.sahand.DreamUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Dream;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D8C6E2391F622F8F0044CADE /* Build configuration list for PBXProject "Design Dream" */ = {
+		D8C6E2391F622F8F0044CADE /* Build configuration list for PBXProject "Designable" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8C6E2641F622F8F0044CADE /* Debug */,
@@ -839,29 +517,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D8C6E2661F622F8F0044CADE /* Build configuration list for PBXNativeTarget "Dream" */ = {
+		D8C6E2661F622F8F0044CADE /* Build configuration list for PBXNativeTarget "Designable" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8C6E2671F622F8F0044CADE /* Debug */,
 				D8C6E2681F622F8F0044CADE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D8C6E2691F622F8F0044CADE /* Build configuration list for PBXNativeTarget "DreamTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D8C6E26A1F622F8F0044CADE /* Debug */,
-				D8C6E26B1F622F8F0044CADE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D8C6E26C1F622F8F0044CADE /* Build configuration list for PBXNativeTarget "DreamUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D8C6E26D1F622F8F0044CADE /* Debug */,
-				D8C6E26E1F622F8F0044CADE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
