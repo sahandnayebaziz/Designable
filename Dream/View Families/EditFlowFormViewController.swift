@@ -78,9 +78,14 @@ class EditFlowFormViewController: FormViewController {
     }
     
     @objc func didTapSave() {
+        guard let flowVC = flowViewController else {
+            fatalError("Can't edit without reference to flowVC.")
+        }
+        
         var editedFlow = flow
         editedFlow.name = form.values()["name"] as! String
-        flowViewController?.flow = editedFlow
+        flowVC.flow = editedFlow
+        flowVC.saveToProjectViewController()
         dismiss(animated: true, completion: nil)
     }
     
