@@ -32,7 +32,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(FlowTableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -62,9 +62,9 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FlowTableViewCell
         let flow = project.flows[indexPath.row]
-        cell.textLabel?.text = flow.name
+        cell.set(for: flow)
         return cell
     }
     
@@ -74,6 +74,10 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         let flowVC = FlowViewController(project: project, flow: flow)
         flowVC.projectViewController = self
         navigationController?.pushViewController(flowVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
     }
     
     @objc func didTapEdit() {
@@ -101,7 +105,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             project.flows.insert(flow, at: 0)
         }
         
-        dispatch_to_background_queue {
+        dispatch_to_background_queue(.utility) {
             Dream.save(self.project)
         }
     }
@@ -115,4 +119,91 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         Dream.save(project)
     }
 
+}
+
+class FlowTableViewCell: UITableViewCell {
+    
+    var flowId: String = ""
+    
+    var previewImageView: UIImageView? = nil
+    var nameLabel: UILabel? = nil
+    
+    func set(for flow: Flow) {
+        flowId = flow.id
+        
+        if previewImageView == nil {
+            previewImageView = UIImageView()
+            addSubview(previewImageView!)
+            previewImageView!.snp.makeConstraints { make in
+                make.height.equalTo(80)
+                make.width.equalTo(80)
+                make.top.equalTo(20)
+                make.left.equalTo(self).offset(14)
+                make.centerY.equalTo(self)
+            }
+            previewImageView!.contentMode = .scaleAspectFit
+            previewImageView!.backgroundColor = Dream.Colors.imageViewBackgroundGray
+            previewImageView!.layer.cornerRadius = 4
+            
+            nameLabel = UILabel()
+            addSubview(nameLabel!)
+            nameLabel!.snp.makeConstraints { make in
+                make.left.equalTo(previewImageView!.snp.right).offset(14)
+                make.centerY.equalTo(self)
+                make.right.equalTo(self).offset(-14)
+                make.height.equalTo(self)
+            }
+            nameLabel!.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .title2).pointSize, weight: .semibold)
+        }
+        
+        previewImageView!.image = nil
+        nameLabel!.text = flow.name
+        flow.renderThumbnail(id: flowId) { [ weak self ] id, image in
+            if let strongSelf = self {
+                if strongSelf.flowId == id {
+                    NSLog("placing \(id)")
+                    strongSelf.previewImageView?.image = image
+                }
+            }
+        }
+    }
+}
+
+extension Flow {
+    func renderThumbnail(id: String, completion: @escaping (String, UIImage) -> Void) {
+        NSLog("rendering \(id)")
+        dispatch_to_background_queue(.userInitiated) {
+            var view: UIView? = UIView(frame: UIScreen.main.bounds)
+            NSLog("View created done.")
+            view?.backgroundColor = .white
+            self.pages[0].layers.forEach { view?.addSubview($0.toUIViewDesignable() as! UIView) }
+            NSLog("Added subviews done.")
+            guard let elements = view?.subviews as? [UIView & UIViewDesignable] else {
+                fatalError("Not elements again")
+            }
+            
+            var allElementsRendered = false
+            while !allElementsRendered {
+                NSLog("Waiting for elements to render.")
+                let elementsRendered = elements.filter {
+                    switch $0.type {
+                    case .rectangle:
+                        return true
+                    case .image:
+                        return ($0 as! UIViewDesignableImageUIView).image != nil
+                    }
+                }
+                allElementsRendered = elements.count == elementsRendered.count
+            }
+            NSLog("All elements rendered done.")
+            
+            let image = view!.renderToImage()
+            NSLog("Image rendered done.")
+            view = nil
+            dispatch_to_main_queue {
+                NSLog("returning \(id)")
+                completion(id, image)
+            }
+        }
+    }
 }

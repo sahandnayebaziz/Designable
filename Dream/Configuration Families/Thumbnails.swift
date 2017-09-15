@@ -12,18 +12,14 @@ import UIKit
 public extension UIView {
     public func renderToImage() -> UIImage {        
         UIGraphicsBeginImageContextWithOptions(bounds.size, true, contentScaleFactor)
+        NSLog("Begin context done.")
         layer.render(in: UIGraphicsGetCurrentContext()!)
-//        drawHierarchy(in: bounds, afterScreenUpdates: true)
+        NSLog("Layer render done.")
         let image = UIGraphicsGetImageFromCurrentImageContext()
+        NSLog("Get image done.")
         UIGraphicsEndImageContext()
+        NSLog("End context done.")
         return image!
     }
 }
-
-//UIGraphicsBeginImageContextWithOptions(self.bounds.size,
-//                                       YES, self.contentScaleFactor);
-//[self drawViewHierarchyInRect:self.bounds afterScreenUpdates:YES];
-//UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-//UIGraphicsEndImageContext();
-//return newImage;
 

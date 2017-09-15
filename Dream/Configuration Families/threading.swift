@@ -8,8 +8,8 @@
 
 import Foundation
 
-func dispatch_to_background_queue(block: @escaping (()->Void)) {
-    DispatchQueue.global().async {
+func dispatch_to_background_queue(_ qualityOfService: DispatchQoS.QoSClass, block: @escaping (()->Void)) {
+    DispatchQueue.global(qos: qualityOfService).async {
         block()
     }
 }

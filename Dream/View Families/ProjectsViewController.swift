@@ -39,7 +39,7 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
         navigationItem.setRightBarButton(addButton, animated: true)
         
-        dispatch_to_background_queue {
+        dispatch_to_background_queue(.userInteractive) {
             let projects = Dream.loadProjects()
             dispatch_to_main_queue {
                 self.projects = projects

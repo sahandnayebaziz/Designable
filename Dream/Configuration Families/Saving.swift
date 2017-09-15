@@ -12,12 +12,19 @@ import UIKit
 extension Dream {
     
     static func prepareDisk() {
-        do {
-            if !Dream.Disk.exists("projects/", in: .documents) {
-                try Dream.Disk.createFolder(to: .documents, as: "projects/")
+        let necessaryFolderPaths = ["projects/", "previews/"]
+        
+        necessaryFolderPaths.forEach {
+            do {
+                if !Dream.Disk.exists($0, in: .documents) {
+                    try Dream.Disk.createFolder(to: .documents, as: $0)
+                    NSLog("\($0) folder created.")
+                } else {
+                    NSLog("\($0) folder already created.")
+                }
+            } catch let error as NSError {
+                print(error)
             }
-        } catch let error as NSError {
-            print(error)
         }
     }
     
@@ -61,11 +68,11 @@ extension Dream {
         
         let path = "images/\(filename)"
         
-        guard let jpegData = UIImageJPEGRepresentation(image, 0.5) else {
+        guard let jpegData = UIImageJPEGRepresentation(image, 0.33) else {
             fatalError("Could not get JPEG data of image")
         }
         
-        dispatch_to_background_queue {
+        dispatch_to_background_queue(.userInitiated) {
             do {
                 try Disk.save(jpegData, to: .documents, as: path)
                 dispatch_to_main_queue {
@@ -84,7 +91,7 @@ extension Dream {
             return
         }
         
-        dispatch_to_background_queue {
+        dispatch_to_background_queue(.userInitiated) {
             do {
                 let data = try Dream.Disk.retrieve("images/\(filename)", from: .documents)
                 dispatch_to_main_queue {

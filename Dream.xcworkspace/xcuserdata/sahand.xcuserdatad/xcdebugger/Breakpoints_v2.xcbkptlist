@@ -10,12 +10,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dream/View Families/InspectorMenuController.swift"
-            timestampString = "527140515.110585"
+            timestampString = "527152920.083889"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "138"
             endingLineNumber = "138"
             landmarkName = "collectionView(_:didSelectItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Dream/View Families/UIViewDesignableImageUIView.swift"
+            timestampString = "527191361.198474"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "init(frame:filename:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Dream.UIViewDesignableImageUIView.init(frame: __C.CGRect, filename: Swift.Optional&lt;Swift.String&gt;) -&gt; Dream.UIViewDesignableImageUIView"
+                  moduleName = "Dream"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sahand/Repos/Dream/Dream/View%20Families/UIViewDesignableImageUIView.swift"
+                  timestampString = "527194954.896955"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "1508">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__ObjC.UIImage&gt;) -&gt; () in Dream.UIViewDesignableImageUIView.init(frame: __C.CGRect, filename: Swift.Optional&lt;Swift.String&gt;) -&gt; Dream.UIViewDesignableImageUIView"
+                  moduleName = "Dream"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sahand/Repos/Dream/Dream/View%20Families/UIViewDesignableImageUIView.swift"
+                  timestampString = "527194954.898974"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Dream/View Families/UIViewDesignableImageUIView.swift"
+            timestampString = "527191361.198762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "init(frame:filename:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
