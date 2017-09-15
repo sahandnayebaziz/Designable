@@ -273,7 +273,6 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
             guard let _ = selection else {
                 return
             }
-            
             gestureDidEnd(recognizer: pinch)
         default:
             break
@@ -328,15 +327,12 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
                 fatalError("Made selection without a first element, or without a first element that is a designable.")
             }
             
-            guard let preGesture = firstElement.preGesturePositionDescription else {
-                print(selection as Any)
-                fatalError("Gesture ended on an element that wasn't given a pre gesture position.")
+            if let preGesture = firstElement.preGesturePositionDescription {
+                firstElement.preGesturePositionDescription = nil
+                undoableSetFrameOf(view: firstElement, fromFrame: preGesture.frame, toFrame: firstElement.frame)
             }
             
-            firstElement.preGesturePositionDescription = nil
-            self.selection = nil
-            
-            undoableSetFrameOf(view: firstElement, fromFrame: preGesture.frame, toFrame: firstElement.frame)
+            selection = nil
         }
     }
     

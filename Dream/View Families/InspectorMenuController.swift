@@ -97,19 +97,57 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
             
             designVC.designView.undoableDuplicate(of: selected)
         case .moveBackward:
-//            guard let designVC = designViewController else {
-//                fatalError("Could not access designVC")
-//            }
-//
-//            guard let selected = selection?.first else {
-//                fatalError("Could not access first selected item")
-//            }
-//
-//            selection
-            break
+            guard let designVC = designViewController else {
+                fatalError("Could not access designVC")
+            }
             
+            guard let selected = designVC.designView.selection?.first else {
+                fatalError("Could not access selection.")
+            }
+            
+            guard let index = designVC.designView.elementsView.subviews.index(where: { $0 == selected }) else {
+                fatalError("Could not find selection in selected")
+            }
+            
+            guard index != 0 else {
+                // already at back
+                return
+            }
+            
+            let oneBelowIndex = index - 1
+            
+            guard designVC.designView.elementsView.subviews.indices.contains(oneBelowIndex) else {
+                // nothing to move behind
+                return
+            }
+            
+            designVC.designView.undoableExchangeIndexes(of: index, and: oneBelowIndex)
         case .moveForward:
-            break
+            guard let designVC = designViewController else {
+                fatalError("Could not access designVC")
+            }
+            
+            guard let selected = designVC.designView.selection?.first else {
+                fatalError("Could not access selection.")
+            }
+            
+            guard let index = designVC.designView.elementsView.subviews.index(where: { $0 == selected }) else {
+                fatalError("Could not find selection in selected")
+            }
+            
+            guard index != designVC.designView.elementsView.subviews.count - 1 else {
+                // already at front
+                return
+            }
+            
+            let oneAboveIndex = index + 1
+            
+            guard designVC.designView.elementsView.subviews.indices.contains(oneAboveIndex) else {
+                // nothing to move in front of
+                return
+            }
+            
+            designVC.designView.undoableExchangeIndexes(of: index, and: oneAboveIndex)
         }
     }
 }

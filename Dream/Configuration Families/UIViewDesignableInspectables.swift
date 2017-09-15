@@ -127,4 +127,13 @@ extension DesignView {
         undoableAdd(description: replacementDesignableDescription)
         designUndoManager.endUndoGrouping()
     }
+    
+    func undoableExchangeIndexes(of index: Int, and otherIndex: Int) {
+        designUndoManager.registerUndo(withTarget: self) { designView in
+            designView.undoableExchangeIndexes(of: index, and: otherIndex)
+        }
+        
+        elementsView.exchangeSubview(at: index, withSubviewAt: otherIndex)
+        delegate?.didChange(self)
+    }
 }
