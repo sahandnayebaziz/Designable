@@ -1,6 +1,6 @@
 //
 //  InspectorColorViewController.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/11/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -33,7 +33,7 @@ class InspectorColorViewController: InspectorViewController, UICollectionViewDat
         super.viewDidLoad()
         title = "Color"
         
-        view.backgroundColor = Dream.Colors.inspectorLightGray
+        view.backgroundColor = Designable.Colors.inspectorLightGray
         
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 80, height: 110)

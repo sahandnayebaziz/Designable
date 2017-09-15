@@ -1,6 +1,6 @@
 //
 //  InspectorMenuController.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/11/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -18,7 +18,7 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Dream.Colors.inspectorLightGray
+        view.backgroundColor = Designable.Colors.inspectorLightGray
         
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 80, height: 110)
@@ -38,7 +38,7 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(InspectorMenuAttributeCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.backgroundColor = Dream.Colors.inspectorLightGray
+        collectionView.backgroundColor = Designable.Colors.inspectorLightGray
         
         navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDone)), animated: false)
     }

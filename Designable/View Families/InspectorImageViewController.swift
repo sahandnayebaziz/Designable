@@ -1,6 +1,6 @@
 //
 //  InspectorImageViewController.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/11/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -13,7 +13,7 @@ class InspectorImageViewController: InspectorViewController, UIImagePickerContro
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Add Image"
-        view.backgroundColor = Dream.Colors.inspectorLightGray
+        view.backgroundColor = Designable.Colors.inspectorLightGray
         setForNoImage()
     }
     
@@ -77,7 +77,7 @@ class InspectorImageViewController: InspectorViewController, UIImagePickerContro
         
         let newImageView = UIViewDesignableImageUIView(frame: selected.frame, filename: nil)
         
-        Dream.save(image, with: newImageView.filename)
+        Designable.save(image, with: newImageView.filename)
         
         designVC.designView.undoableReplace(designable: selected, with: newImageView.designableDescription)
         dismiss(animated: true, completion: nil)

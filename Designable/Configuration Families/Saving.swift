@@ -1,6 +1,6 @@
 //
 //  Saving.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/10/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -9,15 +9,15 @@
 import Foundation
 import UIKit
 
-extension Dream {
+extension Designable {
     
     static func prepareDisk() {
         let necessaryFolderPaths = ["projects/", "previews/"]
         
         necessaryFolderPaths.forEach {
             do {
-                if !Dream.Disk.exists($0, in: .documents) {
-                    try Dream.Disk.createFolder(to: .documents, as: $0)
+                if !Designable.Disk.exists($0, in: .documents) {
+                    try Designable.Disk.createFolder(to: .documents, as: $0)
                     NSLog("\($0) folder created.")
                 } else {
                     NSLog("\($0) folder already created.")
@@ -93,7 +93,7 @@ extension Dream {
         
         dispatch_to_background_queue(.userInitiated) {
             do {
-                let data = try Dream.Disk.retrieve("images/\(filename)", from: .documents)
+                let data = try Designable.Disk.retrieve("images/\(filename)", from: .documents)
                 dispatch_to_main_queue {
                     completion(UIImage(data: data))
                 }

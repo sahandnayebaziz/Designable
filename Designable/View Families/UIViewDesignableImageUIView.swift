@@ -1,6 +1,6 @@
 //
 //  UIViewDesignableImageUIView.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/12/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -24,9 +24,9 @@ class UIViewDesignableImageUIView: UIImageView, UIViewDesignable {
         }
         
         super.init(frame: frame)
-        backgroundColor = Dream.Colors.imageViewBackgroundGray
+        backgroundColor = Designable.Colors.imageViewBackgroundGray
         
-        Dream.loadImage(named: self.filename) { [ weak self ] i in
+        Designable.loadImage(named: self.filename) { [ weak self ] i in
             self?.image = i
         }
     }

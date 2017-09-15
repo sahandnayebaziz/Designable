@@ -1,6 +1,6 @@
 //
 //  EditProjectFormViewController.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/10/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -87,7 +87,7 @@ class EditProjectFormViewController: FormViewController {
         let alert = UIAlertController(title: "Delete \"\(project.name)\"?", message: "If you delete this project, you won't be able to see it again.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
             do {
-                try Dream.delete(self.project)
+                try Designable.delete(self.project)
                 
                 (self.presentingViewController as? UINavigationController)?.popViewController(animated: false)
                 self.dismiss(animated: true, completion: nil)
@@ -105,12 +105,12 @@ class EditProjectFormViewController: FormViewController {
     
     @objc func didTapSave() {
         do {
-            try Dream.delete(project)
+            try Designable.delete(project)
             
             var editedProject = project
             editedProject.name = form.values()["name"] as! String
             editedProject.description = form.values()["description"] as! String
-            try Dream.save(editedProject)
+            try Designable.save(editedProject)
             
             ((presentingViewController as? UINavigationController)?.topViewController as? ProjectViewController)?.project = editedProject
             dismiss(animated: true, completion: nil)

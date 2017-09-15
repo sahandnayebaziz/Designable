@@ -1,6 +1,6 @@
 //
-//  DreamDesignable.swift
-//  Dream
+//  DesignableDesignable.swift
+//  Designable
 //
 //  Created by Sahand on 9/8/17.
 //  Copyright © 2017 Sahand. All rights reserved.

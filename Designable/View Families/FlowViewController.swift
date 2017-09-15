@@ -1,6 +1,6 @@
 //
 //  FlowViewController.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/10/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -77,7 +77,6 @@ class FlowViewController: UIViewController, DesignViewControllerInteractionDeleg
     func revertAndPopToProjectViewController() {
         projectViewController?.saveProjectWithUpdated(flowInCaseOfRevert)
         navigationController?.popViewController(animated: true)
-        // todo: pop to start design view controller and re-lay things out.
     }
     
     func deleteFromProjectViewController() {
@@ -97,7 +96,12 @@ class FlowViewController: UIViewController, DesignViewControllerInteractionDeleg
         let hasUnsavedChanges = flow.toJSON() != flowInCaseOfRevert.toJSON()
         if hasUnsavedChanges {
             let revertAction = UIAlertAction(title: "Revert To Last Saved", style: .destructive, handler: { _ in
-                self.revertAndPopToProjectViewController()
+                let revertAlert = UIAlertController(title: "Revert to the last saved version of \"\(self.flow.name)\"?", message: "If you revert, any changes you have made since that version will be erased.", preferredStyle: .alert)
+                revertAlert.addAction(UIAlertAction(title: "Revert", style: .destructive) { _ in
+                    self.revertAndPopToProjectViewController()
+                })
+                revertAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(revertAlert, animated: true, completion: nil)
             })
             alert.addAction(revertAction)
         } else {

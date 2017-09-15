@@ -1,6 +1,6 @@
 //
 //  Colors.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/11/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension Dream {
+extension Designable {
     
     struct Colors {
         

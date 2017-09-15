@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		06B510F2D6BB7B540A6EB821 /* Pods_Designable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB9F5D9C31E728A97234B6AA /* Pods_Designable.framework */; };
 		D809CE1F1F673123001CDE21 /* Thumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = D809CE1E1F673123001CDE21 /* Thumbnails.swift */; };
-		D821F6031F6C74B2003CD82D /* Dream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465191F6463D100BE6C03 /* Dream.swift */; };
+		D821F6031F6C74B2003CD82D /* Designable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465191F6463D100BE6C03 /* Designable.swift */; };
 		D854BC301F6643780099E9AB /* InspectorLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D854BC2F1F6643780099E9AB /* InspectorLinkViewController.swift */; };
 		D86465161F64633800BE6C03 /* Projects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465151F64633800BE6C03 /* Projects.swift */; };
 		D86465181F6463BD00BE6C03 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86465171F6463BD00BE6C03 /* Disk.swift */; };
@@ -26,7 +26,6 @@
 		D8AC60241F65C70100FF54C8 /* DesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC60231F65C70100FF54C8 /* DesignViewController.swift */; };
 		D8AC60261F6628C500FF54C8 /* EditFlowFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC60251F6628C500FF54C8 /* EditFlowFormViewController.swift */; };
 		D8AC602A1F66377700FF54C8 /* FlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC60291F66377700FF54C8 /* FlowViewController.swift */; };
-		D8AC602E1F663A6F00FF54C8 /* NewFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AC602D1F663A6F00FF54C8 /* NewFlowViewController.swift */; };
 		D8B55FB41F65A37300C25688 /* Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B55FB31F65A37300C25688 /* Saving.swift */; };
 		D8B55FB61F65A80400C25688 /* EditProjectFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B55FB51F65A80400C25688 /* EditProjectFormViewController.swift */; };
 		D8B55FB81F65AD4800C25688 /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */; };
@@ -52,7 +51,7 @@
 		D854BC2F1F6643780099E9AB /* InspectorLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorLinkViewController.swift; sourceTree = "<group>"; };
 		D86465151F64633800BE6C03 /* Projects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projects.swift; sourceTree = "<group>"; };
 		D86465171F6463BD00BE6C03 /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
-		D86465191F6463D100BE6C03 /* Dream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dream.swift; sourceTree = "<group>"; };
+		D86465191F6463D100BE6C03 /* Designable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designable.swift; sourceTree = "<group>"; };
 		D864651D1F6468F700BE6C03 /* NewProjectFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectFormViewController.swift; sourceTree = "<group>"; };
 		D86E1ACA1F67619E0066F3E3 /* UIViewDesignableRectangleUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewDesignableRectangleUIView.swift; sourceTree = "<group>"; };
 		D86E1ACC1F67654D0066F3E3 /* DesignableDescriptionAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableDescriptionAttributes.swift; sourceTree = "<group>"; };
@@ -66,7 +65,6 @@
 		D8AC60231F65C70100FF54C8 /* DesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignViewController.swift; sourceTree = "<group>"; };
 		D8AC60251F6628C500FF54C8 /* EditFlowFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFlowFormViewController.swift; sourceTree = "<group>"; };
 		D8AC60291F66377700FF54C8 /* FlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowViewController.swift; sourceTree = "<group>"; };
-		D8AC602D1F663A6F00FF54C8 /* NewFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFlowViewController.swift; sourceTree = "<group>"; };
 		D8B55FB31F65A37300C25688 /* Saving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saving.swift; sourceTree = "<group>"; };
 		D8B55FB51F65A80400C25688 /* EditProjectFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectFormViewController.swift; sourceTree = "<group>"; };
 		D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewController.swift; sourceTree = "<group>"; };
@@ -127,7 +125,7 @@
 				D86E1AD61F67CA880066F3E3 /* Colors.swift */,
 				D86E1ACC1F67654D0066F3E3 /* DesignableDescriptionAttributes.swift */,
 				D86465171F6463BD00BE6C03 /* Disk.swift */,
-				D86465191F6463D100BE6C03 /* Dream.swift */,
+				D86465191F6463D100BE6C03 /* Designable.swift */,
 				D86465151F64633800BE6C03 /* Projects.swift */,
 				D8B55FB31F65A37300C25688 /* Saving.swift */,
 				D8E4BA511F65074400D10B7A /* threading.swift */,
@@ -150,7 +148,6 @@
 				D86E1AD41F67C7620066F3E3 /* InspectorImageViewController.swift */,
 				D854BC2F1F6643780099E9AB /* InspectorLinkViewController.swift */,
 				D86E1AD01F6767A30066F3E3 /* InspectorMenuController.swift */,
-				D8AC602D1F663A6F00FF54C8 /* NewFlowViewController.swift */,
 				D864651D1F6468F700BE6C03 /* NewProjectFormViewController.swift */,
 				D8C6E2431F622F8F0044CADE /* ProjectsViewController.swift */,
 				D8B55FB71F65AD4800C25688 /* ProjectViewController.swift */,
@@ -321,13 +318,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D821F6031F6C74B2003CD82D /* Dream.swift in Sources */,
+				D821F6031F6C74B2003CD82D /* Designable.swift in Sources */,
 				D854BC301F6643780099E9AB /* InspectorLinkViewController.swift in Sources */,
 				D86E1AD31F679C1B0066F3E3 /* InspectorColorViewController.swift in Sources */,
 				D86E1AD11F6767A30066F3E3 /* InspectorMenuController.swift in Sources */,
 				D8B55FB61F65A80400C25688 /* EditProjectFormViewController.swift in Sources */,
 				D86465181F6463BD00BE6C03 /* Disk.swift in Sources */,
-				D8AC602E1F663A6F00FF54C8 /* NewFlowViewController.swift in Sources */,
 				D86E1ACB1F67619E0066F3E3 /* UIViewDesignableRectangleUIView.swift in Sources */,
 				D897F7D01F637D9900A52CBD /* UIViewDesignable.swift in Sources */,
 				D8AC60221F65BE3400FF54C8 /* DesignView.swift in Sources */,

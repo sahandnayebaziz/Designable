@@ -1,6 +1,6 @@
 //
 //  ProjectsViewController.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/7/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -40,7 +40,7 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         navigationItem.setRightBarButton(addButton, animated: true)
         
         dispatch_to_background_queue(.userInteractive) {
-            let projects = Dream.loadProjects()
+            let projects = Designable.loadProjects()
             dispatch_to_main_queue {
                 self.projects = projects
                 self.tableView.reloadData()

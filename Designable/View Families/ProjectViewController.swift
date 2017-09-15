@@ -1,6 +1,6 @@
 //
 //  ProjectViewController.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/10/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -90,11 +90,9 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     @objc func didTapNewFlow() {
         let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, name: "Page 1", layers: [])])
         
-        let flowVC = NewFlowViewController(project: project, flow: newFlow)
+        let flowVC = FlowViewController(project: project, flow: newFlow)
         flowVC.projectViewController = self
-        
-        let nav = UINavigationController(rootViewController: flowVC)
-        present(nav, animated: true, completion: nil)
+        navigationController?.pushViewController(flowVC, animated: true)
     }
     
     func saveProjectWithUpdated(_ flow: Flow) {
@@ -106,7 +104,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         dispatch_to_background_queue(.utility) {
-            Dream.save(self.project)
+            Designable.save(self.project)
         }
     }
     
@@ -116,7 +114,7 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
             project.flows.remove(at: existingFlowIndex)
         }
         
-        Dream.save(project)
+        Designable.save(project)
     }
 
 }
@@ -142,7 +140,7 @@ class FlowTableViewCell: UITableViewCell {
                 make.centerY.equalTo(self)
             }
             previewImageView!.contentMode = .scaleAspectFit
-            previewImageView!.backgroundColor = Dream.Colors.imageViewBackgroundGray
+            previewImageView!.backgroundColor = Designable.Colors.imageViewBackgroundGray
             previewImageView!.layer.cornerRadius = 4
             
             nameLabel = UILabel()

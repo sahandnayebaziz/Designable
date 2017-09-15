@@ -1,6 +1,6 @@
 //
 //  NewProjectFormViewController.swift
-//  Dream
+//  Designable
 //
 //  Created by Sahand on 9/9/17.
 //  Copyright © 2017 Sahand. All rights reserved.
@@ -55,7 +55,7 @@ class NewProjectFormViewController: FormViewController {
     
     @objc func didTapCreate() {
         let project = Project(name: form.values()["name"] as! String, description: form.values()["description"] as! String, flows: [])
-        Dream.save(project)
+        Designable.save(project)
         dismiss(animated: true, completion: nil)
     }
     
