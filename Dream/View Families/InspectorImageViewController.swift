@@ -71,15 +71,11 @@ class InspectorImageViewController: InspectorViewController, UIImagePickerContro
             fatalError("Could not access designVC")
         }
         
-        guard let selected = inspectorMenu.selection?.first else {
-            fatalError("Could not access first selected item")
+        guard let selected = designVC.designView.selection?.first else {
+            fatalError("No selection")
         }
         
-        guard let selectedAsUIView = selected as? UIView else {
-            fatalError("Selected is not a UIView")
-        }
-        
-        let newImageView = UIViewDesignableImageUIView(frame: selectedAsUIView.frame, filename: nil)
+        let newImageView = UIViewDesignableImageUIView(frame: selected.frame, filename: nil)
         
         Dream.save(image, with: newImageView.filename)
         

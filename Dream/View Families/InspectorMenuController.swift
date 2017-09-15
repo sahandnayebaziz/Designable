@@ -10,7 +10,6 @@ import UIKit
 
 class InspectorMenuController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var selection: [UIViewDesignable]? = nil
     var attributes: [UIViewDesignableInspectableAttributeType] = []
     
     var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -92,11 +91,25 @@ class InspectorMenuController: UIViewController, UICollectionViewDataSource, UIC
                 fatalError("Could not access designVC")
             }
             
-            guard let selected = selection?.first else {
+            guard let selected = designVC.designView.selection?.first else {
                 fatalError("Could not access first selected item")
             }
             
             designVC.designView.undoableDuplicate(of: selected)
+        case .moveBackward:
+//            guard let designVC = designViewController else {
+//                fatalError("Could not access designVC")
+//            }
+//
+//            guard let selected = selection?.first else {
+//                fatalError("Could not access first selected item")
+//            }
+//
+//            selection
+            break
+            
+        case .moveForward:
+            break
         }
     }
 }
@@ -108,6 +121,18 @@ class InspectorMenuAttributeCell: UICollectionViewCell {
     var label: UILabel? = nil
     
     func set(for attribute: UIViewDesignableInspectableAttributeType) {
+        guard let inspectorMenu = inspectorMenuController else {
+            fatalError("Can't set cell without reference to inspector menu.")
+        }
+        
+        guard let designVC = inspectorMenu.designViewController else {
+            fatalError("Can't set cell without reference to designVC.")
+        }
+        
+        guard let selection = designVC.designView.selection else {
+            fatalError("No selection")
+        }
+        
         if iconView == nil {
             iconView = UIView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
             addSubview(iconView!)
@@ -125,7 +150,7 @@ class InspectorMenuAttributeCell: UICollectionViewCell {
         
         label!.text = attribute.menuOptionTitle
         iconView!.subviews.forEach { $0.removeFromSuperview() }
-        attribute.setIconIn(view: iconView!, selection: inspectorMenuController!.selection!)
+        attribute.setIconIn(view: iconView!, selection: selection)
     }
     
 }

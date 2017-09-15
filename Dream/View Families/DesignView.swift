@@ -33,8 +33,30 @@ enum PinchDirectionHint {
 
 class DesignView: UIView, UIGestureRecognizerDelegate {
     
-    let elementsView = UIView()
+    let elementsView: UIView = UIView()
     weak var delegate: DesignViewDelegate?
+    
+    var selection: [UIView & UIViewDesignable]? = nil {
+        didSet {
+            if let selection = selection {
+                elementsView.subviews.forEach { v in
+                    v.layer.borderWidth = 0
+                }
+                selection.forEach { v in
+                    v.layer.borderWidth = 3
+                    v.layer.borderColor = tintColor.cgColor
+                }
+            } else {
+                elementsView.subviews.forEach { v in
+                    v.layer.borderWidth = 0
+                }
+                delegate?.didClearSelection()
+            }
+        }
+    }
+    
+    var activeGestureRecognizers: Set<UIGestureRecognizer> = []
+    let designUndoManager = UndoManager()
     
     init() {
         super.init(frame: .zero)
@@ -78,28 +100,6 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    var selection: [UIView]? = nil {
-        didSet {
-            if let selection = selection {
-                elementsView.subviews.forEach { v in
-                    v.layer.borderWidth = 0
-                }
-                selection.forEach { v in
-                    v.layer.borderWidth = 3
-                    v.layer.borderColor = tintColor.cgColor
-                }
-            } else {
-                elementsView.subviews.forEach { v in
-                    v.layer.borderWidth = 0
-                }
-                delegate?.didClearSelection()
-            }
-        }
-    }
-    
-    var activeGestureRecognizers: Set<UIGestureRecognizer> = []
-    let designUndoManager = UndoManager()
     
     @objc func did(singleTap: UITapGestureRecognizer) {
         switch singleTap.state {
@@ -152,12 +152,16 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
         
         switch pan.state {
         case .began:
+            guard let elementSubviews = elementsView.subviews as? [UIView & UIViewDesignable] else {
+                fatalError("Couldn't get to double type from inside elements view.")
+            }
+            
             var points: [CGPoint] = []
             for i in 0..<pan.numberOfTouches {
                 points.append(pan.location(ofTouch: i, in: elementsView))
             }
             
-            let intersections = elementsView.subviews.filter { subview in
+            let intersections = elementSubviews.filter { subview in
                 let pointsThatIntersectSubview = points.filter { subview.layer.contains(elementsView.convert($0, to: subview)) }
                 return pointsThatIntersectSubview.count == pan.numberOfTouches
             }
@@ -168,15 +172,15 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
             
             let topMostViewOnly = [intersections.last!]
             
-            gestureDidBegin(withViews: topMostViewOnly as! [UIViewDesignable], from: pan)
+            gestureDidBegin(withViews: topMostViewOnly, from: pan)
         case .changed:
-            guard let selection = selection as? [UIViewDesignable] else {
+            guard let selection = selection else {
                 return
             }
             
             let translation = pan.translation(in: elementsView)
             
-            let firstElement = selection.first as! UIView
+            let firstElement = selection.first!
             firstElement.frame = firstElement.frame.applying(CGAffineTransform(translationX: translation.x, y: translation.y))
             pan.setTranslation(.zero, in: elementsView)
         case .cancelled,
@@ -200,16 +204,19 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
         switch pinch.state {
         case .began:
             guard pinch.numberOfTouches == 2 else {
-                fatalError("WTF?")
+                return
             }
             
+            guard let elementSubviews = elementsView.subviews as? [UIView & UIViewDesignable] else {
+                fatalError("Couldn't get to double type from inside elements view.")
+            }
             
             var points: [CGPoint] = []
             for i in 0..<pinch.numberOfTouches {
                 points.append(pinch.location(ofTouch: i, in: elementsView))
             }
             
-            let intersections = elementsView.subviews.filter { subview in
+            let intersections = elementSubviews.filter { subview in
                 let pointsThatIntersectSubview = points.filter { subview.layer.contains(elementsView.convert($0, to: subview)) }
                 return pointsThatIntersectSubview.count == pinch.numberOfTouches
             }
@@ -219,8 +226,7 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
             }
             
             let topMostViewOnly = [intersections.last!]
-            
-            gestureDidBegin(withViews: topMostViewOnly as! [UIViewDesignable], from: pinch)
+            gestureDidBegin(withViews: topMostViewOnly, from: pinch)
         case .changed:
             guard pinch.numberOfTouches == 2, let selection = selection else {
                 return
@@ -277,39 +283,36 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
     @objc func did(longPress: UILongPressGestureRecognizer) {
         switch longPress.state {
         case .began:
-            let point = longPress.location(in: elementsView)
-            
-            let intersections = elementsView.subviews.filter { subview in
-                return subview.layer.contains(elementsView.convert(point, to: subview))
+            guard let elementSubviews = elementsView.subviews as? [UIView & UIViewDesignable] else {
+                fatalError("Couldn't get to double type from inside elements view.")
             }
+            
+            let point = longPress.location(in: elementsView)
+            let intersections = elementSubviews.filter { $0.layer.contains(elementsView.convert(point, to: $0)) }
             
             guard !intersections.isEmpty else {
                 return
             }
             
             let topMostViewOnly = [intersections.last!]
-
             selection = topMostViewOnly
-            delegate?.didLongPress(designView: self, selection: selection as? [UIViewDesignable])
+            
+            delegate?.didLongPress(designView: self, selection: selection)
         default:
             break
         }
     }
     
-    func gestureDidBegin(withViews views: [UIViewDesignable], from recognizer: UIGestureRecognizer) {
+    func gestureDidBegin(withViews views: [UIView & UIViewDesignable], from recognizer: UIGestureRecognizer) {
         if activeGestureRecognizers.isEmpty {
-            guard let selectionAsViews = views as? [UIView] else {
+            guard let firstElement = views.first else {
                 print(views)
-                fatalError("Couldn't get views from bad selection.")
-            }
-            selection = selectionAsViews
-            
-            guard let firstElementAsUIView = views.first as? UIView, let firstElementAsDesignable = views.first else {
-                print(views)
-                fatalError("Made selection without a first element, or without a first element that is a designable.")
+                fatalError("Made selection without a first element.")
             }
             
-            firstElementAsDesignable.preGesturePositionDescription = DesignablePreGestureDescription(center: firstElementAsUIView.center, width: firstElementAsUIView.frame.width, height: firstElementAsUIView.frame.height)
+            selection = views
+            
+            firstElement.preGesturePositionDescription = DesignablePreGestureDescription(center: firstElement.center, width: firstElement.frame.width, height: firstElement.frame.height)
         }
         
         activeGestureRecognizers.insert(recognizer)
@@ -320,20 +323,20 @@ class DesignView: UIView, UIGestureRecognizerDelegate {
         
         if activeGestureRecognizers.isEmpty {
             
-            guard let firstElementAsUIView = selection?.first, let firstElementAsDesignable = selection?.first as? UIViewDesignable else {
+            guard let firstElement = selection?.first else {
                 print(selection as Any)
                 fatalError("Made selection without a first element, or without a first element that is a designable.")
             }
             
-            guard let firstElementAsDesignablePreGesture = firstElementAsDesignable.preGesturePositionDescription else {
+            guard let preGesture = firstElement.preGesturePositionDescription else {
                 print(selection as Any)
                 fatalError("Gesture ended on an element that wasn't given a pre gesture position.")
             }
             
-            firstElementAsDesignable.preGesturePositionDescription = nil
+            firstElement.preGesturePositionDescription = nil
             self.selection = nil
             
-            undoableSetFrameOf(view: firstElementAsUIView, fromFrame: firstElementAsDesignablePreGesture.frame, toFrame: firstElementAsUIView.frame)
+            undoableSetFrameOf(view: firstElement, fromFrame: preGesture.frame, toFrame: firstElement.frame)
         }
     }
     

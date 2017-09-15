@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 enum UIViewDesignableInspectableAttributeType: String {
-    case fillColor, link, image, duplicate
+    case fillColor, link, image, duplicate, moveForward, moveBackward
     
     var menuOptionTitle: String {
         switch self {
@@ -22,6 +22,10 @@ enum UIViewDesignableInspectableAttributeType: String {
             return "Add Image"
         case .duplicate:
             return "Duplicate"
+        case .moveForward:
+            return "Forward"
+        case .moveBackward:
+            return "Backward"
         }
     }
     
@@ -50,6 +54,20 @@ enum UIViewDesignableInspectableAttributeType: String {
             break
         case .duplicate:
             break
+        case .moveForward:
+            let iconView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            iconView.image = #imageLiteral(resourceName: "forward")
+            iconView.tintColor = .darkGray
+            iconView.contentMode = .scaleAspectFit
+            view.addSubview(iconView)
+            iconView.center = view.center
+        case .moveBackward:
+            let iconView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            iconView.image = #imageLiteral(resourceName: "backward")
+            iconView.tintColor = .darkGray
+            iconView.contentMode = .scaleAspectFit
+            view.addSubview(iconView)
+            iconView.center = view.center
         }
     }
 }
@@ -59,9 +77,9 @@ extension UIViewDesignable {
     var inspectableAttributeTypes: [UIViewDesignableInspectableAttributeType] {
         switch type {
         case .rectangle:
-            return [.fillColor, .link, .image, .duplicate]
+            return [.fillColor, .link, .image, .duplicate, .moveForward, .moveBackward]
         case .image:
-            return [.link, .image, .duplicate]
+            return [.link, .image, .duplicate, .moveForward, .moveBackward]
         }
     }
     

@@ -127,13 +127,9 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
     
     func didLongPress(designView: DesignView, selection: [UIViewDesignable]?) {
         if let selected = selection?.first {
-            
-            inspectorMenuVC.selection = selection
             inspectorMenuVC.attributes = selected.inspectableAttributeTypes
-            
             inspectorMenuVC.collectionView.reloadData()
-            
-            self.setInspectorHidden(false, animated: true)
+            setInspectorHidden(false, animated: true)
         }
     }
     
@@ -142,7 +138,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
             fatalError("Can't work without a data source.")
         }
         
-        guard let selected = designView.selection?.first as? UIViewDesignable else {
+        guard let selected = designView.selection?.first else {
             fatalError("Trying to link a page without a selection.")
         }
         
@@ -172,7 +168,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
             fatalError("Can't work without a data source.")
         }
         
-        guard let selected = designView.selection?.first as? UIViewDesignable else {
+        guard let selected = designView.selection?.first else {
             fatalError("Trying to link a page without a selection.")
         }
         
