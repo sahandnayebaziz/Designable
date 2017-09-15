@@ -115,7 +115,7 @@ class FlowViewController: UIViewController, DesignViewControllerInteractionDeleg
                 fatalError("Can't get designVC to get image.")
             }
             
-            let image = designVC.designView.renderToImage()
+            let image = designVC.designView.renderToImage(.highQuality)
             let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.present(activityController, animated: true, completion: nil)
         }))

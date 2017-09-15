@@ -195,7 +195,7 @@ extension Flow {
             }
             NSLog("All elements rendered done.")
             
-            let image = view!.renderToImage()
+            let image = view!.renderToImage(.fast)
             NSLog("Image rendered done.")
             view = nil
             dispatch_to_main_queue {
