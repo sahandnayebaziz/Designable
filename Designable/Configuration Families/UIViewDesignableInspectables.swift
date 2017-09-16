@@ -56,9 +56,19 @@ enum UIViewDesignableInspectableAttributeType: String {
             view.addSubview(iconView)
             iconView.center = view.center
         case .image:
-            break
+            let iconView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            iconView.image = #imageLiteral(resourceName: "image")
+            iconView.tintColor = .darkGray
+            iconView.contentMode = .scaleAspectFit
+            view.addSubview(iconView)
+            iconView.center = view.center
         case .duplicate:
-            break
+            let iconView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            iconView.image = #imageLiteral(resourceName: "duplicate")
+            iconView.tintColor = .darkGray
+            iconView.contentMode = .scaleAspectFit
+            view.addSubview(iconView)
+            iconView.center = view.center
         case .moveForward:
             let iconView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
             iconView.image = #imageLiteral(resourceName: "forward")

@@ -75,7 +75,7 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 0
+        return UITableViewAutomaticDimension
     }
 
 }
