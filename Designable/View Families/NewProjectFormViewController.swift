@@ -35,7 +35,7 @@ class NewProjectFormViewController: FormViewController {
         form +++ Section()
             <<< TextAreaRow() {
                 $0.tag = "description"
-                $0.placeholder = "What is this project about? (optional)"
+                $0.placeholder = "What is this project about?"
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = ValidationOptions.validatesOnChange
                 $0.validate()

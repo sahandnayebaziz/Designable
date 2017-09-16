@@ -28,7 +28,7 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(ProjectTableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,9 +64,9 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProjectTableViewCell
         let project = projects[indexPath.row]
-        cell.textLabel?.text = project.name
+        cell.set(for: project)
         return cell
     }
     
@@ -74,6 +74,43 @@ class ProjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         navigationController?.pushViewController(ProjectViewController(project: projects[indexPath.row]), animated: true)
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 0
+    }
 
+}
+
+class ProjectTableViewCell: UITableViewCell {
+    
+    var nameLabel: UILabel? = nil
+    var descriptionLabel: UILabel? = nil
+    
+    func set(for project: Project) {
+        if nameLabel == nil {
+            nameLabel = UILabel()
+            addSubview(nameLabel!)
+            nameLabel!.snp.makeConstraints { make in
+                make.top.equalTo(12)
+                make.left.equalTo(24)
+                make.right.equalTo(self).offset(-14)
+            }
+            nameLabel!.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .title3).pointSize, weight: .medium)
+            
+            descriptionLabel = UILabel()
+            addSubview(descriptionLabel!)
+            descriptionLabel!.snp.makeConstraints { make in
+                make.top.equalTo(nameLabel!.snp.bottom).offset(2)
+                make.left.equalTo(24)
+                make.right.equalTo(self).offset(-14)
+                make.bottom.equalTo(self).offset(-10)
+            }
+            descriptionLabel!.font = UIFont.preferredFont(forTextStyle: .callout)
+            descriptionLabel!.textColor = Designable.Colors.tableViewCellSubtitleGray
+        }
+        
+        nameLabel!.text = project.name
+        descriptionLabel!.text = project.description
+    }
+    
 }
 
