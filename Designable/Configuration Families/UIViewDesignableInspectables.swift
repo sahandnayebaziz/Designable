@@ -49,7 +49,12 @@ enum UIViewDesignableInspectableAttributeType: String {
             circleView.layer.borderWidth = 1
             circleView.clipsToBounds = true
         case .link:
-            break
+            let iconView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            iconView.image = #imageLiteral(resourceName: "arrow-right")
+            iconView.tintColor = .darkGray
+            iconView.contentMode = .scaleAspectFit
+            view.addSubview(iconView)
+            iconView.center = view.center
         case .image:
             break
         case .duplicate:
