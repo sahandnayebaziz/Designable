@@ -47,11 +47,6 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
             make.center.equalTo(view)
         }
         
-        flow.pages[pageIndex].layers.forEach { l in
-            let view = l.toUIViewDesignable() as! UIView
-            designView.elementsView.addSubview(view)      
-        }
-        
         let vc = inspectorMenuVC
         vc.designViewController = self
         let nav = UINavigationController(rootViewController: vc)
@@ -69,13 +64,29 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         setInspectorHidden(true, animated: false)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    func displayLatestElementsInDesignView() {
+        guard let flowVC = flowViewController else {
+            fatalError("Can't work without a data source.")
+        }
+        
+        guard flowVC.flow.pages.indices.contains(pageIndex) else {
+            fatalError("Flow doesn't contain this page index")
+        }
+        
+        self.flow = flowVC.flow
+        
+        designView.selection = nil
+        designView.elementsView.subviews.forEach { $0.removeFromSuperview() }
+        
+        flow.pages[pageIndex].layers.forEach { l in
+            let view = l.toUIViewDesignable() as! UIView
+            designView.elementsView.addSubview(view)
+        }
     }
     
     func setInspectorHidden(_ hidden: Bool, animated: Bool) {
@@ -146,7 +157,7 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         var newFlow = flow
         
         // add new page
-        let newPage = Page(id: UUID().uuidString, name: "Page \(newFlow.pages.count + 1)", layers: [])
+        let newPage = Page(name: "Page \(newFlow.pages.count + 1)", bounds: designView.frame)
         newFlow.pages.append(newPage)
         
         // link selection to new page
@@ -156,8 +167,9 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         newFlow.pages[pageIndex].layers = designView.layers
         
         // send new flow version to parent view controller and self
-        flowVC.flow = newFlow
         self.flow = newFlow
+        flowVC.flow = newFlow
+        flowVC.saveToProjectViewController()
         
         // push to new view controller
         pushNewDesignViewController(atPageIndex: flow.pages.count - 1)
@@ -186,8 +198,9 @@ class DesignViewController: UIViewController, DesignViewDelegate, UIGestureRecog
         newFlow.pages[pageIndex].layers = designView.layers
         
         // send new flow version to parent view controller and self
-        flowVC.flow = newFlow
         self.flow = newFlow
+        flowVC.flow = newFlow
+        flowVC.saveToProjectViewController()
         
         // push to new view controller
         pushNewDesignViewController(atPageIndex: linkingToPageIndex)

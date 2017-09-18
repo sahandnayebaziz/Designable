@@ -88,7 +88,8 @@ class ProjectViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func didTapNewFlow() {
-        let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [Page(id: UUID().uuidString, name: "Page 1", layers: [])])
+        let newPage = Page(name: "Page 1", bounds: view.frame)
+        let newFlow = Flow(id: UUID().uuidString, name: "Untitled", pages: [newPage])
         
         let flowVC = FlowViewController(project: project, flow: newFlow)
         flowVC.projectViewController = self

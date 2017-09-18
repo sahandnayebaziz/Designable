@@ -24,7 +24,17 @@ struct Flow: Codable {
 struct Page: Codable {
     var id: String
     var name: String
+    var width: CGFloat
+    var height: CGFloat
     var layers: [DesignableDescription]
+    
+    init(name: String, bounds: CGRect) {
+        self.id = UUID().uuidString
+        self.name = name
+        self.width = bounds.width
+        self.height = bounds.height
+        self.layers = []
+    }
 }
 
 struct DesignableDescription: Codable {
@@ -37,6 +47,4 @@ struct DesignableDescription: Codable {
     var image: DesignableDescriptionAttributesImage?
     var link: DesignableDescriptionLink?
 }
-
-
 

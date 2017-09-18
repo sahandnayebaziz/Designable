@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FlowViewController: UIViewController, DesignViewControllerInteractionDelegate {
+class FlowViewController: UIViewController, DesignViewControllerInteractionDelegate, UINavigationControllerDelegate {
     
     let flowInCaseOfRevert: Flow
     
@@ -50,11 +50,20 @@ class FlowViewController: UIViewController, DesignViewControllerInteractionDeleg
         }
         navContainingDesignVCs.didMove(toParentViewController: self)
         navContainingDesignVCs.setNavigationBarHidden(true, animated: false)
+        navContainingDesignVCs.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         title = flow.name
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        guard let designVC = viewController as? DesignViewController else {
+            fatalError("Unexpected VC displaying in nav controller")
+        }
+        
+        designVC.displayLatestElementsInDesignView()
     }
     
     func saveToProjectViewController() {
